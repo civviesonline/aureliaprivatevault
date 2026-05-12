@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#18283a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Aurelia" />
+    <title>Aurelia Private Bank</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <a class="brand" href="#overview" aria-label="Aurelia home">
+          <span class="brand-mark">A</span>
+          <span>
+            <strong>Aurelia</strong>
+            <small>Private Banking</small>
+          </span>
+        </a>
+
+        <nav class="nav-list">
+          <a class="active" href="#overview">Overview</a>
+          <a href="#vault">Vault</a>
+          <a href="#cards">Cards</a>
+          <a href="#transfers">Transfers</a>
+          <a href="#support">Concierge</a>
+        </nav>
+
+        <div class="advisor-panel">
+          <span>Chief Financial Officer</span>
+          <strong>Tony Abrahams</strong>
+          <button type="button" data-action="message-advisor" aria-label="Talk to Tony Abrahams, Chief Financial Officer">
+            Talk to CFO
+          </button>
+        </div>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Good evening, Sean John Combs</p>
+            <h1>Command center</h1>
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-button" type="button" aria-label="Search" data-action="search">
+              <span aria-hidden="true">&#8981;</span>
+            </button>
+            <button class="primary-action" type="button" data-action="move-money">Move money</button>
+          </div>
+        </header>
+
+        <section class="hero-panel" id="overview">
+          <div class="hero-copy">
+            <p class="eyebrow">Velmont Black</p>
+            <h2>$428,950.42</h2>
+            <p>Total relationship balance across cash, vaults, and reserved capital.</p>
+          </div>
+          <div class="card-stack" aria-label="Premium card summary">
+            <div class="bank-card">
+              <span>Velmont Black</span>
+              <strong>&bull;&bull;&bull;&bull; 1847</strong>
+              <small>Limit available $42,000</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="metrics-grid" aria-label="Account metrics">
+          <article>
+            <span>Operating cash</span>
+            <strong>$82,410.18</strong>
+            <small>+4.2% this month</small>
+          </article>
+          <article>
+            <span>Vault balance</span>
+            <strong>$306,800.00</strong>
+            <small>3 active goals</small>
+          </article>
+          <article>
+            <span>Pending inflows</span>
+            <strong>$24,740.24</strong>
+            <small>2 scheduled deposits</small>
+          </article>
+          <article>
+            <span>Risk status</span>
+            <strong>Clear</strong>
+            <small>Last reviewed today</small>
+          </article>
+        </section>
+
+        <div class="content-grid">
+          <section class="activity-panel" aria-labelledby="activity-title">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Ledger</p>
+                <h2 id="activity-title">Recent activity</h2>
+              </div>
+              <button type="button" data-action="export-activity">Export</button>
+            </div>
+
+            <div class="activity-list" id="activityList"></div>
+          </section>
+
+          <section class="vault-panel" id="vault" aria-labelledby="vault-title">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Vault</p>
+                <h2 id="vault-title">Savings goals</h2>
+              </div>
+              <button type="button" data-action="new-vault">New vault</button>
+            </div>
+
+            <div class="goal-list" id="goalList"></div>
+          </section>
+        </div>
+
+        <section class="operations-grid">
+          <article id="cards">
+            <p class="eyebrow">Cards</p>
+            <h2>Spend controls</h2>
+            <div class="control-row">
+              <span>International payments</span>
+              <label class="switch">
+                <input type="checkbox" checked data-control="International payments" />
+                <span></span>
+              </label>
+            </div>
+            <div class="control-row">
+              <span>Online card-not-present</span>
+              <label class="switch">
+                <input type="checkbox" checked data-control="Online card-not-present" />
+                <span></span>
+              </label>
+            </div>
+          </article>
+
+          <article id="transfers">
+            <p class="eyebrow">Transfers</p>
+            <h2>Scheduled movement</h2>
+            <div class="transfer-preview">
+              <strong>$12,000</strong>
+              <span>To Treasury Vault &middot; May 12</span>
+            </div>
+            <button class="wide-button" type="button" data-action="review-queue">Review queue</button>
+          </article>
+
+          <article id="support">
+            <p class="eyebrow">Concierge</p>
+            <h2>Priority support</h2>
+            <p class="support-copy">Your advisor has prepared a weekly liquidity note and two card limit recommendations.</p>
+            <button class="wide-button" type="button" data-action="open-brief">Open brief</button>
+          </article>
+        </section>
+
+        <section class="transfer-history-panel" aria-labelledby="transfer-history-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Transfer history</p>
+              <h2 id="transfer-history-title">Sean John Combs asset ledger</h2>
+            </div>
+            <button type="button" data-action="download-history">Download CSV</button>
+          </div>
+
+          <div class="history-table-wrap">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Asset</th>
+                  <th>Transaction</th>
+                  <th>Amount</th>
+                  <th>New Value</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody id="transferHistory"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" id="modalBackdrop" hidden>
+      <section class="action-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal-close" type="button" aria-label="Close" data-action="close-modal">&times;</button>
+        <p class="eyebrow" id="modalEyebrow">Action</p>
+        <h2 id="modalTitle">Action ready</h2>
+        <div class="modal-body" id="modalBody"></div>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>

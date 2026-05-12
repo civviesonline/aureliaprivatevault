@@ -1,0 +1,11 @@
+{
+  "name": "aurelia-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Frontend experience for Aurelia / Velmont Private Bank.",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs"
+  }
+}

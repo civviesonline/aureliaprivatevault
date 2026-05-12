@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Aurelia">
+  <rect width="512" height="512" rx="96" fill="#18283a"/>
+  <path fill="#f7df9e" d="M256 84 412 428h-82l-27-66h-96l-27 66H100L256 84Zm-21 210h41l-20-50-21 50Z"/>
+  <path fill="#0f766e" d="M183 428h146l-26-66h-94l-26 66Z" opacity=".9"/>
+</svg>

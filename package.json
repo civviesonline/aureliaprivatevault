@@ -1,0 +1,18 @@
+{
+  "name": "aurelia",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Aurelia full-stack workspace with frontend and backend apps.",
+  "scripts": {
+    "dev": "npm.cmd --prefix frontend run dev",
+    "frontend:dev": "npm.cmd --prefix frontend run dev",
+    "backend:dev": "npm.cmd --prefix backend run start:dev",
+    "backend:start": "npm.cmd --prefix backend run start",
+    "backend:build": "npm.cmd --prefix backend run build",
+    "backend:test": "npm.cmd --prefix backend run test"
+  },
+  "engines": {
+    "node": ">=20.11.0",
+    "npm": ">=10.0.0"
+  }
+}
