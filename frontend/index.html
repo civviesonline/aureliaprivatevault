@@ -2,14 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#18283a" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Aurelia" />
+    <meta name="application-name" content="Aurelia Private Bank" />
+    <meta name="format-detection" content="telephone=no" />
     <title>Aurelia Private Bank</title>
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
+    <link rel="icon" href="./assets/icon-192.png" sizes="192x192" type="image/png" />
+    <link rel="apple-touch-icon" href="./assets/icon-180.png" sizes="180x180" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -43,7 +48,7 @@
       <main>
         <header class="topbar">
           <div>
-            <p class="eyebrow">Good evening, Sean John Combs</p>
+            <p class="eyebrow">Welcome back Sean John Combs</p>
             <h1>Command center</h1>
           </div>
           <div class="topbar-actions">
@@ -56,14 +61,31 @@
 
         <section class="hero-panel" id="overview">
           <div class="hero-copy">
-            <p class="eyebrow">Velmont Black</p>
-            <h2>$428,950.42</h2>
+            <p class="eyebrow">Aureum Platinum</p>
+            <h2>$614,350.80</h2>
             <p>Total relationship balance across cash, vaults, and reserved capital.</p>
           </div>
           <div class="card-stack" aria-label="Premium card summary">
-            <div class="bank-card">
-              <span>Velmont Black</span>
-              <strong>&bull;&bull;&bull;&bull; 1847</strong>
+            <div
+              class="bank-card"
+              role="img"
+              aria-label="Aureum Platinum premium card for Sean Combs with a matte charcoal tungsten finish and gold inlay"
+            >
+              <div class="bank-card-top">
+                <div>
+                  <span class="bank-card-kicker">Aurelia Private Bank</span>
+                  <strong class="bank-card-name">Aureum Platinum</strong>
+                </div>
+                <span class="bank-card-series">Tungsten Series</span>
+              </div>
+              <div class="bank-card-chip" aria-hidden="true"></div>
+              <div class="bank-card-bottom">
+                <span class="bank-card-number">&bull;&bull;&bull;&bull; 1847</span>
+                <div class="bank-card-engraving">
+                  <span>Engraved member</span>
+                  <strong>Sean Combs</strong>
+                </div>
+              </div>
               <small>Limit available $42,000</small>
             </div>
           </div>
@@ -77,12 +99,12 @@
           </article>
           <article>
             <span>Vault balance</span>
-            <strong>$306,800.00</strong>
+            <strong>$348,800</strong>
             <small>3 active goals</small>
           </article>
           <article>
             <span>Pending inflows</span>
-            <strong>$24,740.24</strong>
+            <strong>$43,740</strong>
             <small>2 scheduled deposits</small>
           </article>
           <article>

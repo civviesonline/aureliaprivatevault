@@ -6,7 +6,7 @@ const activities = [
     status: 'Posted',
   },
   {
-    name: 'Velmont Black card',
+    name: 'Aureum Platinum card',
     detail: 'Private aviation hold',
     amount: '-$6,250.00',
     status: 'Pending',
@@ -469,7 +469,7 @@ makeButtonsClickable();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(() => {
       showToast('Offline mode could not start.');
     });
   });
