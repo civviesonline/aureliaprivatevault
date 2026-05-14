@@ -124,14 +124,15 @@ textarea:focus-visible {
   width: 44px;
   height: 44px;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  flex: 0 0 44px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 14px;
-  color: #1d2733;
-  background: linear-gradient(135deg, #f7df9e, #b88a3b);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    center/cover no-repeat url("./assets/icon.svg");
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
     0 10px 24px rgba(0, 0, 0, 0.18);
-  font-weight: 800;
 }
 
 .brand strong,
@@ -258,8 +259,8 @@ main {
 }
 
 .topbar h1 {
-  font-size: clamp(2rem, 4vw, 3.25rem);
-  line-height: 0.95;
+  font-size: clamp(2.8rem, 6vw, 5.2rem);
+  line-height: 0.9;
 }
 
 .eyebrow {
@@ -336,7 +337,6 @@ main {
   max-width: 680px;
 }
 
-.hero-copy .eyebrow,
 .hero-copy p {
   color: rgba(255, 255, 255, 0.78);
 }
@@ -362,15 +362,16 @@ main {
   min-height: 208px;
   padding: 0;
   overflow: hidden;
-  border: 1px solid rgba(92, 108, 136, 0.16);
+  border: 1px solid rgba(174, 138, 71, 0.22);
   border-radius: 26px;
   background:
-    radial-gradient(circle at 20% 16%, rgba(158, 173, 200, 0.28), transparent 28%),
-    linear-gradient(145deg, #49576f 0%, #1e2a3f 22%, #0e1728 62%, #09101b 100%);
+    radial-gradient(circle at 20% 16%, rgba(196, 160, 92, 0.16), transparent 26%),
+    radial-gradient(circle at 78% 30%, rgba(255, 214, 132, 0.07), transparent 18%),
+    linear-gradient(145deg, #232220 0%, #11151c 26%, #090c11 66%, #06080c 100%);
   box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.42),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 -30px 44px rgba(0, 0, 0, 0.28);
+    0 30px 80px rgba(0, 0, 0, 0.44),
+    inset 0 1px 0 rgba(255, 243, 214, 0.06),
+    inset 0 -30px 44px rgba(0, 0, 0, 0.34);
   transform: rotate(-13deg) skewX(-1deg);
 }
 
@@ -386,13 +387,17 @@ main {
   position: absolute;
   inset: 0;
   border-radius: inherit;
+  background:
+    radial-gradient(circle at 26% 82%, rgba(194, 150, 72, 0.08), transparent 26%),
+    repeating-radial-gradient(circle at 62% 52%, rgba(201, 166, 98, 0.08) 0 1px, transparent 1px 9px);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    inset -22px -18px 40px rgba(3, 8, 17, 0.52);
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    inset -22px -18px 40px rgba(3, 8, 17, 0.56);
   content: "";
 }
 
 .bank-card-chip,
+.bank-card-tier,
 .bank-card-number,
 .bank-card-validity,
 .bank-card-engraving,
@@ -401,19 +406,35 @@ main {
   z-index: 1;
 }
 
+.bank-card-tier {
+  top: 28px;
+  right: 34px;
+  color: #cfab67;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-shadow:
+    0 -1px 0 rgba(45, 35, 16, 0.74),
+    0 1px 0 rgba(255, 240, 205, 0.14),
+    0 3px 7px rgba(0, 0, 0, 0.34);
+}
+
 .bank-card-chip {
   top: 54px;
   left: 42px;
   width: 62px;
   height: 46px;
-  border: 1px solid rgba(207, 215, 228, 0.58);
+  border: 1px solid rgba(225, 209, 163, 0.68);
   border-radius: 11px;
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.26), rgba(196, 205, 219, 0.1)),
-    linear-gradient(145deg, #d4dbe6 0%, #aeb9c8 54%, #dbe1ea 100%);
+    radial-gradient(circle at 28% 24%, rgba(255, 255, 255, 0.74), transparent 24%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.34), rgba(196, 205, 219, 0.12)),
+    linear-gradient(145deg, #efe4bb 0%, #cfd7e1 22%, #b7c0ce 52%, #d9bb74 78%, #f3e6bc 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.68),
-    0 4px 12px rgba(0, 0, 0, 0.16);
+    inset 0 1px 0 rgba(255, 255, 255, 0.76),
+    inset 0 -1px 0 rgba(125, 104, 55, 0.24),
+    0 4px 12px rgba(0, 0, 0, 0.18);
 }
 
 .bank-card-chip::before,
@@ -427,8 +448,8 @@ main {
   border-radius: inherit;
   content: "";
   background:
-    linear-gradient(90deg, transparent 24%, rgba(120, 132, 150, 0.58) 24%, rgba(120, 132, 150, 0.58) 29%, transparent 29%, transparent 71%, rgba(120, 132, 150, 0.58) 71%, rgba(120, 132, 150, 0.58) 76%, transparent 76%),
-    linear-gradient(180deg, transparent 43%, rgba(120, 132, 150, 0.52) 43%, rgba(120, 132, 150, 0.52) 57%, transparent 57%);
+    linear-gradient(90deg, transparent 24%, rgba(128, 118, 87, 0.48) 24%, rgba(128, 118, 87, 0.48) 29%, transparent 29%, transparent 71%, rgba(128, 118, 87, 0.48) 71%, rgba(128, 118, 87, 0.48) 76%, transparent 76%),
+    linear-gradient(180deg, transparent 43%, rgba(133, 122, 88, 0.42) 43%, rgba(133, 122, 88, 0.42) 57%, transparent 57%);
 }
 
 .bank-card-chip::after {
@@ -438,63 +459,66 @@ main {
   width: 10px;
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(116, 128, 147, 0.74), rgba(255, 255, 255, 0.42));
+    linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(155, 139, 94, 0.74), rgba(255, 255, 255, 0.46));
 }
 
 .bank-card-number {
-  top: 103px;
-  left: 71px;
-  color: #c3cedf;
-  font-family: "Courier New", "Lucida Console", monospace;
-  font-size: 0.86rem;
+  top: 104px;
+  left: 66px;
+  color: #d7b476;
+  font-family: "DS-Digital", "Digital-7", "Quartz MS", "Quartz", "LCD", "Liquid Crystal", "Courier New", monospace;
+  font-size: 0.84rem;
   font-weight: 700;
-  letter-spacing: 0.17em;
+  letter-spacing: 0.15em;
   text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.14),
-    0 2px 7px rgba(0, 0, 0, 0.5);
+    0 -1px 0 rgba(61, 47, 19, 0.8),
+    0 1px 0 rgba(255, 230, 184, 0.14),
+    0 3px 8px rgba(0, 0, 0, 0.52);
 }
 
 .bank-card-validity {
   top: 132px;
-  left: 160px;
+  left: 154px;
   display: grid;
   gap: 1px;
-  color: rgba(169, 181, 198, 0.64);
+  color: rgba(210, 176, 109, 0.82);
+  font-family: "DS-Digital", "Digital-7", "Quartz MS", "Quartz", "LCD", "Liquid Crystal", "Courier New", monospace;
   font-size: 0.38rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   line-height: 1.15;
   text-align: center;
   text-transform: uppercase;
+  text-shadow:
+    0 -1px 0 rgba(58, 45, 18, 0.74),
+    0 1px 0 rgba(255, 232, 192, 0.08);
 }
 
 .bank-card-engraving {
   bottom: 33px;
   left: 40px;
-  color: #b1bccd;
-  font-family: "Courier New", "Lucida Console", monospace;
-  font-size: 0.96rem;
+  color: #d5b06e;
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: 0.84rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.08),
-    0 2px 6px rgba(0, 0, 0, 0.44);
+    0 -1px 0 rgba(55, 42, 18, 0.8),
+    0 1px 0 rgba(255, 230, 188, 0.12),
+    0 3px 7px rgba(0, 0, 0, 0.44);
 }
 
 .bank-card-plate {
-  right: 33px;
-  bottom: 50px;
-  width: 58px;
-  height: 30px;
-  border: 1px solid rgba(198, 207, 221, 0.24);
-  border-radius: 8px;
+  right: 36px;
+  top: 54px;
+  width: 36px;
+  height: 24px;
   background:
-    radial-gradient(circle at 30% 34%, rgba(255, 255, 255, 0.72), transparent 26%),
-    linear-gradient(145deg, #eef3fa 0%, #c1cbda 35%, #e9eef5 68%, #b7c1d1 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.78),
-    0 4px 10px rgba(0, 0, 0, 0.18);
+    radial-gradient(circle at 10% 50%, transparent 13px, rgba(194, 198, 204, 0.9) 13px 15px, transparent 15px),
+    radial-gradient(circle at 26% 50%, transparent 13px, rgba(194, 198, 204, 0.82) 13px 15px, transparent 15px),
+    radial-gradient(circle at 42% 50%, transparent 13px, rgba(194, 198, 204, 0.74) 13px 15px, transparent 15px);
+  opacity: 0.9;
 }
 
 .metrics-grid,
@@ -1100,26 +1124,32 @@ main {
 
   .bank-card-number {
     top: 102px;
-    left: 58px;
-    font-size: 0.74rem;
-    letter-spacing: 0.14em;
+    left: 50px;
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
   }
 
   .bank-card-validity {
     top: 128px;
-    left: 143px;
+    left: 132px;
   }
 
   .bank-card-engraving {
     bottom: 28px;
-    left: 34px;
-    font-size: 0.82rem;
+    left: 30px;
+    font-size: 0.7rem;
+  }
+
+  .bank-card-tier {
+    top: 24px;
+    right: 28px;
+    font-size: 0.56rem;
   }
 
   .bank-card-plate {
     right: 28px;
-    bottom: 46px;
-    width: 52px;
+    top: 52px;
+    width: 32px;
     height: 28px;
   }
 

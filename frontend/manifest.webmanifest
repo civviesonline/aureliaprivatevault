@@ -1,8 +1,8 @@
 {
-  "name": "Aurelia Private Bank",
-  "short_name": "Aurelia",
+  "name": "Aurelia Private Vault",
+  "short_name": "Aurelia Vault",
   "id": "./",
-  "description": "Private banking command center for balances, vaults, transfers, and CFO support.",
+  "description": "Luxury private vault banking command center for balances, vaults, transfers, and concierge support.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
