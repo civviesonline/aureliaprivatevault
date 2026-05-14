@@ -34,98 +34,98 @@ const goals = [
 const transferHistory = [
   {
     date: 'Aug 2023',
-    asset: 'Spirits (Ciroc + DeLeon)',
+    asset: 'Spirits, Ciroc, DeLeon',
     transaction: 'Valuation haircut',
-    amount: '-$40M',
-    newValue: '$660M',
+    amount: '-$40,000,000',
+    newValue: '$660,000,000',
     notes: 'Reduced growth assumptions; partnership risk priced in.',
   },
   {
     date: 'Nov 2023',
-    asset: 'PearPop + Revolt TV',
-    transaction: 'Partial secondary sale + restructure',
-    amount: '+$3.5M cash / -$10M',
-    newValue: '$5M holding / $40M',
+    asset: 'PearPop, Revolt TV',
+    transaction: 'Partial secondary sale and restructure',
+    amount: '$3,500,000 cash / -$10,000,000',
+    newValue: '$5,000,000 holding / $40,000,000',
     notes: 'Small liquidity extraction; Revolt dilution ahead of exit.',
   },
   {
     date: 'Feb 2024',
-    asset: 'Spirits (Ciroc + DeLeon)',
+    asset: 'Spirits, Ciroc, DeLeon',
     transaction: 'Distribution decline priced in',
-    amount: '-$90M',
-    newValue: '$570M',
+    amount: '-$90,000,000',
+    newValue: '$570,000,000',
     notes: 'Lower payout outlook.',
   },
   {
     date: 'May 2024',
-    asset: 'Revolt TV + Miami Real Estate',
-    transaction: 'Stake sold + appraisal adjustment',
-    amount: '+$18M cash / -$6M',
-    newValue: '$0 / $94M',
+    asset: 'Revolt TV, Miami Real Estate',
+    transaction: 'Stake sold and appraisal adjustment',
+    amount: '$18,000,000 cash / -$6,000,000',
+    newValue: '$0 / $94,000,000',
     notes: 'Sold at discount; Miami market risk discount.',
   },
   {
     date: 'Aug 2024',
-    asset: 'Spirits + Empower Global',
-    transaction: 'Major correction + shutdown',
-    amount: '-$120M / -$6M',
-    newValue: '$450M / $26M',
+    asset: 'Spirits, Empower Global',
+    transaction: 'Major correction and shutdown',
+    amount: '-$120,000,000 / -$6,000,000',
+    newValue: '$450,000,000 / $26,000,000',
     notes: 'Partnership uncertainty escalates; marketplace written off.',
   },
   {
     date: 'Nov 2024',
-    asset: 'Catalog + Spotify exposure',
-    transaction: 'Royalty advance + liquidation',
-    amount: '+$9M cash / +$7.5M cash',
-    newValue: '$48M / $16M',
+    asset: 'Catalog, Spotify exposure',
+    transaction: 'Royalty advance and liquidation',
+    amount: '$9,000,000 cash / $7,500,000 cash',
+    newValue: '$48,000,000 / $16,000,000',
     notes: 'Borrowed against royalties; sold stake for liquidity.',
   },
   {
     date: 'Feb 2025',
-    asset: 'Spirits + Star Island Real Estate',
-    transaction: 'Impairment + appraisal reduction',
-    amount: '-$120M / -$15M',
-    newValue: '$330M / $79M',
+    asset: 'Spirits, Star Island Real Estate',
+    transaction: 'Impairment and appraisal reduction',
+    amount: '-$120,000,000 / -$15,000,000',
+    newValue: '$330,000,000 / $79,000,000',
     notes: 'Lower rights value; forced-sale discount increases.',
   },
   {
     date: 'May 2025',
-    asset: 'PearPop + PlayVS',
-    transaction: 'Full exit + dilution',
-    amount: '+$2.2M cash / -$4M',
-    newValue: '$9M / $12M',
+    asset: 'PearPop, PlayVS',
+    transaction: 'Full exit and dilution',
+    amount: '$2,200,000 cash / -$4,000,000',
+    newValue: '$9,000,000 / $12,000,000',
     notes: 'Liquidated remaining position; valuation reset.',
   },
   {
     date: 'Aug 2025',
-    asset: 'Spirits (Ciroc + DeLeon)',
+    asset: 'Spirits, Ciroc, DeLeon',
     transaction: 'Collapse to distressed pricing',
-    amount: '-$130M',
-    newValue: '$200M',
+    amount: '-$130,000,000',
+    newValue: '$200,000,000',
     notes: 'Analysts price near end of earnings rights.',
   },
   {
     date: 'Nov 2025',
-    asset: 'Toluca Lake + Collectibles',
-    transaction: 'Quiet sale + auction liquidation',
-    amount: '+$14M cash / +$8M cash',
-    newValue: '$63M / $51M',
+    asset: 'Toluca Lake, Collectibles',
+    transaction: 'Quiet sale and auction liquidation',
+    amount: '$14,000,000 cash / $8,000,000 cash',
+    newValue: '$63,000,000 / $51,000,000',
     notes: 'Sold below peak; forced liquidity extraction.',
   },
   {
     date: 'Feb 2026',
-    asset: 'Spirits + Catalog & IP',
-    transaction: 'Final correction + rights collapse',
-    amount: '-$50M / -$15M',
-    newValue: '$150M / $15M',
+    asset: 'Spirits, Catalog and IP',
+    transaction: 'Final correction and rights collapse',
+    amount: '-$50,000,000 / -$15,000,000',
+    newValue: '$150,000,000 / $15,000,000',
     notes: 'Matches scenario target.',
   },
   {
     date: 'May 2026',
-    asset: 'Cash + Private Investments + Mortgage Bond',
-    transaction: 'Cash burn + remark + collateral debt',
-    amount: '-$19.7M / +$22M adj. / +$18M debt',
-    newValue: '$10M / $25M / $100M',
+    asset: 'Cash, Private Investments, Mortgage Bond',
+    transaction: 'Cash burn, remark, collateral debt',
+    amount: '-$19,700,000 / $22,000,000 adjustment / $18,000,000 debt',
+    newValue: '$10,000,000 / $25,000,000 / $100,000,000',
     notes: 'Debt raised; net worth neutral, leverage increases.',
   },
 ];
@@ -138,6 +138,7 @@ const modalEyebrow = document.querySelector('#modalEyebrow');
 const modalTitle = document.querySelector('#modalTitle');
 const modalBody = document.querySelector('#modalBody');
 const toast = document.querySelector('#toast');
+let lastActionTrigger = null;
 
 activityList.innerHTML = activities
   .map(
@@ -223,7 +224,7 @@ const modalContent = {
   },
   'move-money': {
     eyebrow: 'Transfers',
-    title: 'Move money',
+    title: 'Transfer money',
     body: `
       <label>
         From
@@ -313,6 +314,7 @@ document.addEventListener('click', (event) => {
   const action = actionElement.dataset.action;
 
   if (modalContent[action]) {
+    lastActionTrigger = actionElement;
     openModal(modalContent[action]);
     if (action === 'search') {
       setupSearch();
@@ -388,6 +390,8 @@ function openModal(content) {
 function closeModal() {
   modalBackdrop.hidden = true;
   document.body.classList.remove('modal-open');
+  lastActionTrigger?.focus();
+  lastActionTrigger = null;
 }
 
 function setupSearch() {
@@ -469,8 +473,47 @@ makeButtonsClickable();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(() => {
-      showToast('Offline mode could not start.');
-    });
+    navigator.serviceWorker
+      .register('./sw.js', { scope: './' })
+      .then((registration) => {
+        if (registration.waiting) {
+          activateWaitingWorker(registration);
+        }
+
+        registration.addEventListener('updatefound', () => {
+          registration.installing?.addEventListener('statechange', () => {
+            if (registration.waiting && navigator.serviceWorker.controller) {
+              activateWaitingWorker(registration);
+            }
+          });
+        });
+
+        navigator.serviceWorker.addEventListener(
+          'controllerchange',
+          () => {
+            if (!window.__aureliaReloading) {
+              window.__aureliaReloading = true;
+              window.location.reload();
+            }
+          },
+          { once: true },
+        );
+      })
+      .catch(() => {
+        showToast('Offline mode could not start.');
+      });
   });
+}
+
+window.addEventListener('online', () => {
+  showToast('Connection restored.');
+});
+
+window.addEventListener('offline', () => {
+  showToast('You are offline. Cached banking tools remain available.');
+});
+
+function activateWaitingWorker(registration) {
+  registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
+  showToast('A fresh banking shell is ready.');
 }
