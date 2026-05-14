@@ -307,160 +307,145 @@ main {
 .bank-card {
   position: relative;
   isolation: isolate;
-  display: grid;
-  gap: 18px;
+  display: block;
   width: min(100%, 340px);
-  align-content: start;
   justify-self: end;
-  min-height: 210px;
-  padding: 24px 24px 22px;
+  min-height: 208px;
+  padding: 0;
   overflow: hidden;
-  border: 1px solid rgba(208, 166, 71, 0.24);
-  border-radius: 24px;
+  border: 1px solid rgba(92, 108, 136, 0.16);
+  border-radius: 26px;
   background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.14), transparent 22%),
-    linear-gradient(125deg, rgba(255, 255, 255, 0.08), transparent 34%),
-    linear-gradient(155deg, #0f1013 0%, #2b2f36 42%, #111216 100%);
+    radial-gradient(circle at 20% 16%, rgba(158, 173, 200, 0.28), transparent 28%),
+    linear-gradient(145deg, #49576f 0%, #1e2a3f 22%, #0e1728 62%, #09101b 100%);
   box-shadow:
-    0 22px 60px rgba(0, 0, 0, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    inset 0 -28px 48px rgba(0, 0, 0, 0.24);
-  transform: rotate(-4deg);
+    0 30px 80px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -30px 44px rgba(0, 0, 0, 0.28);
+  transform: rotate(-13deg) skewX(-1deg);
 }
 
 .bank-card::before {
   position: absolute;
-  inset: 12px;
-  border: 1px solid rgba(241, 205, 118, 0.5);
-  border-radius: 18px;
+  inset: auto 0 0 0;
+  height: 16px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.34));
   content: "";
 }
 
 .bank-card::after {
   position: absolute;
-  inset: -12% auto -18% 38%;
-  width: 62%;
-  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.22), transparent 68%);
-  opacity: 0.42;
-  transform: rotate(18deg);
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset -22px -18px 40px rgba(3, 8, 17, 0.52);
   content: "";
 }
 
-.bank-card-top,
-.bank-card-bottom {
-  position: relative;
+.bank-card-chip,
+.bank-card-number,
+.bank-card-validity,
+.bank-card-engraving,
+.bank-card-plate {
+  position: absolute;
   z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.bank-card-top {
-  align-items: flex-start;
-}
-
-.bank-card-kicker,
-.bank-card-series,
-.bank-card-engraving span,
-.bank-card > small {
-  color: rgba(242, 226, 190, 0.74);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.bank-card-kicker {
-  display: block;
-  margin-bottom: 10px;
-  font-size: 0.62rem;
-}
-
-.bank-card-name {
-  display: block;
-  color: #f9ebc5;
-  font-size: 1.4rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.bank-card-series {
-  align-self: flex-start;
-  padding: 7px 10px;
-  border: 1px solid rgba(241, 205, 118, 0.34);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.03);
-  font-size: 0.62rem;
-  white-space: nowrap;
 }
 
 .bank-card-chip {
-  position: relative;
-  z-index: 1;
-  width: 78px;
-  height: 56px;
-  border: 1px solid rgba(248, 224, 166, 0.45);
-  border-radius: 14px;
+  top: 54px;
+  left: 42px;
+  width: 62px;
+  height: 46px;
+  border: 1px solid rgba(207, 215, 228, 0.58);
+  border-radius: 11px;
   background:
-    radial-gradient(circle at 50% 32%, rgba(255, 249, 220, 0.7), transparent 28%),
-    linear-gradient(145deg, #76561e 0%, #f4d985 42%, #a67822 74%, #6f5318 100%);
+    linear-gradient(145deg, rgba(255, 255, 255, 0.26), rgba(196, 205, 219, 0.1)),
+    linear-gradient(145deg, #d4dbe6 0%, #aeb9c8 54%, #dbe1ea 100%);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 250, 231, 0.2),
-    0 10px 24px rgba(0, 0, 0, 0.22);
+    inset 0 1px 0 rgba(255, 255, 255, 0.68),
+    0 4px 12px rgba(0, 0, 0, 0.16);
 }
 
 .bank-card-chip::before,
 .bank-card-chip::after {
   position: absolute;
-  inset: 11px;
-  border: 1px solid rgba(120, 87, 22, 0.35);
-  border-radius: 9px;
   content: "";
 }
 
-.bank-card-chip::after {
+.bank-card-chip::before {
   inset: 0;
-  border: 0;
-  border-radius: 14px;
+  border-radius: inherit;
+  content: "";
   background:
-    linear-gradient(90deg, transparent 18%, rgba(120, 87, 22, 0.45) 18%, rgba(120, 87, 22, 0.45) 21%, transparent 21%),
-    linear-gradient(180deg, transparent 48%, rgba(120, 87, 22, 0.32) 48%, rgba(120, 87, 22, 0.32) 52%, transparent 52%);
+    linear-gradient(90deg, transparent 24%, rgba(120, 132, 150, 0.58) 24%, rgba(120, 132, 150, 0.58) 29%, transparent 29%, transparent 71%, rgba(120, 132, 150, 0.58) 71%, rgba(120, 132, 150, 0.58) 76%, transparent 76%),
+    linear-gradient(180deg, transparent 43%, rgba(120, 132, 150, 0.52) 43%, rgba(120, 132, 150, 0.52) 57%, transparent 57%);
 }
 
-.bank-card-bottom {
-  align-items: end;
-  margin-top: auto;
+.bank-card-chip::after {
+  top: 10px;
+  bottom: 10px;
+  left: 26px;
+  width: 10px;
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(116, 128, 147, 0.74), rgba(255, 255, 255, 0.42));
 }
 
 .bank-card-number {
-  align-self: end;
-  color: rgba(249, 241, 226, 0.88);
-  font-size: 1.05rem;
-  letter-spacing: 0.34em;
+  top: 103px;
+  left: 71px;
+  color: #c3cedf;
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.14),
+    0 2px 7px rgba(0, 0, 0, 0.5);
+}
+
+.bank-card-validity {
+  top: 132px;
+  left: 160px;
+  display: grid;
+  gap: 1px;
+  color: rgba(169, 181, 198, 0.64);
+  font-size: 0.38rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.15;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .bank-card-engraving {
-  display: grid;
-  justify-items: end;
-  gap: 4px;
-}
-
-.bank-card-engraving span {
-  font-size: 0.58rem;
-}
-
-.bank-card-engraving strong {
-  color: #f8edd3;
-  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  font-size: 0.98rem;
+  bottom: 33px;
+  left: 40px;
+  color: #b1bccd;
+  font-family: "Courier New", "Lucida Console", monospace;
+  font-size: 0.96rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.44);
 }
 
-.bank-card > small {
-  position: relative;
-  z-index: 1;
-  font-size: 0.68rem;
+.bank-card-plate {
+  right: 33px;
+  bottom: 50px;
+  width: 58px;
+  height: 30px;
+  border: 1px solid rgba(198, 207, 221, 0.24);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 30% 34%, rgba(255, 255, 255, 0.72), transparent 26%),
+    linear-gradient(145deg, #eef3fa 0%, #c1cbda 35%, #e9eef5 68%, #b7c1d1 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.78),
+    0 4px 10px rgba(0, 0, 0, 0.18);
 }
 
 .metrics-grid,
@@ -980,12 +965,32 @@ main {
   .bank-card {
     width: 100%;
     min-height: 180px;
-    padding: 20px;
+    min-height: 190px;
   }
 
   .bank-card-number {
-    font-size: 0.98rem;
-    letter-spacing: 0.24em;
+    top: 102px;
+    left: 58px;
+    font-size: 0.74rem;
+    letter-spacing: 0.14em;
+  }
+
+  .bank-card-validity {
+    top: 128px;
+    left: 143px;
+  }
+
+  .bank-card-engraving {
+    bottom: 28px;
+    left: 34px;
+    font-size: 0.82rem;
+  }
+
+  .bank-card-plate {
+    right: 28px;
+    bottom: 46px;
+    width: 52px;
+    height: 28px;
   }
 
   .metrics-grid article,
