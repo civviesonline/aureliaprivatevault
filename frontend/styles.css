@@ -1,7 +1,7 @@
 :root {
-  --bg: #eef1f4;
+  --bg: #edf1f5;
   --surface: #ffffff;
-  --surface-strong: #f8fafc;
+  --surface-strong: #f5f8fb;
   --ink: #17212b;
   --muted: #6c7782;
   --line: #dce3ea;
@@ -9,10 +9,13 @@
   --teal: #0f766e;
   --navy: #18283a;
   --rose: #a64b63;
-  --shadow: 0 20px 50px rgba(23, 33, 43, 0.1);
+  --surface-glow: rgba(255, 255, 255, 0.86);
+  --shadow: 0 24px 60px rgba(23, 33, 43, 0.12);
+  --shadow-elevated: 0 28px 70px rgba(17, 28, 42, 0.16);
+  --shadow-soft: 0 14px 36px rgba(23, 33, 43, 0.08);
   color-scheme: light;
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    Inter, "Segoe UI", "Helvetica Neue", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 * {
@@ -25,17 +28,31 @@ html {
 }
 
 body {
+  position: relative;
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
   overflow-x: hidden;
   color: var(--ink);
   background:
-    linear-gradient(120deg, rgba(184, 138, 59, 0.14), transparent 32%),
-    linear-gradient(300deg, rgba(15, 118, 110, 0.13), transparent 30%),
+    radial-gradient(circle at top left, rgba(184, 138, 59, 0.18), transparent 28%),
+    radial-gradient(circle at 88% 14%, rgba(15, 118, 110, 0.12), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7), transparent 22%),
     var(--bg);
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 24%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.22), transparent 42%);
+  opacity: 0.9;
+  pointer-events: none;
+  content: "";
 }
 
 button,
@@ -50,7 +67,8 @@ button {
 }
 
 button:hover {
-  filter: brightness(0.96);
+  filter: brightness(0.98);
+  transform: translateY(-1px);
 }
 
 button:active {
@@ -86,13 +104,17 @@ textarea:focus-visible {
     calc(28px + env(safe-area-inset-bottom))
     calc(22px + env(safe-area-inset-left));
   color: #f8fafc;
-  background: var(--navy);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 18%),
+    linear-gradient(180deg, #18283a 0%, #111c2b 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .brand {
   display: flex;
   gap: 12px;
   align-items: center;
+  padding: 6px 4px;
   color: inherit;
   text-decoration: none;
 }
@@ -103,9 +125,12 @@ textarea:focus-visible {
   height: 44px;
   place-items: center;
   border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 8px;
+  border-radius: 14px;
   color: #1d2733;
   background: linear-gradient(135deg, #f7df9e, #b88a3b);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.42),
+    0 10px 24px rgba(0, 0, 0, 0.18);
   font-weight: 800;
 }
 
@@ -125,16 +150,25 @@ textarea:focus-visible {
 }
 
 .nav-list a {
+  position: relative;
   padding: 11px 12px;
-  border-radius: 8px;
+  border: 1px solid transparent;
+  border-radius: 14px;
   color: rgba(248, 250, 252, 0.74);
   text-decoration: none;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
 }
 
 .nav-list a.active,
 .nav-list a:hover {
   color: #ffffff;
+  border-color: rgba(247, 223, 158, 0.18);
   background: rgba(255, 255, 255, 0.1);
+  transform: translateX(2px);
 }
 
 .advisor-panel {
@@ -143,8 +177,11 @@ textarea:focus-visible {
   margin-top: auto;
   padding: 16px;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06)),
+    rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
@@ -168,10 +205,11 @@ small,
 .section-heading button,
 .wide-button {
   min-height: 40px;
-  padding: 0 14px;
-  border-radius: 8px;
+  padding: 0 16px;
+  border-radius: 14px;
   color: #ffffff;
-  background: var(--teal);
+  background: linear-gradient(135deg, #13857c, #0f766e);
+  box-shadow: 0 12px 24px rgba(15, 118, 110, 0.18);
   font-weight: 700;
 }
 
@@ -181,7 +219,7 @@ small,
 
 main {
   display: grid;
-  gap: 22px;
+  gap: 24px;
   padding:
     calc(28px + env(safe-area-inset-top))
     calc(28px + env(safe-area-inset-right))
@@ -215,6 +253,7 @@ main {
 .section-heading h2,
 .operations-grid h2 {
   margin: 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
   letter-spacing: 0;
 }
 
@@ -227,7 +266,7 @@ main {
   margin: 0 0 8px;
   color: var(--gold);
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -247,10 +286,14 @@ main {
   align-items: center;
   justify-content: center;
   min-height: 44px;
-  border-radius: 8px;
+  border-radius: 14px;
   font-weight: 800;
   line-height: 1;
   white-space: nowrap;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
 }
 
 .icon-button {
@@ -258,7 +301,8 @@ main {
   width: 44px;
   height: 44px;
   color: var(--ink);
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--shadow-soft);
 }
 
 .primary-action {
@@ -266,7 +310,8 @@ main {
   height: 44px;
   padding: 0 18px;
   color: #ffffff;
-  background: var(--navy);
+  background: linear-gradient(135deg, #21344a, #18283a);
+  box-shadow: 0 14px 30px rgba(24, 40, 58, 0.22);
 }
 
 .hero-panel {
@@ -464,10 +509,12 @@ main {
 .vault-panel,
 .transfer-history-panel,
 .operations-grid article {
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 12px 30px rgba(23, 33, 43, 0.06);
+  border: 1px solid rgba(220, 227, 234, 0.88);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.9)),
+    rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-soft);
 }
 
 .metrics-grid article {
@@ -503,8 +550,11 @@ main {
 .activity-item,
 .goal-item {
   padding: 14px;
-  border-radius: 8px;
-  background: var(--surface-strong);
+  border: 1px solid rgba(223, 229, 236, 0.92);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(245, 248, 251, 0.96)),
+    var(--surface-strong);
 }
 
 .activity-item div,
@@ -540,6 +590,16 @@ main {
   display: grid;
   gap: 16px;
   align-content: start;
+}
+
+.metrics-grid article strong,
+.activity-item strong,
+.goal-item strong,
+.transfer-preview strong,
+.operations-grid article strong,
+.history-table td:nth-child(4),
+.history-table td:nth-child(5) {
+  color: #132132;
 }
 
 .switch input {
