@@ -1,8 +1,8 @@
 {
-  "name": "Aurelia Private Vault",
-  "short_name": "Aurelia Vault",
+  "name": "Aurelia Joint Banking",
+  "short_name": "Aurelia Joint",
   "id": "./",
-  "description": "Luxury private vault banking command center for balances, vaults, transfers, and concierge support.",
+  "description": "Joint banking dashboard for shared balances, vaults, transfers, and advisor support.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

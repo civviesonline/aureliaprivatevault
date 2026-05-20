@@ -1,135 +1,104 @@
 const activities = [
   {
-    name: 'BaaS settlement reserve',
-    detail: 'Incoming ACH',
-    amount: '+$18,400.00',
+    name: 'Sean Combs payroll',
+    detail: 'Direct deposit',
+    amount: '+$7,418.27',
     status: 'Posted',
   },
   {
-    name: 'Aureum Platinum card',
-    detail: 'Private aviation hold',
-    amount: '-$6,250.00',
+    name: 'Michelle Combs card',
+    detail: 'Home design studio',
+    amount: '-$1,240.18',
     status: 'Pending',
   },
   {
-    name: 'Treasury Vault transfer',
+    name: 'Home reserve transfer',
     detail: 'Automated allocation',
-    amount: '-$12,000.00',
+    amount: '-$8,400.00',
     status: 'Queued',
   },
   {
-    name: 'Concierge reimbursement',
-    detail: 'Travel adjustment',
-    amount: '+$740.24',
+    name: 'Shared brokerage sweep',
+    detail: 'Monthly transfer in',
+    amount: '+$4,500.00',
     status: 'Posted',
   },
 ];
 
 const goals = [
-  { label: 'Tax reserve', value: 78, balance: '$156,000' },
-  { label: 'Property closing', value: 56, balance: '$92,800' },
-  { label: 'Opportunity fund', value: 34, balance: '$58,000' },
+  { label: 'Home reserve', value: 72, balance: '$86,400' },
+  { label: 'Education fund', value: 64, balance: '$38,800' },
+  { label: 'Travel fund', value: 41, balance: '$21,600' },
+  { label: 'Emergency fund', value: 88, balance: '$26,000' },
 ];
 
 const transferHistory = [
   {
-    date: 'Aug 2023',
-    asset: 'Spirits, Ciroc, DeLeon',
-    transaction: 'Valuation haircut',
-    amount: '-$40,000,000',
-    newValue: '$660,000,000',
-    notes: 'Reduced growth assumptions; partnership risk priced in.',
+    date: 'Jan 2026',
+    asset: 'Joint checking',
+    transaction: 'Opening balance',
+    amount: '+$118,500.00',
+    newValue: '$118,500.00',
+    notes: 'Sean Combs and Michelle Combs added as equal account owners.',
   },
   {
-    date: 'Nov 2023',
-    asset: 'PearPop, Revolt TV',
-    transaction: 'Partial secondary sale and restructure',
-    amount: '$3,500,000 | -$10,000,000',
-    newValue: '$5,000,000 | $40,000,000',
-    notes: 'Small liquidity extraction; Revolt dilution ahead of exit.',
-  },
-  {
-    date: 'Feb 2024',
-    asset: 'Spirits, Ciroc, DeLeon',
-    transaction: 'Distribution decline priced in',
-    amount: '-$90,000,000',
-    newValue: '$570,000,000',
-    notes: 'Lower payout outlook.',
-  },
-  {
-    date: 'May 2024',
-    asset: 'Revolt TV, Miami Real Estate',
-    transaction: 'Stake sold and appraisal adjustment',
-    amount: '$18,000,000 | -$6,000,000',
-    newValue: '$0 | $94,000,000',
-    notes: 'Sold at discount; Miami market risk discount.',
-  },
-  {
-    date: 'Aug 2024',
-    asset: 'Spirits, Empower Global',
-    transaction: 'Major correction and shutdown',
-    amount: '-$120,000,000 | -$6,000,000',
-    newValue: '$450,000,000 | $26,000,000',
-    notes: 'Partnership uncertainty escalates; marketplace written off.',
-  },
-  {
-    date: 'Nov 2024',
-    asset: 'Catalog, Spotify exposure',
-    transaction: 'Royalty advance and liquidation',
-    amount: '$9,000,000 | $7,500,000',
-    newValue: '$48,000,000 | $16,000,000',
-    notes: 'Borrowed against royalties; sold stake for liquidity.',
-  },
-  {
-    date: 'Feb 2025',
-    asset: 'Spirits, Star Island Real Estate',
-    transaction: 'Impairment and appraisal reduction',
-    amount: '-$120,000,000 | -$15,000,000',
-    newValue: '$330,000,000 | $79,000,000',
-    notes: 'Lower rights value; forced-sale discount increases.',
-  },
-  {
-    date: 'May 2025',
-    asset: 'PearPop, PlayVS',
-    transaction: 'Full exit and dilution',
-    amount: '$2,200,000 | -$4,000,000',
-    newValue: '$9,000,000 | $12,000,000',
-    notes: 'Liquidated remaining position; valuation reset.',
-  },
-  {
-    date: 'Aug 2025',
-    asset: 'Spirits, Ciroc, DeLeon',
-    transaction: 'Collapse to distressed pricing',
-    amount: '-$130,000,000',
-    newValue: '$200,000,000',
-    notes: 'Analysts price near end of earnings rights.',
-  },
-  {
-    date: 'Nov 2025',
-    asset: 'Toluca Lake, Collectibles',
-    transaction: 'Quiet sale and auction liquidation',
-    amount: '$14,000,000 | $8,000,000',
-    newValue: '$63,000,000 | $51,000,000',
-    notes: 'Sold below peak; forced liquidity extraction.',
+    date: 'Jan 2026',
+    asset: 'Emergency fund',
+    transaction: 'Vault allocation',
+    amount: '-$24,000.00',
+    newValue: '$24,000.00',
+    notes: 'Both owners confirmed standing savings rule.',
   },
   {
     date: 'Feb 2026',
-    asset: 'Spirits, Catalog and IP',
-    transaction: 'Final correction and rights collapse',
-    amount: '-$50,000,000 | -$15,000,000',
-    newValue: '$150,000,000 | $15,000,000',
-    notes: 'Matches scenario target.',
+    asset: 'Home reserve',
+    transaction: 'Incoming wire',
+    amount: '+$42,000.00',
+    newValue: '$62,400.00',
+    notes: 'Escrow reserve established with dual approval threshold.',
+  },
+  {
+    date: 'Mar 2026',
+    asset: 'Joint checking',
+    transaction: 'Mortgage payment',
+    amount: '-$6,850.00',
+    newValue: '$97,918.44',
+    notes: 'Recurring household bill paid from shared checking.',
+  },
+  {
+    date: 'Apr 2026',
+    asset: 'Education fund',
+    transaction: 'Scheduled deposit',
+    amount: '+$8,800.00',
+    newValue: '$38,800.00',
+    notes: 'Monthly contribution completed from both direct deposits.',
   },
   {
     date: 'May 2026',
-    asset: 'Cash, Private Investments, Mortgage Bond',
-    transaction: 'Cash burn, remark, collateral debt',
-    amount: '-$19,700,000 | $22,000,000 | $18,000,000',
-    newValue: '$10,000,000 | $25,000,000 | $100,000,000',
-    notes: 'Debt raised; net worth neutral, leverage increases.',
+    asset: 'Joint checking',
+    transaction: 'Card settlement',
+    amount: '-$3,518.18',
+    newValue: '$64,218.44',
+    notes: 'Combined household card activity settled overnight.',
+  },
+  {
+    date: 'May 2026',
+    asset: 'Home reserve',
+    transaction: 'Pending transfer',
+    amount: '+$8,400.00',
+    newValue: '$86,400.00',
+    notes: 'Queued for Michelle Combs approval under shared controls.',
   },
 ];
 
+const validCredentials = {
+  userId: 'sean.combs',
+  password: 'joint-demo-2026',
+};
+
+const loginScreen = document.querySelector('#loginScreen');
+const appShell = document.querySelector('#appShell');
+const loginForm = document.querySelector('#loginForm');
 const activityList = document.querySelector('#activityList');
 const goalList = document.querySelector('#goalList');
 const transferHistoryTable = document.querySelector('#transferHistory');
@@ -190,24 +159,24 @@ transferHistoryTable.innerHTML = transferHistory
 
 const modalContent = {
   'message-advisor': {
-    eyebrow: 'Chief Financial Officer',
-    title: 'Talk to Tony Abrahams',
+    eyebrow: 'Relationship Manager',
+    title: 'Message Marin Hale',
     body: `
       <div class="contact-card">
-        <strong>Tony Abrahams</strong>
-        <span>Chief Financial Officer</span>
+        <strong>Marin Hale</strong>
+        <span>Relationship Manager</span>
       </div>
       <label>
         Subject
-        <input type="text" value="Portfolio liquidity review" />
+        <input type="text" value="Joint account review" />
       </label>
       <label>
         Message
-        <textarea rows="5">Please prepare an updated note on the Sean John Combs asset ledger and near-term liquidity options.</textarea>
+        <textarea rows="5">Please prepare an updated note on the Sean & Michelle Combs joint account, approval settings, and near-term household cash flow.</textarea>
       </label>
       <div class="modal-actions">
         <button type="button" data-action="send-message">Send message</button>
-        <button type="button" data-action="schedule-cfo-call">Schedule call</button>
+        <button type="button" data-action="schedule-advisor-call">Schedule call</button>
       </div>
     `,
   },
@@ -217,7 +186,7 @@ const modalContent = {
     body: `
       <label>
         Search dashboard
-        <input type="search" id="dashboardSearch" placeholder="Try spirits, mortgage, cash, Revolt" />
+        <input type="search" id="dashboardSearch" placeholder="Try mortgage, checking, education, home" />
       </label>
       <div class="search-results" id="searchResults"></div>
     `,
@@ -229,21 +198,21 @@ const modalContent = {
       <label>
         From
         <select>
-          <option>Operating cash - $82,410.18</option>
-          <option>Treasury Vault - $156,000</option>
-          <option>Opportunity fund - $58,000</option>
+          <option>Joint checking - $64,218.44</option>
+          <option>Home reserve - $86,400.00</option>
+          <option>Emergency fund - $26,000.00</option>
         </select>
       </label>
       <label>
         Amount
-        <input type="text" value="$12,000" />
+        <input type="text" value="$8,400" />
       </label>
       <label>
         Destination
         <select>
-          <option>Treasury Vault</option>
-          <option>External counsel escrow</option>
-          <option>Tax reserve</option>
+          <option>Home reserve</option>
+          <option>Education fund</option>
+          <option>External savings</option>
         </select>
       </label>
       <button type="button" data-action="submit-transfer">Schedule transfer</button>
@@ -255,11 +224,11 @@ const modalContent = {
     body: `
       <label>
         Vault name
-        <input type="text" value="Legal reserve" />
+        <input type="text" value="Renovation fund" />
       </label>
       <label>
         Target
-        <input type="text" value="$50,000" />
+        <input type="text" value="$35,000" />
       </label>
       <button type="button" data-action="create-vault">Create vault</button>
     `,
@@ -269,8 +238,8 @@ const modalContent = {
     title: 'Scheduled movement',
     body: `
       <div class="queue-item">
-        <strong>$12,000 to Treasury Vault</strong>
-        <span>Scheduled for May 12. Status: queued.</span>
+        <strong>$8,400 to Home reserve</strong>
+        <span>Scheduled for May 20. Status: awaiting Michelle Combs approval.</span>
       </div>
       <div class="modal-actions">
         <button type="button" data-action="approve-queue">Approve</button>
@@ -280,14 +249,39 @@ const modalContent = {
   },
   'open-brief': {
     eyebrow: 'Concierge',
-    title: 'Weekly liquidity brief',
+    title: 'Monthly account brief',
     body: `
-      <p>Advisor note prepared for Sean John Combs: liquidity is concentrated in cash preservation, private investment remarking, and collateralized debt management.</p>
-      <p>Recommended next step: review May 2026 leverage exposure and confirm any upcoming asset-sale constraints.</p>
+      <p>Advisor note prepared for Sean Combs and Michelle Combs: household liquidity is stable, with the next large movement awaiting dual approval.</p>
+      <p>Recommended next step: review May 2026 savings goals and confirm card limits for both account owners.</p>
       <button type="button" data-action="mark-brief-read">Mark reviewed</button>
     `,
   },
 };
+
+const sessionActive = window.localStorage.getItem('aureliaJointSession') === 'active';
+
+if (sessionActive) {
+  showApp();
+}
+
+loginForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const formData = new FormData(loginForm);
+  const userId = String(formData.get('userId') ?? '').trim();
+  const password = String(formData.get('password') ?? '');
+
+  if (userId !== validCredentials.userId || password !== validCredentials.password) {
+    showToast('User ID or password is incorrect.');
+    return;
+  }
+
+  if (document.querySelector('#rememberDevice').checked) {
+    window.localStorage.setItem('aureliaJointSession', 'active');
+  }
+
+  showApp();
+  showToast('Signed in to Sean & Michelle Combs joint account.');
+});
 
 document.querySelectorAll('.nav-list a, .brand').forEach((link) => {
   link.addEventListener('click', () => {
@@ -303,6 +297,9 @@ document.addEventListener('click', (event) => {
 
   if (!actionElement) {
     if (buttonElement) {
+      if (buttonElement.type === 'submit') {
+        return;
+      }
       event.preventDefault();
       const label = buttonElement.textContent.trim() || buttonElement.getAttribute('aria-label') || 'Button';
       showToast(`${label} clicked.`);
@@ -327,6 +324,20 @@ document.addEventListener('click', (event) => {
     return;
   }
 
+  if (action === 'logout') {
+    window.localStorage.removeItem('aureliaJointSession');
+    appShell.hidden = true;
+    loginScreen.hidden = false;
+    closeModal();
+    showToast('Signed out.');
+    return;
+  }
+
+  if (action === 'forgot-password') {
+    showToast('Password reset is ready for the prototype.');
+    return;
+  }
+
   if (action === 'export-activity') {
     downloadCsv('recent-activity.csv', activities);
     showToast('Recent activity exported.');
@@ -334,17 +345,17 @@ document.addEventListener('click', (event) => {
   }
 
   if (action === 'download-history') {
-    downloadCsv('sean-john-combs-transfer-history.csv', transferHistory);
+    downloadCsv('sean-michelle-combs-joint-account-ledger.csv', transferHistory);
     showToast('Transfer history CSV downloaded.');
     return;
   }
 
   const completionMessages = {
-    'send-message': 'Message sent to Tony Abrahams.',
-    'schedule-cfo-call': 'Call request sent to Tony Abrahams.',
-    'submit-transfer': 'Transfer scheduled for review.',
+    'send-message': 'Message sent to Marin Hale.',
+    'schedule-advisor-call': 'Call request sent to Marin Hale.',
+    'submit-transfer': 'Transfer sent for joint approval.',
     'create-vault': 'New vault created.',
-    'approve-queue': 'Queued transfer approved.',
+    'approve-queue': 'Queued transfer approved by this owner.',
     'hold-queue': 'Queued transfer placed on hold.',
     'mark-brief-read': 'Brief marked reviewed.',
   };
@@ -392,6 +403,11 @@ function closeModal() {
   document.body.classList.remove('modal-open');
   lastActionTrigger?.focus();
   lastActionTrigger = null;
+}
+
+function showApp() {
+  loginScreen.hidden = true;
+  appShell.hidden = false;
 }
 
 function setupSearch() {
@@ -462,6 +478,9 @@ function showToast(message) {
 
 function makeButtonsClickable(scope = document) {
   scope.querySelectorAll('button:not([data-action])').forEach((button) => {
+    if (button.type === 'submit') {
+      return;
+    }
     button.dataset.action = 'button-action';
     if (!button.type) {
       button.type = 'button';

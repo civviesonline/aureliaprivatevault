@@ -7,10 +7,10 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Aurelia Private Vault" />
-    <meta name="application-name" content="Aurelia Private Vault" />
+    <meta name="apple-mobile-web-app-title" content="Aurelia Joint Banking" />
+    <meta name="application-name" content="Aurelia Joint Banking" />
     <meta name="format-detection" content="telephone=no" />
-    <title>Aurelia Private Vault</title>
+    <title>Aurelia Joint Banking</title>
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
     <link rel="icon" href="./assets/icon-192.png" sizes="192x192" type="image/png" />
@@ -18,13 +18,50 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="app-shell">
+    <section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
+      <div class="login-brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <div>
+          <strong>Aurelia</strong>
+          <span>Joint Banking</span>
+        </div>
+      </div>
+
+      <form class="login-card" id="loginForm">
+        <p class="eyebrow">Secure access</p>
+        <h1 id="loginTitle">Sign in to the Sean &amp; Michelle Combs joint account</h1>
+        <p class="login-copy">A shared household account for Sean Combs and Michelle Combs.</p>
+
+        <label>
+          User ID
+          <input id="userId" name="userId" autocomplete="username" value="sean.combs" required />
+        </label>
+
+        <label>
+          Password
+          <input id="password" name="password" type="password" autocomplete="current-password" value="joint-demo-2026" required />
+        </label>
+
+        <div class="login-options">
+          <label class="remember-row">
+            <input id="rememberDevice" type="checkbox" checked />
+            <span>Remember this device</span>
+          </label>
+          <button type="button" data-action="forgot-password">Forgot?</button>
+        </div>
+
+        <button class="login-submit" type="submit">Sign in</button>
+        <span class="demo-note">Demo credentials are prefilled for this prototype.</span>
+      </form>
+    </section>
+
+    <div class="app-shell" id="appShell" hidden>
       <aside class="sidebar" aria-label="Primary navigation">
-        <a class="brand" href="#overview" aria-label="Aurelia Private Vault home">
+        <a class="brand" href="#overview" aria-label="Aurelia Joint Banking home">
           <span class="brand-mark" aria-hidden="true"></span>
           <span>
             <strong>Aurelia</strong>
-            <small>Private Vault</small>
+            <small>Joint Banking</small>
           </span>
         </a>
 
@@ -37,10 +74,10 @@
         </nav>
 
         <div class="advisor-panel">
-          <span>Chief Financial Officer</span>
-          <strong>Tony Abrahams</strong>
-          <button type="button" data-action="message-advisor" aria-label="Talk to Tony Abrahams, Chief Financial Officer">
-            Talk to CFO
+          <span>Relationship Manager</span>
+          <strong>Marin Hale</strong>
+          <button type="button" data-action="message-advisor" aria-label="Talk to Marin Hale, Relationship Manager">
+            Message advisor
           </button>
         </div>
       </aside>
@@ -48,37 +85,39 @@
       <main>
         <header class="topbar">
           <div>
-            <p class="eyebrow">Welcome Back,</p>
-            <h1>Sean John Combs</h1>
+            <p class="eyebrow">Good evening, Sean and Michelle</p>
+            <h1>Joint account</h1>
           </div>
           <div class="topbar-actions">
             <button class="icon-button" type="button" aria-label="Search" data-action="search">
               <span aria-hidden="true">&#8981;</span>
             </button>
-            <button class="primary-action" type="button" data-action="move-money">Transfer money</button>
+            <button class="primary-action" type="button" data-action="move-money">Move money</button>
+            <button class="text-action" type="button" data-action="logout">Sign out</button>
           </div>
         </header>
 
         <section class="hero-panel" id="overview">
           <div class="hero-copy">
-            <h2>$614,350.80</h2>
-            <p>Total relationship balance across cash, vaults, and reserved capital.</p>
+            <p class="eyebrow">Sean &amp; Michelle Combs Joint Checking</p>
+            <h2>$248,936.71</h2>
+            <p>Shared balance across checking, savings vaults, and scheduled household reserves.</p>
           </div>
           <div class="card-stack" aria-label="Premium card summary">
             <div
               class="bank-card"
               role="img"
-              aria-label="A matte dark metal Aureum Platinum card with embossed gold details, a masked card number ending in 2000, and the engraved name Sean John Combs"
+              aria-label="A matte dark metal Aurelia Joint card with embossed gold details, a masked card number ending in 6428, and the engraved names Sean Combs and Michelle Combs"
             >
-              <span class="bank-card-tier">Aureum Platinum</span>
+              <span class="bank-card-tier">Aurelia Joint</span>
               <div class="bank-card-chip" aria-hidden="true"></div>
-              <span class="bank-card-number">**** **** **** 2000</span>
+              <span class="bank-card-number">**** **** **** 6428</span>
               <div class="bank-card-validity">
                 <span>VALID</span>
                 <span>THRU</span>
                 <span>27-03-2029</span>
               </div>
-              <strong class="bank-card-engraving">Sean John Combs</strong>
+              <strong class="bank-card-engraving">Sean Combs + Michelle Combs</strong>
               <div class="bank-card-plate" aria-hidden="true"></div>
             </div>
           </div>
@@ -86,24 +125,24 @@
 
         <section class="metrics-grid" aria-label="Account metrics">
           <article>
-            <span>Operating cash</span>
-            <strong>$82,410.18</strong>
-            <small>+4.2% this month</small>
+            <span>Available checking</span>
+            <strong>$64,218.44</strong>
+            <small>Both owners can spend</small>
           </article>
           <article>
-            <span>Vault balance</span>
-            <strong>$348,800</strong>
-            <small>3 active goals</small>
+            <span>Shared savings</span>
+            <strong>$172,800.00</strong>
+            <small>4 household vaults</small>
           </article>
           <article>
             <span>Pending inflows</span>
-            <strong>$43,740</strong>
+            <strong>$11,918.27</strong>
             <small>2 scheduled deposits</small>
           </article>
           <article>
-            <span>Risk status</span>
-            <strong>Clear</strong>
-            <small>Last reviewed today</small>
+            <span>Approval rule</span>
+            <strong>Dual</strong>
+            <small>Over $10,000 requires both</small>
           </article>
         </section>
 
@@ -157,8 +196,8 @@
             <p class="eyebrow">Transfers</p>
             <h2>Scheduled movement</h2>
             <div class="transfer-preview">
-              <strong>$12,000</strong>
-              <span>To Treasury Vault &middot; May 12</span>
+              <strong>$8,400</strong>
+              <span>To Home reserve &middot; May 20</span>
             </div>
             <button class="wide-button" type="button" data-action="review-queue">Review queue</button>
           </article>
@@ -166,7 +205,7 @@
           <article id="support">
             <p class="eyebrow">Concierge</p>
             <h2>Priority support</h2>
-            <p class="support-copy">Your advisor has prepared a weekly liquidity note and two card limit recommendations.</p>
+            <p class="support-copy">Your advisor has prepared a monthly household cash-flow note and two card limit recommendations.</p>
             <button class="wide-button" type="button" data-action="open-brief">Open brief</button>
           </article>
         </section>
@@ -175,7 +214,7 @@
           <div class="section-heading">
             <div>
               <p class="eyebrow">Transfer history</p>
-              <h2 id="transfer-history-title">Sean John Combs relationship history</h2>
+              <h2 id="transfer-history-title">Joint account ledger</h2>
             </div>
             <button type="button" data-action="download-history">Download CSV</button>
           </div>
