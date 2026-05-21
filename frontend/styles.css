@@ -1137,7 +1137,7 @@ main {
   }
 
   main {
-    padding-bottom: calc(28px + env(safe-area-inset-bottom));
+    padding-bottom: calc(176px + env(safe-area-inset-bottom));
   }
 
   .brand {
@@ -1164,7 +1164,11 @@ main {
   }
 
   .advisor-panel {
-    position: static;
+    position: fixed;
+    right: 18px;
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    left: 18px;
+    z-index: 12;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     margin-top: 0;
@@ -1240,6 +1244,9 @@ main {
   .advisor-panel {
     grid-template-columns: minmax(0, 1fr);
     gap: 7px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    left: 12px;
   }
 
   .advisor-panel button {
@@ -1251,7 +1258,7 @@ main {
     padding:
       16px
       calc(12px + env(safe-area-inset-right))
-      calc(24px + env(safe-area-inset-bottom))
+      calc(204px + env(safe-area-inset-bottom))
       calc(12px + env(safe-area-inset-left));
   }
 

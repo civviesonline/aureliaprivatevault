@@ -1,6 +1,6 @@
 const activities = [
   {
-    name: 'Sean Combs payroll',
+    name: 'Sean Combs stock earnings',
     detail: 'Direct deposit',
     amount: '+$7,418.27',
     status: 'Posted',
@@ -8,13 +8,13 @@ const activities = [
   {
     name: 'Michelle Combs card',
     detail: 'Home design studio',
-    amount: '-$1,240.18',
+    amount: '-$6,840.33',
     status: 'Pending',
   },
   {
     name: 'Home reserve transfer',
     detail: 'Automated allocation',
-    amount: '-$8,400.00',
+    amount: '-$78,800.00',
     status: 'Queued',
   },
   {
@@ -26,7 +26,7 @@ const activities = [
 ];
 
 const goals = [
-  { label: 'Home reserve', value: 72, balance: '$86,400' },
+  { label: 'Home reserve', value: 72, balance: '$78,800' },
   { label: 'Education fund', value: 64, balance: '$38,800' },
   { label: 'Travel fund', value: 41, balance: '$21,600' },
   { label: 'Emergency fund', value: 88, balance: '$26,000' },
@@ -78,15 +78,15 @@ const transferHistory = [
     asset: 'Joint checking',
     transaction: 'Card settlement',
     amount: '-$3,518.18',
-    newValue: '$64,218.44',
+    newValue: '$642,450.00',
     notes: 'Combined household card activity settled overnight.',
   },
   {
     date: 'May 2026',
     asset: 'Home reserve',
     transaction: 'Pending transfer',
-    amount: '+$8,400.00',
-    newValue: '$86,400.00',
+    amount: '+$78,800.00',
+    newValue: '$78,800.00',
     notes: 'Queued for Michelle Combs approval under shared controls.',
   },
 ];
@@ -207,14 +207,14 @@ const modalContent = {
       <label>
         From
         <select>
-          <option>Joint checking - $64,218.44</option>
-          <option>Home reserve - $86,400.00</option>
+          <option>Joint checking - $642,450.00</option>
+          <option>Home reserve - $78,800.00</option>
           <option>Emergency fund - $26,000.00</option>
         </select>
       </label>
       <label>
         Amount
-        <input type="text" value="$8,400" />
+        <input type="text" value="$78,800" />
       </label>
       <label>
         Destination
@@ -247,8 +247,8 @@ const modalContent = {
     title: 'Scheduled movement',
     body: `
       <div class="queue-item">
-        <strong>$8,400 to Home reserve</strong>
-        <span>Scheduled for May 20. Status: awaiting Michelle Combs approval.</span>
+        <strong>$78,800 to Home reserve</strong>
+        <span>Scheduled for July 19. Status: awaiting Michelle Combs approval.</span>
       </div>
       <div class="modal-actions">
         <button type="button" data-action="approve-queue">Approve</button>
