@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    background:
+      radial-gradient(circle at top left, rgba(56, 189, 248, 0.14), transparent 24%),
+      radial-gradient(circle at 82% 10%, rgba(13, 122, 99, 0.12), transparent 18%),
+      #eef4f8;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+}

@@ -3,13 +3,14 @@
   "short_name": "Aurelia Joint",
   "id": "./",
   "description": "Joint banking dashboard for shared balances, vaults, transfers, and advisor support.",
-  "start_url": "./index.html",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "display_override": ["standalone", "browser"],
   "background_color": "#eef1f4",
   "theme_color": "#18283a",
   "orientation": "portrait-primary",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "./assets/icon-192.png",

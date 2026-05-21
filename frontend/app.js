@@ -107,7 +107,16 @@ const modalEyebrow = document.querySelector('#modalEyebrow');
 const modalTitle = document.querySelector('#modalTitle');
 const modalBody = document.querySelector('#modalBody');
 const toast = document.querySelector('#toast');
+const installBanner = document.querySelector('#installBanner');
+const installBannerDescription = document.querySelector('#installBannerDescription');
+const installBannerHint = document.querySelector('#installBannerHint');
+const installButton = document.querySelector('#installButton');
+const installDismissStorageKey = 'aurelia-install-banner-dismissed-at';
+const installDismissDurationMs = 7 * 24 * 60 * 60 * 1000;
+const displayModeQuery = window.matchMedia('(display-mode: standalone)');
+const isIosDevice = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 let lastActionTrigger = null;
+let deferredInstallPrompt = null;
 
 activityList.innerHTML = activities
   .map(
@@ -310,6 +319,16 @@ document.addEventListener('click', (event) => {
   event.preventDefault();
   const action = actionElement.dataset.action;
 
+  if (action === 'install-app') {
+    promptInstall();
+    return;
+  }
+
+  if (action === 'dismiss-install') {
+    dismissInstallBanner();
+    return;
+  }
+
   if (modalContent[action]) {
     lastActionTrigger = actionElement;
     openModal(modalContent[action]);
@@ -346,7 +365,7 @@ document.addEventListener('click', (event) => {
 
   if (action === 'download-history') {
     downloadCsv('sean-michelle-combs-joint-account-ledger.csv', transferHistory);
-    showToast('Transfer history CSV downloaded.');
+    showToast('Joint account ledger CSV downloaded.');
     return;
   }
 
@@ -489,6 +508,7 @@ function makeButtonsClickable(scope = document) {
 }
 
 makeButtonsClickable();
+setupInstallExperience();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -535,4 +555,122 @@ window.addEventListener('offline', () => {
 function activateWaitingWorker(registration) {
   registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
   showToast('A fresh banking shell is ready.');
+}
+
+function setupInstallExperience() {
+  if (!installBanner) {
+    return;
+  }
+
+  displayModeQuery.addEventListener?.('change', renderInstallBanner);
+
+  window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    renderInstallBanner();
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    dismissInstallBanner({ persist: true, silent: true });
+    showToast('Aurelia is installed and ready from your home screen.');
+  });
+
+  renderInstallBanner();
+}
+
+async function promptInstall() {
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+
+    try {
+      const choice = await deferredInstallPrompt.userChoice;
+      if (choice?.outcome === 'accepted') {
+        dismissInstallBanner({ persist: true, silent: true });
+      } else {
+        showToast('Install dismissed. You can reopen it whenever you are ready.');
+      }
+    } catch {
+      showToast('Install prompt could not be completed.');
+    } finally {
+      deferredInstallPrompt = null;
+      renderInstallBanner();
+    }
+
+    return;
+  }
+
+  if (isIosDevice) {
+    showToast('On iPhone or iPad, tap Share and choose Add to Home Screen.');
+    return;
+  }
+
+  showToast('Use your browser menu and choose Install app.');
+}
+
+function renderInstallBanner() {
+  if (!installBanner) {
+    return;
+  }
+
+  if (isStandaloneMode() || isInstallBannerDismissed()) {
+    installBanner.hidden = true;
+    return;
+  }
+
+  installBanner.hidden = false;
+
+  if (deferredInstallPrompt) {
+    installBannerDescription.textContent =
+      'Install the dashboard for faster launch, a cleaner full-screen layout, and offline access to the shared banking shell.';
+    installBannerHint.textContent = 'Android and desktop browsers can install directly from this banner.';
+    installButton.textContent = 'Install app';
+    installButton.disabled = false;
+    return;
+  }
+
+  if (isIosDevice) {
+    installBannerDescription.textContent =
+      'Aurelia works well on iPhone and iPad as a home-screen app with a full-screen launch experience.';
+    installBannerHint.textContent = 'On iPhone or iPad, tap Share, then choose Add to Home Screen.';
+    installButton.textContent = 'Show iPhone steps';
+    installButton.disabled = false;
+    return;
+  }
+
+  installBannerDescription.textContent =
+    'This dashboard is installable as a Progressive Web App for smoother repeat visits and offline-ready navigation.';
+  installBannerHint.textContent = 'If your browser does not show a prompt, use the browser menu and choose Install app.';
+  installButton.textContent = 'How to install';
+  installButton.disabled = false;
+}
+
+function dismissInstallBanner({ persist = true, silent = false } = {}) {
+  if (persist) {
+    window.localStorage.setItem(installDismissStorageKey, String(Date.now()));
+  }
+
+  installBanner.hidden = true;
+
+  if (!silent) {
+    showToast('Install banner hidden.');
+  }
+}
+
+function isInstallBannerDismissed() {
+  const dismissedAt = Number(window.localStorage.getItem(installDismissStorageKey) || 0);
+  if (!dismissedAt) {
+    return false;
+  }
+
+  if (Date.now() - dismissedAt > installDismissDurationMs) {
+    window.localStorage.removeItem(installDismissStorageKey);
+    return false;
+  }
+
+  return true;
+}
+
+function isStandaloneMode() {
+  return displayModeQuery.matches || window.navigator.standalone === true;
 }

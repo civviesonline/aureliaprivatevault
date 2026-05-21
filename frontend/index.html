@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#18283a" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Aurelia Joint Banking" />
     <meta name="application-name" content="Aurelia Joint Banking" />
@@ -96,6 +97,21 @@
             <button class="text-action" type="button" data-action="logout">Sign out</button>
           </div>
         </header>
+
+        <section class="install-banner" id="installBanner" hidden aria-live="polite">
+          <div class="install-copy">
+            <p class="eyebrow">Progressive Web App</p>
+            <h2 id="installBannerTitle">Install Aurelia on your phone</h2>
+            <p id="installBannerDescription">
+              Save this joint banking dashboard to your home screen for faster access, offline support, and a cleaner full-screen layout.
+            </p>
+            <p class="install-hint" id="installBannerHint"></p>
+          </div>
+          <div class="install-actions">
+            <button type="button" class="primary-action" id="installButton" data-action="install-app">Install app</button>
+            <button type="button" class="secondary-action" data-action="dismiss-install">Not now</button>
+          </div>
+        </section>
 
         <section class="hero-panel" id="overview">
           <div class="hero-copy">
@@ -213,7 +229,7 @@
         <section class="transfer-history-panel" aria-labelledby="transfer-history-title">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">Transfer history</p>
+              <p class="eyebrow">Transaction history</p>
               <h2 id="transfer-history-title">Joint account ledger</h2>
             </div>
             <button type="button" data-action="download-history">Download CSV</button>
@@ -227,7 +243,7 @@
                   <th>Asset</th>
                   <th>Transaction</th>
                   <th>Amount</th>
-                  <th>New Value</th>
+                  <th>Value</th>
                   <th>Notes</th>
                 </tr>
               </thead>
