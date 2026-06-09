@@ -127,6 +127,7 @@ const supportBadgeElements = document.querySelectorAll('.nav-badge');
 const balanceVisibilityStorageKey = 'aurelia-balance-hidden';
 const balanceMaskText = '••••••';
 const balanceTransitionMs = 260;
+const advisorAutoResponseDelayMs = 1800;
 const installDismissStorageKey = 'aurelia-install-banner-dismissed-at';
 const installDismissDurationMs = 7 * 24 * 60 * 60 * 1000;
 const displayModeQuery = window.matchMedia('(display-mode: standalone)');
@@ -138,6 +139,7 @@ let relationshipManagerObserver = null;
 let relationshipManagerScrollHandler = null;
 let balanceHidden = window.localStorage.getItem(balanceVisibilityStorageKey) === 'true';
 let balanceTransitionTimer = null;
+let advisorAutoResponseTimer = null;
 const unlockDurationMs = 820;
 
 const screenCopy = {
@@ -301,6 +303,10 @@ const modalContent = {
         Message
         <textarea rows="5">Please prepare an updated note on the Sean & Michelle Combs joint account, approval settings, and near-term household cash flow.</textarea>
       </label>
+      <div class="advisor-bot-note">
+        <strong>Aurelia Concierge</strong>
+        <span>Automatic acknowledgment is sent first. Marin Hale replies personally after review.</span>
+      </div>
       <div class="modal-actions">
         <button type="button" data-action="send-message">Send message</button>
         <button type="button" data-action="schedule-advisor-call">Schedule call</button>
@@ -549,6 +555,11 @@ document.addEventListener('click', (event) => {
     return;
   }
 
+  if (action === 'send-message' || action === 'schedule-advisor-call') {
+    renderAdvisorAutoResponse(action);
+    return;
+  }
+
   if (modalContent[action]) {
     if (action === 'message-advisor' || action === 'open-brief') {
       markSupportReviewed();
@@ -594,8 +605,6 @@ document.addEventListener('click', (event) => {
   }
 
   const completionMessages = {
-    'send-message': 'Message sent to Marin Hale.',
-    'schedule-advisor-call': 'Call request sent to Marin Hale.',
     'submit-transfer': 'Transfer sent for joint approval.',
     'create-vault': 'New vault created.',
     'approve-queue': 'Queued transfer approved by this owner.',
@@ -629,6 +638,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 function openModal(content) {
+  clearAdvisorAutoResponseTimer();
   modalEyebrow.textContent = content.eyebrow;
   modalTitle.textContent = content.title;
   modalBody.innerHTML = content.body;
@@ -641,6 +651,7 @@ function openModal(content) {
 }
 
 function closeModal() {
+  clearAdvisorAutoResponseTimer();
   modalBackdrop.hidden = true;
   document.body.classList.remove('modal-open');
   lastActionTrigger?.focus();
@@ -795,6 +806,100 @@ function downloadCsv(filename, rows) {
 
 function csvCell(value) {
   return `"${String(value).replaceAll('"', '""')}"`;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function clearAdvisorAutoResponseTimer() {
+  window.clearTimeout(advisorAutoResponseTimer);
+  advisorAutoResponseTimer = null;
+}
+
+function renderAdvisorAutoResponse(action) {
+  if (!modalBody) {
+    return;
+  }
+
+  clearAdvisorAutoResponseTimer();
+
+  const subjectInput = modalBody.querySelector('input');
+  const messageInput = modalBody.querySelector('textarea');
+  const isCallRequest = action === 'schedule-advisor-call';
+  const userTitle = isCallRequest ? 'Private call request' : (subjectInput?.value.trim() || 'Joint account review');
+  const userMessage = isCallRequest
+    ? 'Please call Sean & Michelle Combs personally after your review.'
+    : (messageInput?.value.trim() || 'Please prepare an updated note on the joint account.');
+  const botMessage = isCallRequest
+    ? 'Your call request is logged. Aurelia Concierge has notified Marin Hale, and she will follow up personally after review.'
+    : 'Your message is logged. Aurelia Concierge has notified Marin Hale, and she will reply personally after review.';
+
+  modalEyebrow.textContent = 'Aurelia Concierge';
+  modalTitle.textContent = isCallRequest ? 'Call request acknowledged' : 'Message acknowledged';
+  modalBody.innerHTML = `
+    <div class="advisor-thread">
+      <div class="advisor-status-card">
+        <strong>Automatic acknowledgment enabled</strong>
+        <span>Aurelia Concierge responds first, then Marin Hale follows up personally.</span>
+      </div>
+      <article class="advisor-message is-user">
+        <span class="advisor-message-label">You</span>
+        <strong>${escapeHtml(userTitle)}</strong>
+        <p>${escapeHtml(userMessage)}</p>
+      </article>
+      <article class="advisor-message is-bot">
+        <span class="advisor-message-label">Aurelia Concierge</span>
+        <strong>Instant reply sent</strong>
+        <p>${escapeHtml(botMessage)}</p>
+      </article>
+      <article class="advisor-message is-human is-pending" data-advisor-follow-up>
+        <span class="advisor-message-label">Marin Hale</span>
+        <strong>Personal follow-up queued</strong>
+        <p>Marin is reviewing this request and will respond personally shortly.</p>
+      </article>
+      <div class="modal-actions">
+        <button type="button" data-action="close-modal">Done</button>
+      </div>
+    </div>
+  `;
+  makeButtonsClickable(modalBody);
+  bindControlToasts(modalBody);
+  renderBalanceVisibility(modalBody);
+  modalBody.querySelector('[data-action="close-modal"]')?.focus();
+
+  showToast(
+    isCallRequest
+      ? 'Aurelia Concierge replied first. Marin Hale will call personally.'
+      : 'Aurelia Concierge replied first. Marin Hale will respond personally.',
+  );
+
+  advisorAutoResponseTimer = window.setTimeout(() => {
+    const followUpCard = modalBody.querySelector('[data-advisor-follow-up]');
+    if (!followUpCard) {
+      return;
+    }
+
+    followUpCard.classList.remove('is-pending');
+
+    const heading = followUpCard.querySelector('strong');
+    const paragraph = followUpCard.querySelector('p');
+
+    if (heading) {
+      heading.textContent = isCallRequest ? 'Marin Hale is calling personally' : 'Marin Hale is replying personally';
+    }
+
+    if (paragraph) {
+      paragraph.textContent = isCallRequest
+        ? 'Marin has been notified and will call back after her review.'
+        : 'Marin has been notified and will send a personal reply after her review.';
+    }
+  }, advisorAutoResponseDelayMs);
 }
 
 function showToast(message) {

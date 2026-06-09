@@ -1,8 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Relationship manager headshot">
-  <circle cx="128" cy="128" r="111" fill="#214875" />
+  <circle cx="128" cy="128" r="111" fill="#1d406a" />
   <circle cx="128" cy="128" r="108" fill="none" stroke="#f4e2a0" stroke-width="4" />
   <circle cx="128" cy="128" r="96" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="2" />
-  <ellipse cx="128" cy="82" rx="64" ry="42" fill="#ffffff" fill-opacity="0.08" />
+  <ellipse cx="128" cy="82" rx="64" ry="42" fill="#ffffff" fill-opacity="0.06" />
+  <ellipse cx="128" cy="86" rx="48" ry="30" fill="#ffffff" fill-opacity="0.05" />
 
   <path d="M58 214c11-31 34-54 62-61 10-3 17-4 8-4h50c-9 0-2 1 8 4 28 7 51 30 62 61" fill="#1a2234" />
   <path d="M96 214c2-19 13-35 24-42 3-2 8-3 8-3h0s5 1 8 3c11 7 22 23 24 42" fill="#ffffff" />
@@ -10,8 +11,8 @@
   <path d="M92 214c1-8 4-15 9-22 7 6 15 10 27 14l-10 8H92Z" fill="#24324a" />
   <path d="M164 214c-1-8-4-15-9-22-7 6-15 10-27 14l10 8h26Z" fill="#24324a" />
 
-  <path d="M82 101c0-17 8-31 19-42 10-9 22-14 27-14s17 5 27 14c11 11 19 25 19 42 0 16-5 31-10 41-8 16-19 28-29 34-10-6-21-18-29-34-5-10-10-25-10-41Z" fill="#4e352d" />
-  <ellipse cx="128" cy="111" rx="33" ry="41" fill="#f4cfb4" />
+  <path d="M82 101c0-17 8-31 19-42 10-9 22-14 27-14s17 5 27 14c11 11 19 25 19 42 0 16-5 31-10 41-8 16-19 28-29 34-10-6-21-18-29-34-5-10-10-25-10-41Z" fill="#4d352d" />
+  <ellipse cx="128" cy="111" rx="33" ry="41" fill="#f6d0b6" />
   <ellipse cx="118" cy="108" rx="12" ry="8" fill="#c78d6c" fill-opacity=".18" />
   <ellipse cx="140" cy="108" rx="12" ry="8" fill="#c78d6c" fill-opacity=".14" />
   <path d="M104 98c7-7 15-10 24-10s17 3 24 10" fill="none" stroke="#d9b79f" stroke-width="3" stroke-linecap="round" />

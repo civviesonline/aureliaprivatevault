@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aurelia-pwa-v13';
+const CACHE_NAME = 'aurelia-pwa-v14';
 const APP_SHELL = [
   './',
   './index.html',

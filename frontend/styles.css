@@ -2167,6 +2167,8 @@ html.balance-transitioning .balance-toggle {
 
 .queue-item,
 .contact-card,
+.advisor-status-card,
+.advisor-message,
 .search-results article,
 .search-results > span {
   display: grid;
@@ -2178,11 +2180,62 @@ html.balance-transitioning .balance-toggle {
 
 .queue-item span,
 .contact-card span,
+.advisor-status-card span,
 .search-results span,
 .modal-body p {
   margin: 0;
   color: var(--muted);
   line-height: 1.5;
+}
+
+.advisor-thread {
+  display: grid;
+  gap: 12px;
+}
+
+.advisor-bot-note {
+  display: grid;
+  gap: 4px;
+  padding: 13px;
+  border: 1px solid rgba(16, 118, 110, 0.14);
+  border-radius: 8px;
+  background: rgba(16, 118, 110, 0.06);
+}
+
+.advisor-bot-note strong,
+.advisor-status-card strong,
+.advisor-message strong {
+  color: var(--ink);
+}
+
+.advisor-message {
+  border: 1px solid rgba(25, 35, 50, 0.08);
+}
+
+.advisor-message-label {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.advisor-message.is-user {
+  background: rgba(25, 35, 50, 0.04);
+}
+
+.advisor-message.is-bot {
+  border-color: rgba(16, 118, 110, 0.16);
+  background: rgba(16, 118, 110, 0.06);
+}
+
+.advisor-message.is-human {
+  border-color: rgba(25, 35, 50, 0.12);
+  background: rgba(33, 52, 74, 0.05);
+}
+
+.advisor-message.is-pending {
+  opacity: 0.9;
 }
 
 .search-results {
