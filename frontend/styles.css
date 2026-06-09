@@ -1847,7 +1847,11 @@ main {
   .mobile-nav svg {
     width: 18px;
     height: 18px;
-    fill: currentColor;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     flex: 0 0 auto;
   }
 
@@ -1986,27 +1990,33 @@ main {
 
   .bank-card {
     width: 100%;
-    min-height: 172px;
+    max-width: 360px;
+    min-height: 186px;
+    justify-self: center;
+    transform: none;
   }
 
   .bank-card-number {
-    top: 102px;
-    left: 42px;
-    right: 58px;
-    font-size: 0.66rem;
-    letter-spacing: 0.12em;
+    top: 104px;
+    left: 24px;
+    right: 24px;
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-align: center;
   }
 
   .bank-card-validity {
-    top: 128px;
-    left: 132px;
+    top: 130px;
+    left: 28px;
   }
 
   .bank-card-engraving {
-    bottom: 28px;
-    left: 30px;
-    right: 30px;
-    font-size: 0.7rem;
+    bottom: 22px;
+    left: 24px;
+    right: 24px;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-align: center;
   }
 
   .bank-card-tier {
