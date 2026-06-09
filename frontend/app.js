@@ -127,7 +127,7 @@ let deferredInstallPrompt = null;
 let unlockTimer = null;
 let relationshipManagerObserver = null;
 let relationshipManagerScrollHandler = null;
-const unlockDurationMs = 580;
+const unlockDurationMs = 820;
 
 activityList.innerHTML = activities
   .map(

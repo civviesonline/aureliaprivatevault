@@ -448,36 +448,36 @@ textarea:focus-visible {
 }
 
 .login-screen.unlocking .vault-light {
-  animation: vault-light-burst 0.58s ease-out forwards;
+  animation: vault-light-burst 0.82s ease-out forwards;
 }
 
 .login-screen.unlocking .vault-flash {
-  animation: vault-flash-pop 0.58s ease-out forwards;
+  animation: vault-flash-pop 0.82s ease-out forwards;
 }
 
 .login-screen.unlocking .vault-frame {
-  animation: vault-frame-pop 0.58s ease-out forwards;
+  animation: vault-frame-pop 0.82s ease-out forwards;
 }
 
 .login-screen.unlocking .vault-door-left {
-  animation: vault-door-left-open 0.58s cubic-bezier(0.18, 0.78, 0.2, 1) forwards;
+  animation: vault-door-left-open 0.82s cubic-bezier(0.18, 0.78, 0.2, 1) forwards;
 }
 
 .login-screen.unlocking .vault-door-right {
-  animation: vault-door-right-open 0.58s cubic-bezier(0.18, 0.78, 0.2, 1) forwards;
+  animation: vault-door-right-open 0.82s cubic-bezier(0.18, 0.78, 0.2, 1) forwards;
 }
 
 .login-screen.unlocking .vault-wheel {
-  animation: vault-wheel-spin 0.58s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: vault-wheel-spin 0.82s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 .login-screen.unlocking .vault-bolt {
-  animation: vault-bolt-flash 0.58s ease-out forwards;
+  animation: vault-bolt-flash 0.82s ease-out forwards;
 }
 
 .login-screen.unlocking .vault-door-left::after,
 .login-screen.unlocking .vault-door-right::after {
-  animation: vault-core-flash 0.58s ease-out forwards;
+  animation: vault-core-flash 0.82s ease-out forwards;
 }
 
 @keyframes vault-light-burst {
