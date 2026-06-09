@@ -817,25 +817,29 @@ function escapeHtml(value) {
     .replaceAll("'", '&#39;');
 }
 
-function getAdvisorClockLabel(date = new Date()) {
-  return new Intl.DateTimeFormat('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-  }).format(date);
+function renderAdvisorReceipt(state = 'sent') {
+  const isRead = state === 'read';
+  return `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      ${isRead ? '<path d="M4.5 12.5 8.5 16.5 19.5 5.5" /><path d="M2.5 12.5 6.5 16.5 10 13" />' : '<path d="M7 12.5 10.4 16 17 8.5" />'}
+    </svg>
+  `;
 }
 
-function getAdvisorMessageMeta(role, receiptLabel = '') {
-  const timeLabel = getAdvisorClockLabel();
-
-  if (role === 'bot') {
-    return `${timeLabel} · ${receiptLabel || 'Delivered'}`;
+function setAdvisorReceiptState(messageElement, state = 'read') {
+  const receipt = messageElement?.querySelector('[data-advisor-receipt]');
+  if (!receipt) {
+    return;
   }
 
-  if (role === 'human') {
-    return `${timeLabel} · ${receiptLabel || 'Read by Marin'}`;
-  }
-
-  return `${timeLabel} · ${receiptLabel || 'Sent'}`;
+  receipt.classList.toggle('is-read', state === 'read');
+  receipt.classList.toggle('is-sent', state !== 'read');
+  receipt.setAttribute('aria-label', state === 'read' ? 'Read' : 'Sent');
+  receipt.innerHTML = `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      ${state === 'read' ? '<path d="M4.5 12.5 8.5 16.5 19.5 5.5" /><path d="M2.5 12.5 6.5 16.5 10 13" />' : '<path d="M7 12.5 10.4 16 17 8.5" />'}
+    </svg>
+  `;
 }
 
 function buildAdvisorConversationBody() {
@@ -880,17 +884,20 @@ function buildAdvisorConversationBody() {
 }
 
 function renderAdvisorMessageCard(role, title, message, extraClass = '') {
-  const metaLabel = getAdvisorMessageMeta(role, role === 'bot' ? 'Delivered' : role === 'human' ? 'Read by Marin' : 'Sent');
   const roleClass = role === 'bot' ? 'is-bot' : role === 'human' ? 'is-human' : 'is-user';
   const label = role === 'bot' ? 'Aurelia Concierge' : role === 'human' ? 'Marin Hale' : 'You';
+  const receiptState = role === 'user' ? 'sent' : 'read';
+  const receiptLabel = receiptState === 'read' ? 'Read' : 'Sent';
 
   return `
-    <article class="advisor-message ${roleClass} ${extraClass}">
+    <article class="advisor-message ${roleClass} ${extraClass}" data-advisor-message>
       <span class="advisor-message-label">${label}</span>
       <strong>${escapeHtml(title)}</strong>
       <p>${escapeHtml(message)}</p>
       <div class="advisor-message-meta">
-        <span>${escapeHtml(metaLabel)}</span>
+        <span class="advisor-message-receipt is-${receiptState}" data-advisor-receipt role="img" aria-label="${receiptLabel}">
+          ${renderAdvisorReceipt(receiptState)}
+        </span>
       </div>
     </article>
   `;
@@ -989,6 +996,7 @@ function handleAdvisorChatAction(mode, prompt = '') {
   }
 
   transcript.insertAdjacentHTML('beforeend', renderAdvisorMessageCard('user', userTitle, userMessage));
+  const sentMessageCard = transcript.lastElementChild;
   typing.hidden = false;
   followUp.classList.add('is-pending');
   followUp.innerHTML = `
@@ -1003,6 +1011,7 @@ function handleAdvisorChatAction(mode, prompt = '') {
     const reply = getAdvisorReply(userMessage, mode);
     typing.hidden = true;
     transcript.insertAdjacentHTML('beforeend', renderAdvisorMessageCard('bot', reply.title, reply.message, 'is-reply'));
+    setAdvisorReceiptState(sentMessageCard, 'read');
     followUp.classList.remove('is-pending');
     followUp.innerHTML = `
       <strong>Marin Hale</strong>
@@ -1018,10 +1027,7 @@ function handleAdvisorChatAction(mode, prompt = '') {
       `;
       const botMessages = [...transcript.querySelectorAll('.advisor-message.is-bot')];
       const latestBotMessage = botMessages[botMessages.length - 1];
-      const receipt = latestBotMessage?.querySelector('.advisor-message-meta span');
-      if (receipt) {
-        receipt.textContent = `${getAdvisorClockLabel()} · Read by Marin`;
-      }
+      setAdvisorReceiptState(latestBotMessage, 'read');
     }, advisorFollowUpDelayMs);
   }, advisorTypingDelayMs);
 }
