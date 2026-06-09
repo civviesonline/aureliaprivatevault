@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#18283a" />
+    <meta name="color-scheme" content="light" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-touch-fullscreen" content="yes" />
@@ -87,11 +88,11 @@
         </a>
 
         <nav class="nav-list">
-          <a class="active" href="#overview">Overview</a>
-          <a href="#vault">Vault</a>
-          <a href="#cards">Cards</a>
-          <a href="#transfers">Transfers</a>
-          <a href="#support">Concierge <span class="nav-badge" aria-hidden="true">3</span></a>
+          <a class="active" href="#overview" data-nav-link>Overview</a>
+          <a href="#vault" data-nav-link>Vault</a>
+          <a href="#cards" data-nav-link>Cards</a>
+          <a href="#transfers" data-nav-link>Transfers</a>
+          <a href="#support" data-nav-link>Concierge <span class="nav-badge" aria-hidden="true">3</span></a>
         </nav>
 
         <div class="advisor-panel">
@@ -106,35 +107,20 @@
       <main>
         <header class="topbar">
           <div>
-            <p class="eyebrow">Welcome Back, Sean &amp; Michelle Combs.</p>
-            <h1>Joint account</h1>
+            <p class="eyebrow" id="screenEyebrow">Good evening, Sean and Michelle</p>
+            <div class="topbar-title-row">
+              <h1 id="screenTitle">Joint account</h1>
+              <span class="connection-pill" id="connectionPill">Protected</span>
+            </div>
           </div>
           <div class="topbar-actions">
             <button class="icon-button" type="button" aria-label="Search" data-action="search">
               <span aria-hidden="true">&#8981;</span>
             </button>
-            <button class="primary-action" type="button" data-action="move-money">Move money</button>
+            <button class="primary-action" type="button" data-route="transfers">Move money</button>
             <button class="text-action" type="button" data-action="logout">Sign out</button>
           </div>
         </header>
-
-        <section class="relationship-manager-spot" id="relationship-manager" aria-labelledby="relationship-manager-title">
-          <div class="relationship-manager-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 4.5c2.2 0 4 1.7 4 3.9s-1.8 4-4 4-4-1.8-4-4 1.8-3.9 4-3.9Z" />
-              <path d="M6.7 18.1c.8-2.6 2.8-4 5.3-4s4.5 1.4 5.3 4" />
-              <path d="M8.2 9.2h7.6" />
-            </svg>
-          </div>
-          <div class="relationship-manager-copy">
-            <p class="eyebrow">Relationship Manager</p>
-            <strong id="relationship-manager-title">Marin Hale</strong>
-            <span>Private client support for the joint account</span>
-          </div>
-          <button type="button" data-action="message-advisor" aria-label="Talk to Marin Hale, Relationship Manager">
-            Message
-          </button>
-        </section>
 
         <section class="connection-banner" id="connectionBanner" hidden aria-live="polite" role="status">
           <div>
@@ -159,275 +145,395 @@
           </div>
         </section>
 
-        <section class="hero-panel" id="overview">
-          <div class="hero-copy">
-            <p class="eyebrow">Sean &amp; Michelle Combs Joint Checking</p>
-            <div class="balance-row">
-              <h2 data-balance-value>$642,450.00</h2>
-              <button
-                class="balance-toggle"
-                id="balanceVisibilityToggle"
-                type="button"
-                data-action="toggle-balance-visibility"
-                aria-pressed="false"
-                aria-label="Hide balances"
-              >
-                <span class="balance-toggle-icons" aria-hidden="true">
-                  <svg class="balance-icon balance-icon-show" viewBox="0 0 24 24">
-                    <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
-                    <circle cx="12" cy="12" r="3.2" />
-                  </svg>
-                  <svg class="balance-icon balance-icon-hide" viewBox="0 0 24 24">
-                    <path d="M4.5 4.5 19.5 19.5" />
-                    <path d="M9.2 9.5A3.2 3.2 0 0 0 8.4 12a3.6 3.6 0 0 0 5.8 2.8" />
-                    <path d="M6.4 6.9C4.4 8.5 2.5 12 2.5 12S6 18.5 12 18.5c1.4 0 2.6-.2 3.8-.7" />
-                    <path d="M10.6 5.9c.5-.1.9-.1 1.4-.1 5.9 0 9.5 6.2 9.5 6.2s-1.2 2.2-3.7 4.2" />
-                    <path d="M14.9 14.9A3.2 3.2 0 0 1 9.1 9.1" />
-                  </svg>
-                </span>
-                <span data-balance-toggle-label>Hide</span>
+        <div class="app-views">
+          <section class="app-view active" id="overview" data-view="overview" aria-labelledby="overview-balance">
+            <section class="hero-panel">
+              <div class="hero-copy">
+                <p class="eyebrow">Sean &amp; Michelle Combs Joint Checking</p>
+                <div class="balance-row">
+                  <h2 id="overview-balance" data-balance-value>$642,450.00</h2>
+                  <button
+                    class="balance-toggle"
+                    id="balanceVisibilityToggle"
+                    type="button"
+                    data-action="toggle-balance-visibility"
+                    aria-pressed="false"
+                    aria-label="Hide balances"
+                  >
+                    <span class="balance-toggle-icons" aria-hidden="true">
+                      <svg class="balance-icon balance-icon-show" viewBox="0 0 24 24">
+                        <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+                        <circle cx="12" cy="12" r="3.2" />
+                      </svg>
+                      <svg class="balance-icon balance-icon-hide" viewBox="0 0 24 24">
+                        <path d="m3 3 18 18" />
+                        <path d="M10.8 5.7c.4-.1.8-.2 1.2-.2 6 0 9.5 6.5 9.5 6.5a16.8 16.8 0 0 1-3 3.8" />
+                        <path d="M6.5 6.8A17.2 17.2 0 0 0 2.5 12s3.5 6.5 9.5 6.5c1.5 0 2.8-.4 4-1" />
+                        <path d="M10 10a3.2 3.2 0 0 0 4 4" />
+                      </svg>
+                    </span>
+                    <span data-balance-toggle-label>Hide</span>
+                  </button>
+                </div>
+                <p>Shared balance across checking, savings vaults, and scheduled household reserves.</p>
+              </div>
+              <div class="card-stack" aria-label="Premium card summary">
+                <div
+                  class="bank-card"
+                  role="img"
+                  aria-label="A matte dark metal Aurelia Joint card with embossed gold details, a masked card number ending in 6428, and the engraved names Sean Combs and Michelle Combs"
+                >
+                  <span class="bank-card-tier">Aurelia Joint</span>
+                  <div class="bank-card-chip" aria-hidden="true"></div>
+                  <span class="bank-card-number">**** **** **** 6428</span>
+                  <div class="bank-card-validity">
+                    <span>VALID</span>
+                    <span>THRU</span>
+                    <span>27-03-2029</span>
+                  </div>
+                  <strong class="bank-card-engraving">Sean Combs + Michelle Combs</strong>
+                  <div class="bank-card-plate" aria-hidden="true"></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="quick-actions-panel" aria-label="Quick banking actions">
+              <button type="button" data-route="transfers">
+                <span class="quick-icon" aria-hidden="true">&#8644;</span>
+                <strong>Transfer</strong>
               </button>
-            </div>
-            <p>Shared balance across checking, savings vaults, and scheduled household reserves.</p>
-          </div>
-          <div class="card-stack" aria-label="Premium card summary">
-            <div
-              class="bank-card"
-              role="img"
-              aria-label="A matte dark metal Aurelia Joint card with embossed gold details, a masked card number ending in 6428, and the engraved names Sean &amp; Michelle Combs"
-            >
-              <span class="bank-card-tier">Aurelia Joint</span>
-              <div class="bank-card-chip" aria-hidden="true"></div>
-              <span class="bank-card-number">**** **** **** 6428</span>
-              <div class="bank-card-validity">
-                <span>VALID</span>
-                <span>THRU</span>
-                <span>27-03-2029</span>
+              <button type="button" data-route="transfers">
+                <span class="quick-icon" aria-hidden="true">&#10003;</span>
+                <strong>Approvals</strong>
+              </button>
+              <button type="button" data-action="search">
+                <span class="quick-icon" aria-hidden="true">&#8981;</span>
+                <strong>Search</strong>
+              </button>
+              <button type="button" data-route="support">
+                <span class="quick-icon" aria-hidden="true">&#9993;</span>
+                <strong>Advisor</strong>
+              </button>
+            </section>
+
+            <section class="metrics-grid" aria-label="Account metrics">
+              <article>
+                <span>Available checking</span>
+                <strong data-balance-value>$64,218.44</strong>
+                <small>Both owners can spend</small>
+              </article>
+              <article>
+                <span>Shared savings</span>
+                <strong data-balance-value>$172,800.00</strong>
+                <small>4 household vaults</small>
+              </article>
+              <article>
+                <span>Pending inflows</span>
+                <strong data-balance-value>$11,918.27</strong>
+                <small>2 scheduled deposits</small>
+              </article>
+              <article>
+                <span>Approval rule</span>
+                <strong>Dual</strong>
+                <small>Over $10,000 requires both</small>
+              </article>
+            </section>
+
+            <section class="activity-panel" aria-labelledby="activity-title">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Ledger</p>
+                  <h2 id="activity-title">Recent activity</h2>
+                </div>
+                <button type="button" data-action="export-activity">Export</button>
               </div>
-              <strong class="bank-card-engraving">Sean &amp; Michelle Combs</strong>
-              <div class="bank-card-plate" aria-hidden="true"></div>
-            </div>
-          </div>
-        </section>
 
-        <section class="metrics-grid" aria-label="Account metrics">
-          <article>
-            <span>Available checking</span>
-            <strong data-balance-value>$642,450.00</strong>
-            <small>Both owners can spend</small>
-          </article>
-          <article>
-            <span>Shared savings</span>
-            <strong data-balance-value>$172,800.00</strong>
-            <small>4 household vaults</small>
-          </article>
-          <article>
-            <span>Pending inflows</span>
-            <strong data-balance-value>$43,680.55</strong>
-            <small>2 scheduled deposits</small>
-          </article>
-          <article>
-            <span>Approval rule</span>
-            <strong>Dual</strong>
-            <small>Over $10,000 requires both</small>
-          </article>
-        </section>
+              <div class="activity-list" id="activityList"></div>
+            </section>
 
-        <section class="home-launchpad" aria-labelledby="home-launchpad-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Home</p>
-              <h2 id="home-launchpad-title">Do more with Aurelia</h2>
-            </div>
-            <button type="button" data-action="aurelia-services">Explore</button>
-          </div>
+            <section class="bank-panel" aria-labelledby="recent-transactions-title">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Bank activity</p>
+                  <h2 id="recent-transactions-title">Recent transactions</h2>
+                </div>
+                <button type="button" data-route="transfers">View all</button>
+              </div>
+              <div class="recent-transaction-list" id="recentTransactionList"></div>
+            </section>
 
-          <div class="launchpad-grid">
-            <article class="launchpad-card">
-              <div class="launchpad-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M7 9.2h10" />
-                  <path d="M7 12h10" />
-                  <path d="M7 14.8h6" />
-                  <path d="M5.8 6.8h12.4v10.4H5.8Z" />
-                </svg>
+            <section class="security-strip" aria-label="Account security">
+              <div>
+                <span>Authentication</span>
+                <strong>Trusted device</strong>
               </div>
               <div>
-                <p class="eyebrow">Aurelia services</p>
-                <h3>Move, save, and manage in one place</h3>
-                <p>Send money, review approvals, message your relationship manager, and keep every household decision in a single mobile view.</p>
+                <span>Approval rule</span>
+                <strong>Dual control active</strong>
               </div>
-              <ul class="launchpad-list">
-                <li>Instant card controls</li>
-                <li>Secure advisor messaging</li>
-                <li>Offline-ready home screen</li>
-              </ul>
-            </article>
-
-            <article class="launchpad-card launchpad-card-savings">
-              <div class="launchpad-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M12 4.5c4.1 0 7.5 1.5 7.5 3.3S16.1 11 12 11s-7.5-1.4-7.5-3.2S7.9 4.5 12 4.5Z" />
-                  <path d="M4.5 7.8v5.1c0 1.8 3.4 3.4 7.5 3.4s7.5-1.6 7.5-3.4V7.8" />
-                  <path d="M4.5 12.6v5c0 1.8 3.4 3.4 7.5 3.4s7.5-1.6 7.5-3.4v-5" />
-                </svg>
-              </div>
-              <div>
-                <p class="eyebrow">Savings</p>
-                <h3>Featured savings</h3>
-                <strong class="launchpad-rate">4.85% APY</strong>
-                <p>Curate premium vaults for home goals, emergency cushions, and future plans with a featured annual yield experience.</p>
-              </div>
-              <button type="button" data-action="new-vault">Open savings vault</button>
-            </article>
-
-            <article class="launchpad-card launchpad-card-toolkit">
-              <div class="launchpad-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M5.5 6.5h5v5h-5z" />
-                  <path d="M13.5 6.5h5v5h-5z" />
-                  <path d="M5.5 14.5h5v3h-5z" />
-                  <path d="M13.5 14.5h5v3h-5z" />
-                </svg>
-              </div>
-              <div>
-                <p class="eyebrow">Marketers toolkit</p>
-                <h3>Build offers that feel premium</h3>
-                <p>Use branded payment links, campaign-ready workflows, and shareable lead tools straight from the home dashboard.</p>
-              </div>
-              <div class="launchpad-chip-row" aria-label="Toolkit features">
-                <span class="launchpad-chip">Brand kit</span>
-                <span class="launchpad-chip">Offer links</span>
-                <span class="launchpad-chip">Lead forms</span>
-              </div>
-              <button type="button" data-action="marketing-toolkit">Open toolkit</button>
-            </article>
-          </div>
-        </section>
-
-        <div class="content-grid">
-          <section class="activity-panel" aria-labelledby="activity-title">
-            <div class="section-heading">
-              <div>
-                <p class="eyebrow">Ledger</p>
-                <h2 id="activity-title">Recent activity</h2>
-              </div>
-              <button type="button" data-action="export-activity">Export</button>
-            </div>
-
-            <div class="activity-list" id="activityList"></div>
+              <button type="button" data-action="manage-security">Manage</button>
+            </section>
           </section>
 
-          <section class="vault-panel" id="vault" aria-labelledby="vault-title">
-            <div class="section-heading">
-              <div>
-                <p class="eyebrow">Vault</p>
-                <h2 id="vault-title">Savings goals</h2>
-              </div>
-              <button type="button" data-action="new-vault">New vault</button>
+          <section class="app-view" id="vault" data-view="vault" aria-labelledby="vault-title" hidden>
+            <div class="screen-heading">
+              <p class="eyebrow">Vault</p>
+              <h2 id="vault-title">Savings vaults</h2>
+              <p>Track household reserves, emergency cash, education planning, and travel savings.</p>
             </div>
 
-            <div class="goal-list" id="goalList"></div>
+            <section class="metrics-grid" aria-label="Vault summary">
+              <article>
+                <span>Total saved</span>
+                <strong data-balance-value>$172,800.00</strong>
+                <small>Across 4 vaults</small>
+              </article>
+              <article>
+                <span>Next deposit</span>
+                <strong data-balance-value>$8,800.00</strong>
+                <small>Scheduled monthly</small>
+              </article>
+              <article>
+                <span>Goal health</span>
+                <strong>72%</strong>
+                <small>Average progress</small>
+              </article>
+              <article>
+                <span>Access rule</span>
+                <strong>Shared</strong>
+                <small>Both owners can review</small>
+              </article>
+            </section>
+
+            <section class="vault-panel" aria-labelledby="vault-goals-title">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Goals</p>
+                  <h2 id="vault-goals-title">Savings goals</h2>
+                </div>
+                <button type="button" data-action="new-vault">New vault</button>
+              </div>
+
+              <div class="goal-list" id="goalList"></div>
+            </section>
+
+            <section class="bank-panel">
+              <p class="eyebrow">Automation</p>
+              <h2>Monthly savings rules</h2>
+              <div class="transfer-preview">
+                <strong data-balance-value>$8,800</strong>
+                <span>Education fund contribution scheduled after payroll deposits.</span>
+              </div>
+              <button class="wide-button" type="button" data-action="new-vault">Adjust goals</button>
+            </section>
+          </section>
+
+          <section class="app-view" id="cards" data-view="cards" aria-labelledby="cards-title" hidden>
+            <div class="screen-heading">
+              <p class="eyebrow">Cards</p>
+              <h2 id="cards-title">Card controls</h2>
+              <p>Manage spending controls, card security, and joint account permissions.</p>
+            </div>
+
+            <div class="card-page-grid">
+              <section class="card-preview-panel" aria-label="Aurelia joint card">
+                <div class="card-stack">
+                  <div
+                    class="bank-card"
+                    role="img"
+                    aria-label="A matte dark metal Aurelia Joint card with embossed gold details, a masked card number ending in 6428, and the engraved names Sean Combs and Michelle Combs"
+                  >
+                    <span class="bank-card-tier">Aurelia Joint</span>
+                    <div class="bank-card-chip" aria-hidden="true"></div>
+                    <span class="bank-card-number">**** **** **** 6428</span>
+                    <div class="bank-card-validity">
+                      <span>VALID</span>
+                      <span>THRU</span>
+                      <span>27-03-2029</span>
+                    </div>
+                    <strong class="bank-card-engraving">Sean Combs + Michelle Combs</strong>
+                    <div class="bank-card-plate" aria-hidden="true"></div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="bank-panel">
+                <p class="eyebrow">Spend controls</p>
+                <h2>Security settings</h2>
+                <div class="control-row">
+                  <span>International payments</span>
+                  <label class="switch">
+                    <input type="checkbox" checked data-control="International payments" />
+                    <span></span>
+                  </label>
+                </div>
+                <div class="control-row">
+                  <span>Online card-not-present</span>
+                  <label class="switch">
+                    <input type="checkbox" checked data-control="Online card-not-present" />
+                    <span></span>
+                  </label>
+                </div>
+                <div class="control-row">
+                  <span>Large purchase alerts</span>
+                  <label class="switch">
+                    <input type="checkbox" checked data-control="Large purchase alerts" />
+                    <span></span>
+                  </label>
+                </div>
+              </section>
+            </div>
+
+            <section class="metrics-grid" aria-label="Card limits">
+              <article>
+                <span>Daily spend limit</span>
+                <strong data-balance-value>$15,000</strong>
+                <small>Joint card ending 6428</small>
+              </article>
+              <article>
+                <span>ATM access</span>
+                <strong data-balance-value>$2,500</strong>
+                <small>Daily withdrawal limit</small>
+              </article>
+              <article>
+                <span>Status</span>
+                <strong>Active</strong>
+                <small>No holds or blocks</small>
+              </article>
+              <article>
+                <span>Next review</span>
+                <strong>Jun 15</strong>
+                <small>Advisor recommendation</small>
+              </article>
+            </section>
+          </section>
+
+          <section class="app-view" id="transfers" data-view="transfers" aria-labelledby="transfers-title" hidden>
+            <div class="screen-heading">
+              <p class="eyebrow">Transfers</p>
+              <h2 id="transfers-title">Move money</h2>
+              <p>Review scheduled movement, approvals, and the joint transaction history.</p>
+            </div>
+
+            <div class="transfer-page-grid">
+              <section class="bank-panel">
+                <p class="eyebrow">Scheduled movement</p>
+                <h2>Approval queue</h2>
+                <div class="transfer-preview">
+                  <strong data-balance-value>$78,800</strong>
+                  <span>To Home reserve &middot; May 20 &middot; awaiting joint approval</span>
+                </div>
+                <div class="modal-actions">
+                  <button type="button" data-action="move-money">New transfer</button>
+                  <button type="button" data-action="review-queue">Review queue</button>
+                </div>
+              </section>
+
+              <section class="bank-panel">
+                <p class="eyebrow">Rules</p>
+                <h2>Transfer protection</h2>
+                <div class="control-row">
+                  <span>Dual approval over $10,000</span>
+                  <label class="switch">
+                    <input type="checkbox" checked data-control="Dual approval over $10,000" />
+                    <span></span>
+                  </label>
+                </div>
+                <div class="control-row">
+                  <span>Wire notifications</span>
+                  <label class="switch">
+                    <input type="checkbox" checked data-control="Wire notifications" />
+                    <span></span>
+                  </label>
+                </div>
+              </section>
+            </div>
+
+            <section class="transfer-history-panel" aria-labelledby="transfer-history-title">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Transaction history</p>
+                  <h2 id="transfer-history-title">Bank ledger</h2>
+                </div>
+                <button type="button" data-action="download-history">Download CSV</button>
+              </div>
+
+              <div class="history-table-wrap">
+                <table class="history-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Asset</th>
+                      <th>Transaction</th>
+                      <th>Amount</th>
+                      <th>New Value</th>
+                      <th>Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody id="transferHistory"></tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+
+          <section class="app-view" id="support" data-view="support" aria-labelledby="support-title" hidden>
+            <div class="screen-heading">
+              <p class="eyebrow">Concierge</p>
+              <h2 id="support-title">Priority support</h2>
+              <p>Your relationship team, account brief, and banking assistance are in one place.</p>
+            </div>
+
+            <div class="support-page-grid">
+              <section class="bank-panel advisor-card">
+                <p class="eyebrow">Relationship Manager</p>
+                <h2>Marin Hale</h2>
+                <p class="support-copy">Available for joint-account approvals, card limit reviews, transfer questions, and household cash-flow planning.</p>
+                <button class="wide-button" type="button" data-action="message-advisor">Message advisor</button>
+              </section>
+
+              <section class="bank-panel">
+                <p class="eyebrow">Monthly brief</p>
+                <h2>Account review</h2>
+                <p class="support-copy">Your advisor prepared a monthly household cash-flow note and two card limit recommendations.</p>
+                <button class="wide-button" type="button" data-action="open-brief">Open brief</button>
+              </section>
+            </div>
+
+            <section class="security-strip" aria-label="Support options">
+              <div>
+                <span>Secure message</span>
+                <strong>Usually replies today</strong>
+              </div>
+              <div>
+                <span>Account documents</span>
+                <strong>Statements ready</strong>
+              </div>
+              <button type="button" data-action="search">Find records</button>
+            </section>
           </section>
         </div>
-
-        <section class="operations-grid">
-          <article id="cards">
-            <p class="eyebrow">Cards</p>
-            <h2>Spend controls</h2>
-            <div class="control-row">
-              <span>International payments</span>
-              <label class="switch">
-                <input type="checkbox" checked data-control="International payments" />
-                <span></span>
-              </label>
-            </div>
-            <div class="control-row">
-              <span>Online card-not-present</span>
-              <label class="switch">
-                <input type="checkbox" checked data-control="Online card-not-present" />
-                <span></span>
-              </label>
-            </div>
-          </article>
-
-          <article id="transfers">
-            <p class="eyebrow">Transfers</p>
-            <h2>Scheduled movement</h2>
-            <div class="transfer-preview">
-              <strong data-balance-value>$78,800</strong>
-              <span>To Home reserve &middot; July 19</span>
-            </div>
-            <button class="wide-button" type="button" data-action="review-queue">Review queue</button>
-          </article>
-
-          <article id="support">
-            <p class="eyebrow">Concierge</p>
-            <h2>Priority support</h2>
-            <p class="support-copy">Your advisor has prepared a monthly household cash-flow note and two card limit recommendations.</p>
-            <button class="wide-button" type="button" data-action="open-brief">Open brief</button>
-          </article>
-        </section>
-
-        <section class="transfer-history-panel" aria-labelledby="transfer-history-title">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Transaction history</p>
-              <h2 id="transfer-history-title">Recent transactions</h2>
-              <p class="panel-note">Showing the latest three entries from your joint ledger.</p>
-            </div>
-            <div class="section-actions">
-              <button type="button" data-action="view-all-history">View all</button>
-              <button type="button" data-action="download-history">Download CSV</button>
-            </div>
-          </div>
-
-          <div class="recent-transaction-list" id="recentTransactionList"></div>
-        </section>
       </main>
 
-      <nav class="mobile-nav" aria-label="Quick navigation">
-        <a class="active" href="#overview" aria-label="Home">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4.5 11.4 12 5.4l7.5 6v7.1a.9.9 0 0 1-.9.9h-4.1v-5a.9.9 0 0 0-.9-.9H10.4a.9.9 0 0 0-.9.9v5H5.4a.9.9 0 0 1-.9-.9z" />
-            <path d="M8.5 10.8 12 7.9l3.5 2.9" />
-          </svg>
+      <nav class="mobile-tabbar" aria-label="Mobile navigation">
+        <a class="active" href="#overview" data-nav-link>
+          <span class="tab-icon" aria-hidden="true">&#8962;</span>
           <span>Home</span>
         </a>
-        <a href="#vault" aria-label="Vault">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="7.2" />
-            <circle cx="12" cy="12" r="2.2" />
-            <path d="M12 7.1v1.4M16.9 12h-1.4M12 16.9v-1.4M8.5 12H7.1" />
-            <path d="M10.6 10.6 7.8 7.8M13.4 10.6l2.8-2.8M13.4 13.4l2.8 2.8M10.6 13.4l-2.8 2.8" />
-          </svg>
+        <a href="#vault" data-nav-link>
+          <span class="tab-icon" aria-hidden="true">&#9673;</span>
           <span>Vault</span>
         </a>
-        <a href="#cards" aria-label="Cards">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="4.8" y="6.3" width="12.4" height="8.2" rx="1.8" />
-            <rect x="7.2" y="9.1" width="12.4" height="8.2" rx="1.8" />
-          </svg>
+        <a href="#cards" data-nav-link>
+          <span class="tab-icon" aria-hidden="true">&#9636;</span>
           <span>Cards</span>
         </a>
-        <a href="#transfers" aria-label="Send">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M5 15.2v2.3a1 1 0 0 0 1 1h2.3" />
-            <path d="M6.1 17.8 18.2 5.7" />
-            <path d="M13.6 5.7h4.6v4.6" />
-            <path d="M19 8.2 12.4 14.8" />
-            <path d="M12.4 14.8H9.8" />
-          </svg>
-          <span>Send</span>
+        <a href="#transfers" data-nav-link>
+          <span class="tab-icon" aria-hidden="true">&#8644;</span>
+          <span>Move</span>
         </a>
-        <a href="#support" aria-label="Support">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8.1 18.2a4.2 4.2 0 0 1-1.5-3.2v-2.1a5.4 5.4 0 0 1 10.8 0V15a4.2 4.2 0 0 1-1.5 3.2" />
-            <path d="M8.8 18.2v.8a1.3 1.3 0 0 0 1.3 1.3h3.8a1.3 1.3 0 0 0 1.3-1.3v-.8" />
-            <path d="M7.2 12.4h1.4a1.2 1.2 0 0 1 1.2 1.2v1.7H8.1a2.2 2.2 0 0 1-2.2-2.2v-.1a.6.6 0 0 1 .6-.6h.7Z" />
-            <path d="M16.8 12.4h-1.4a1.2 1.2 0 0 0-1.2 1.2v1.7h2.5a2.2 2.2 0 0 0 2.2-2.2v-.1a.6.6 0 0 0-.6-.6h-.7Z" />
-          </svg>
-          <span>Support</span>
+        <a href="#support" data-nav-link>
+          <span class="tab-icon" aria-hidden="true">&#9993;</span>
+          <span>Help</span>
           <span class="nav-badge" aria-hidden="true">3</span>
         </a>
       </nav>

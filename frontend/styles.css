@@ -1,7 +1,7 @@
 :root {
-  --bg: #edf1f5;
+  --bg: #eef3f6;
   --surface: #ffffff;
-  --surface-strong: #f5f8fb;
+  --surface-strong: #f7f9fb;
   --ink: #17212b;
   --muted: #6c7782;
   --line: #dce3ea;
@@ -9,6 +9,8 @@
   --teal: #0f766e;
   --navy: #18283a;
   --rose: #a64b63;
+  --success: #15803d;
+  --app-chrome: rgba(255, 255, 255, 0.92);
   --surface-glow: rgba(255, 255, 255, 0.86);
   --shadow: 0 24px 60px rgba(23, 33, 43, 0.12);
   --shadow-elevated: 0 28px 70px rgba(17, 28, 42, 0.16);
@@ -35,14 +37,11 @@ body {
   position: relative;
   min-width: 320px;
   min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
   overflow-x: hidden;
   color: var(--ink);
-  background:
-    radial-gradient(circle at top left, rgba(184, 138, 59, 0.18), transparent 28%),
-    radial-gradient(circle at 88% 14%, rgba(15, 118, 110, 0.12), transparent 22%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.7), transparent 22%),
-    var(--bg);
+  background: linear-gradient(180deg, #f8fafc 0%, var(--bg) 42%, #e7eef4 100%);
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
 }
@@ -95,6 +94,7 @@ textarea:focus-visible {
   gap: clamp(28px, 6vw, 84px);
   align-items: center;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: clamp(24px, 6vw, 76px);
   overflow: hidden;
   color: #ffffff;
@@ -128,7 +128,7 @@ textarea:focus-visible {
   width: 100%;
   padding: 28px;
   border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 18px;
+  border-radius: 8px;
   color: var(--ink);
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
@@ -872,9 +872,58 @@ main {
   gap: 18px;
 }
 
+.control-row {
+  min-width: 0;
+}
+
+.control-row > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+
 .topbar {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.topbar-title-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+
+.app-views,
+.app-view {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.app-view[hidden] {
+  display: none !important;
+}
+
+.screen-heading {
+  display: grid;
+  gap: 8px;
+  max-width: 720px;
+}
+
+.screen-heading h2,
+.bank-panel h2 {
+  margin: 0;
+  color: #132132;
+  font-size: clamp(1.45rem, 3vw, 2.1rem);
+  letter-spacing: 0;
+}
+
+.screen-heading p:not(.eyebrow),
+.bank-panel p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 .topbar > div:first-child {
@@ -992,6 +1041,27 @@ html.balance-transitioning .balance-toggle {
   overflow-wrap: anywhere;
 }
 
+.connection-pill {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  border: 1px solid rgba(21, 128, 61, 0.2);
+  border-radius: 999px;
+  padding: 0 10px;
+  color: var(--success);
+  background: rgba(21, 128, 61, 0.08);
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.connection-pill.offline {
+  border-color: rgba(166, 75, 99, 0.24);
+  color: var(--rose);
+  background: rgba(166, 75, 99, 0.08);
+}
+
 .eyebrow {
   margin: 0 0 8px;
   color: var(--gold);
@@ -1012,7 +1082,8 @@ html.balance-transitioning .balance-toggle {
 
 .icon-button,
 .primary-action,
-.text-action {
+.text-action,
+.install-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1045,7 +1116,8 @@ html.balance-transitioning .balance-toggle {
   box-shadow: 0 14px 30px rgba(24, 40, 58, 0.22);
 }
 
-.text-action {
+.text-action,
+.install-action {
   height: 44px;
   color: var(--navy);
   background: rgba(255, 255, 255, 0.84);
@@ -1110,6 +1182,11 @@ html.balance-transitioning .balance-toggle {
   min-width: min(220px, 100%);
 }
 
+.install-action {
+  color: #ffffff;
+  background: linear-gradient(135deg, #13857c, #0f766e);
+}
+
 .hero-panel {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
@@ -1118,7 +1195,7 @@ html.balance-transitioning .balance-toggle {
   padding: 34px;
   overflow: hidden;
   border: 1px solid rgba(246, 214, 137, 0.18);
-  border-radius: 24px;
+  border-radius: 8px;
   color: #ffffff;
   background:
     radial-gradient(circle at top right, rgba(247, 223, 158, 0.18), transparent 30%),
@@ -1321,7 +1398,8 @@ html.balance-transitioning .balance-toggle {
 }
 
 .metrics-grid,
-.operations-grid {
+.operations-grid,
+.quick-actions-panel {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 14px;
@@ -1331,9 +1409,13 @@ html.balance-transitioning .balance-toggle {
 .activity-panel,
 .vault-panel,
 .transfer-history-panel,
-.operations-grid article {
+.operations-grid article,
+.bank-panel,
+.card-preview-panel,
+.quick-actions-panel,
+.security-strip {
   border: 1px solid rgba(220, 227, 234, 0.88);
-  border-radius: 22px;
+  border-radius: 8px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.9)),
     rgba(255, 255, 255, 0.9);
@@ -1345,6 +1427,45 @@ html.balance-transitioning .balance-toggle {
   gap: 8px;
   min-width: 0;
   padding: 18px;
+}
+
+.quick-actions-panel {
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.quick-actions-panel button {
+  display: grid;
+  min-width: 0;
+  min-height: 82px;
+  place-items: center;
+  gap: 8px;
+  border: 1px solid rgba(220, 227, 234, 0.88);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--surface-strong);
+  font-weight: 800;
+}
+
+.quick-actions-panel strong {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 0.86rem;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quick-icon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #18283a, #0f766e);
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .metrics-grid strong {
@@ -1360,9 +1481,47 @@ html.balance-transitioning .balance-toggle {
 .activity-panel,
 .vault-panel,
 .transfer-history-panel,
-.operations-grid article {
+.operations-grid article,
+.bank-panel,
+.card-preview-panel {
   padding: 20px;
   min-width: 0;
+}
+
+.card-page-grid,
+.transfer-page-grid,
+.support-page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.75fr);
+  gap: 18px;
+  min-width: 0;
+}
+
+.card-preview-panel {
+  display: grid;
+  min-height: 260px;
+  align-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top left, rgba(184, 138, 59, 0.14), transparent 28%),
+    linear-gradient(135deg, #18283a, #101820);
+}
+
+.card-preview-panel .bank-card {
+  justify-self: center;
+  transform: none;
+}
+
+.bank-panel {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.advisor-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(243, 247, 250, 0.94)),
+    var(--surface);
 }
 
 .activity-list,
@@ -1376,10 +1535,17 @@ html.balance-transitioning .balance-toggle {
 .goal-item {
   padding: 14px;
   border: 1px solid rgba(223, 229, 236, 0.92);
-  border-radius: 16px;
+  border-radius: 8px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(245, 248, 251, 0.96)),
     var(--surface-strong);
+}
+
+.activity-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
 }
 
 .activity-item div,
@@ -1390,8 +1556,58 @@ html.balance-transitioning .balance-toggle {
   min-width: 0;
 }
 
-.activity-item div:last-child {
+.activity-copy,
+.activity-meta {
+  min-width: 0;
+}
+
+.activity-copy strong,
+.activity-copy span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.activity-meta {
+  justify-items: end;
   text-align: right;
+}
+
+.activity-amount,
+.history-money {
+  font-family: "Courier New", "Lucida Console", monospace;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.positive {
+  color: var(--success) !important;
+}
+
+.negative {
+  color: #9f364f !important;
+}
+
+.status-pill {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0 8px;
+  font-size: 0.72rem !important;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.status-posted {
+  color: var(--success) !important;
+  background: rgba(21, 128, 61, 0.09);
+}
+
+.status-pending,
+.status-queued {
+  color: #946316 !important;
+  background: rgba(184, 138, 59, 0.12);
 }
 
 .progress-track {
@@ -1434,6 +1650,10 @@ html.balance-transitioning .balance-toggle {
   opacity: 0;
 }
 
+.switch {
+  flex: 0 0 auto;
+}
+
 .switch span {
   position: relative;
   display: block;
@@ -1469,7 +1689,7 @@ html.balance-transitioning .balance-toggle {
   padding: 16px;
   border: 1px solid rgba(166, 75, 99, 0.18);
   border-left: 4px solid var(--rose);
-  border-radius: 16px;
+  border-radius: 8px;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.85)),
     var(--surface-strong);
@@ -1693,6 +1913,44 @@ html.balance-transitioning .balance-toggle {
   width: 100%;
 }
 
+.security-strip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 16px;
+}
+
+.security-strip div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.security-strip span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.security-strip strong {
+  overflow: hidden;
+  color: #132132;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.security-strip button {
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  color: #ffffff;
+  background: var(--navy);
+  font-weight: 800;
+}
+
 .history-table-wrap {
   margin-top: 18px;
   padding-bottom: 4px;
@@ -1702,10 +1960,11 @@ html.balance-transitioning .balance-toggle {
 
 .history-table {
   width: 100%;
-  min-width: 1080px;
+  min-width: 940px;
   border-collapse: separate;
   border-spacing: 0 10px;
   font-size: 0.9rem;
+  table-layout: fixed;
 }
 
 .history-table th,
@@ -1713,6 +1972,7 @@ html.balance-transitioning .balance-toggle {
   padding: 16px 14px;
   text-align: left;
   vertical-align: top;
+  overflow-wrap: anywhere;
 }
 
 .history-table th {
@@ -1757,7 +2017,7 @@ html.balance-transitioning .balance-toggle {
 
 .history-table td:nth-child(2),
 .history-table td:nth-child(3) {
-  min-width: 160px;
+  width: 18%;
 }
 
 .history-table td:nth-child(4),
@@ -1776,7 +2036,7 @@ html.balance-transitioning .balance-toggle {
 .history-table td:last-child {
   color: var(--muted);
   line-height: 1.45;
-  min-width: 220px;
+  width: 28%;
 }
 
 .modal-open {
@@ -1920,10 +2180,17 @@ html.balance-transitioning .balance-toggle {
   font-weight: 800;
 }
 
+.mobile-tabbar {
+  display: none;
+}
+
 @media (max-width: 1040px) {
   .app-shell,
   .hero-panel,
-  .content-grid {
+  .content-grid,
+  .card-page-grid,
+  .transfer-page-grid,
+  .support-page-grid {
     grid-template-columns: 1fr;
   }
 
@@ -2018,17 +2285,61 @@ html.balance-transitioning .balance-toggle {
     background: var(--bg);
   }
 
+  .login-screen {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 22px;
+    padding:
+      calc(18px + env(safe-area-inset-top))
+      calc(16px + env(safe-area-inset-right))
+      calc(18px + env(safe-area-inset-bottom))
+      calc(16px + env(safe-area-inset-left));
+    background:
+      linear-gradient(180deg, rgba(16, 30, 45, 0.94), rgba(21, 53, 66, 0.9)),
+      url("./assets/icon-512.png") right -96px top 64px / 240px no-repeat,
+      #102033;
+  }
+
+  .login-brand {
+    align-self: auto;
+  }
+
+  .login-card {
+    gap: 14px;
+    padding: 20px;
+    box-shadow: 0 20px 56px rgba(0, 0, 0, 0.22);
+  }
+
+  .login-card h1 {
+    font-size: 1.68rem;
+    line-height: 1.08;
+  }
+
+  .login-options {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
   .app-shell {
     display: block;
+    padding-bottom: calc(74px + env(safe-area-inset-bottom));
   }
 
   .sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 18;
     padding:
       calc(12px + env(safe-area-inset-top))
       calc(12px + env(safe-area-inset-right))
       12px
       calc(12px + env(safe-area-inset-left));
     gap: 12px;
+    background: rgba(24, 40, 58, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 28px rgba(23, 33, 43, 0.16);
+    backdrop-filter: blur(18px);
   }
 
   .sidebar .nav-list {
@@ -2046,16 +2357,6 @@ html.balance-transitioning .balance-toggle {
 
   .brand small {
     display: none;
-  }
-
-  .nav-list {
-    margin: 0 -12px;
-    padding: 0 12px 2px;
-  }
-
-  .nav-list a {
-    min-height: 40px;
-    padding: 10px 12px;
   }
 
   .connection-banner {
@@ -2359,8 +2660,24 @@ html.balance-transitioning .balance-toggle {
     padding:
       14px
       calc(12px + env(safe-area-inset-right))
-      calc(118px + env(safe-area-inset-bottom))
+      calc(18px + env(safe-area-inset-bottom))
       calc(12px + env(safe-area-inset-left));
+  }
+
+  .app-views,
+  .app-view {
+    gap: 14px;
+  }
+
+  .screen-heading {
+    gap: 6px;
+    padding: 0 2px;
+  }
+
+  .screen-heading h2,
+  .bank-panel h2 {
+    font-size: 1.35rem;
+    line-height: 1.15;
   }
 
   .topbar,
@@ -2395,8 +2712,9 @@ html.balance-transitioning .balance-toggle {
   }
 
   .topbar h1 {
-    font-size: 1.88rem;
-    line-height: 1;
+    font-family: inherit;
+    font-size: 1.7rem;
+    line-height: 1.08;
   }
 
   .topbar-actions,
@@ -2418,7 +2736,7 @@ html.balance-transitioning .balance-toggle {
 
   .topbar-actions {
     display: grid;
-    grid-template-columns: 44px minmax(0, 1fr);
+    grid-template-columns: 44px minmax(0, 1fr) minmax(72px, auto);
     align-items: stretch;
     margin-right: 0;
   }
@@ -2429,6 +2747,15 @@ html.balance-transitioning .balance-toggle {
 
   .primary-action {
     width: 100%;
+  }
+
+  .install-action:not([hidden]) {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .text-action {
+    padding: 0 12px;
   }
 
   .hero-panel {
@@ -2443,7 +2770,7 @@ html.balance-transitioning .balance-toggle {
   }
 
   .hero-copy h2 {
-    font-size: 2.34rem;
+    font-size: clamp(2.35rem, 11vw, 3.1rem);
     overflow-wrap: anywhere;
   }
 
@@ -2509,20 +2836,80 @@ html.balance-transitioning .balance-toggle {
   .activity-panel,
   .vault-panel,
   .transfer-history-panel,
-  .operations-grid article {
+  .operations-grid article,
+  .bank-panel,
+  .card-preview-panel {
     box-shadow: none;
   }
 
-  .activity-item div:last-child {
-    text-align: left;
+  .bank-panel,
+  .card-preview-panel {
+    padding: 16px;
+  }
+
+  .card-preview-panel {
+    min-height: 226px;
+  }
+
+  .quick-actions-panel {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    padding: 8px;
+    box-shadow: none;
+  }
+
+  .quick-actions-panel button {
+    min-height: 74px;
+    padding: 8px 4px;
+  }
+
+  .quick-actions-panel strong {
+    font-size: 0.7rem;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .quick-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .security-strip {
+    grid-template-columns: 1fr;
+    box-shadow: none;
+  }
+
+  .security-strip button {
+    width: 100%;
+  }
+
+  .activity-item {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .activity-meta {
+    justify-items: end;
+    text-align: right;
+  }
+
+  .activity-amount {
+    font-size: 0.92rem;
   }
 
   .progress-track {
     width: 100%;
   }
 
+  .history-table-wrap {
+    overflow: visible;
+  }
+
   .history-table {
     min-width: 0;
+    border-spacing: 0;
+    font-size: 0.86rem;
   }
 
   .history-table thead {
@@ -2539,8 +2926,10 @@ html.balance-transitioning .balance-toggle {
 
   .history-table tr {
     padding: 14px;
+    border: 1px solid rgba(220, 227, 234, 0.9);
     border-radius: 8px;
-    background: var(--surface-strong);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: none;
   }
 
   .history-table tr + tr {
@@ -2549,11 +2938,28 @@ html.balance-transitioning .balance-toggle {
 
   .history-table td {
     display: grid;
-    grid-template-columns: minmax(92px, 0.36fr) minmax(0, 1fr);
+    grid-template-columns: minmax(86px, 0.34fr) minmax(0, 1fr);
     gap: 10px;
+    align-items: start;
+    min-width: 0 !important;
+    width: 100% !important;
     padding: 8px 0;
-    border-bottom: 0;
+    border: 0 !important;
+    background: transparent;
+    text-align: left !important;
     overflow-wrap: anywhere;
+    white-space: normal !important;
+  }
+
+  .history-table td:nth-child(4),
+  .history-table td:nth-child(5) {
+    font-size: 0.86rem;
+  }
+
+  .history-money {
+    justify-self: end;
+    max-width: 100%;
+    overflow-wrap: normal;
   }
 
   .history-table td::before {
@@ -2584,7 +2990,7 @@ html.balance-transitioning .balance-toggle {
 
   .toast {
     right: 12px;
-    bottom: calc(96px + env(safe-area-inset-bottom));
+    bottom: calc(86px + env(safe-area-inset-bottom));
     max-width: calc(100vw - 24px);
   }
 
@@ -2635,6 +3041,50 @@ html.balance-transitioning .balance-toggle {
 
   .vault-stage {
     width: min(84vw, 420px);
+  }
+
+  .mobile-tabbar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 24;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    min-height: calc(68px + env(safe-area-inset-bottom));
+    padding:
+      8px
+      calc(8px + env(safe-area-inset-right))
+      calc(8px + env(safe-area-inset-bottom))
+      calc(8px + env(safe-area-inset-left));
+    border-top: 1px solid rgba(220, 227, 234, 0.92);
+    background: var(--app-chrome);
+    box-shadow: 0 -14px 34px rgba(23, 33, 43, 0.12);
+    backdrop-filter: blur(18px);
+  }
+
+  .mobile-tabbar a {
+    display: grid;
+    min-width: 0;
+    min-height: 52px;
+    place-items: center;
+    gap: 3px;
+    border-radius: 8px;
+    color: #647282;
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .mobile-tabbar a.active {
+    color: var(--teal);
+    background: rgba(15, 118, 110, 0.08);
+  }
+
+  .tab-icon {
+    font-size: 1rem;
+    line-height: 1;
   }
 }
 

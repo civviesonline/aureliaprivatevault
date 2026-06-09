@@ -116,6 +116,11 @@ const installBanner = document.querySelector('#installBanner');
 const installBannerDescription = document.querySelector('#installBannerDescription');
 const installBannerHint = document.querySelector('#installBannerHint');
 const installButton = document.querySelector('#installButton');
+const connectionPill = document.querySelector('#connectionPill');
+const screenEyebrow = document.querySelector('#screenEyebrow');
+const screenTitle = document.querySelector('#screenTitle');
+const appViews = document.querySelectorAll('[data-view]');
+const transferHistoryTable = document.querySelector('#transferHistory');
 const supportBadgeStorageKey = 'aurelia-support-unread-count';
 const supportUnreadDefault = 3;
 const supportBadgeElements = document.querySelectorAll('.nav-badge');
@@ -135,20 +140,48 @@ let balanceHidden = window.localStorage.getItem(balanceVisibilityStorageKey) ===
 let balanceTransitionTimer = null;
 const unlockDurationMs = 820;
 
+const screenCopy = {
+  overview: {
+    eyebrow: 'Good evening, Sean and Michelle',
+    title: 'Joint account',
+  },
+  vault: {
+    eyebrow: 'Savings and reserves',
+    title: 'Vault',
+  },
+  cards: {
+    eyebrow: 'Card security',
+    title: 'Cards',
+  },
+  transfers: {
+    eyebrow: 'Payments and approvals',
+    title: 'Move money',
+  },
+  support: {
+    eyebrow: 'Private banking',
+    title: 'Concierge',
+  },
+};
+
 activityList.innerHTML = activities
   .map(
-    (item) => `
+    (item) => {
+      const amountTone = item.amount.startsWith('+') ? 'positive' : 'negative';
+      const statusName = item.status.toLowerCase();
+
+      return `
       <article class="activity-item">
-        <div>
+        <div class="activity-copy">
           <strong>${item.name}</strong>
           <span>${item.detail}</span>
         </div>
-        <div>
-          <strong data-balance-value>${item.amount}</strong>
-          <span>${item.status}</span>
+        <div class="activity-meta">
+          <strong class="activity-amount ${amountTone}" data-balance-value>${item.amount}</strong>
+          <span class="status-pill status-${statusName}">${item.status}</span>
         </div>
       </article>
-    `,
+    `;
+    },
   )
   .join('');
 renderBalanceVisibility(activityList);
@@ -170,7 +203,19 @@ goalList.innerHTML = goals
   .join('');
 renderBalanceVisibility(goalList);
 
+renderTransactionHistory();
 renderRecentTransactions();
+
+function renderTransactionHistory() {
+  if (!transferHistoryTable) {
+    return;
+  }
+
+  transferHistoryTable.innerHTML = transferHistory
+    .map((entry) => historyTableRow(entry))
+    .join('');
+  renderBalanceVisibility(transferHistoryTable);
+}
 
 function buildHistoryTable(history) {
   return `
@@ -187,23 +232,25 @@ function buildHistoryTable(history) {
           </tr>
         </thead>
         <tbody>
-          ${history
-            .map(
-              (entry) => `
-                <tr>
-                  <td data-label="Date">${entry.date}</td>
-                  <td data-label="Asset">${entry.asset}</td>
-                  <td data-label="Transaction">${entry.transaction}</td>
-                  <td data-label="Amount" data-balance-value>${entry.amount}</td>
-                  <td data-label="New Value" data-balance-value>${entry.newValue}</td>
-                  <td data-label="Notes">${entry.notes}</td>
-                </tr>
-              `,
-            )
-            .join('')}
+          ${history.map((entry) => historyTableRow(entry)).join('')}
         </tbody>
       </table>
     </div>
+  `;
+}
+
+function historyTableRow(entry) {
+  const amountTone = entry.amount.startsWith('+') ? 'positive' : 'negative';
+
+  return `
+    <tr>
+      <td data-label="Date">${entry.date}</td>
+      <td data-label="Asset">${entry.asset}</td>
+      <td data-label="Transaction">${entry.transaction}</td>
+      <td data-label="Amount"><span class="history-money ${amountTone}" data-balance-value>${entry.amount}</span></td>
+      <td data-label="New Value"><span class="history-money" data-balance-value>${entry.newValue}</span></td>
+      <td data-label="Notes">${entry.notes}</td>
+    </tr>
   `;
 }
 
@@ -386,6 +433,31 @@ const modalContent = {
       </div>
     `,
   },
+  'manage-security': {
+    eyebrow: 'Security',
+    title: 'Account protection',
+    body: `
+      <div class="queue-item">
+        <strong>Dual approval is active</strong>
+        <span>Transfers above $10,000 require confirmation from both owners.</span>
+      </div>
+      <div class="control-row">
+        <span>Trusted device session</span>
+        <label class="switch">
+          <input type="checkbox" checked data-control="Trusted device session" />
+          <span></span>
+        </label>
+      </div>
+      <div class="control-row">
+        <span>Large transfer alerts</span>
+        <label class="switch">
+          <input type="checkbox" checked data-control="Large transfer alerts" />
+          <span></span>
+        </label>
+      </div>
+      <button type="button" data-action="confirm-security">Save settings</button>
+    `,
+  },
 };
 
 const sessionActive = window.localStorage.getItem('aureliaJointSession') === 'active';
@@ -393,6 +465,8 @@ const sessionActive = window.localStorage.getItem('aureliaJointSession') === 'ac
 if (sessionActive) {
   showApp();
 }
+
+updateConnectionState();
 
 loginForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -416,22 +490,34 @@ loginForm.addEventListener('submit', (event) => {
   beginUnlockSequence();
 });
 
-document.querySelectorAll('.nav-list a, .mobile-nav a, .brand').forEach((link) => {
-  link.addEventListener('click', () => {
-    const href = link.getAttribute('href');
-    document.querySelectorAll('.nav-list a, .mobile-nav a').forEach((item) => item.classList.remove('active'));
-    const matchingNav = document.querySelector(`.nav-list a[href="${href}"], .mobile-nav a[href="${href}"]`);
-    matchingNav?.classList.add('active');
+document.querySelectorAll('[data-nav-link], .brand').forEach((link) => {
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    const view = getViewFromHref(link.getAttribute('href'));
+    showView(view);
 
-    if (href === '#support') {
+    if (view === 'support') {
       markSupportReviewed();
     }
   });
 });
 
 document.addEventListener('click', (event) => {
+  const routeElement = event.target.closest('[data-route]');
   const actionElement = event.target.closest('[data-action]');
   const buttonElement = event.target.closest('button');
+
+  if (routeElement) {
+    event.preventDefault();
+    const route = routeElement.dataset.route;
+    showView(route);
+
+    if (route === 'support') {
+      markSupportReviewed();
+    }
+
+    return;
+  }
 
   if (!actionElement) {
     if (buttonElement) {
@@ -515,6 +601,7 @@ document.addEventListener('click', (event) => {
     'approve-queue': 'Queued transfer approved by this owner.',
     'hold-queue': 'Queued transfer placed on hold.',
     'mark-brief-read': 'Brief marked reviewed.',
+    'confirm-security': 'Security settings saved.',
   };
 
   if (completionMessages[action]) {
@@ -527,13 +614,6 @@ document.addEventListener('click', (event) => {
   }
 
   showToast('Action ready.');
-});
-
-document.querySelectorAll('[data-control]').forEach((control) => {
-  control.addEventListener('change', () => {
-    const state = control.checked ? 'enabled' : 'disabled';
-    showToast(`${control.dataset.control} ${state}.`);
-  });
 });
 
 modalBackdrop.addEventListener('click', (event) => {
@@ -554,6 +634,7 @@ function openModal(content) {
   modalBody.innerHTML = content.body;
   makeButtonsClickable(modalBody);
   renderBalanceVisibility(modalBody);
+  bindControlToasts(modalBody);
   modalBackdrop.hidden = false;
   document.body.classList.add('modal-open');
   modalBackdrop.querySelector('input, select, textarea, button')?.focus();
@@ -572,6 +653,9 @@ function showApp() {
   appShell.hidden = false;
   setupRelationshipManagerCollapse();
   renderBalanceVisibility(appShell);
+  renderConnectionBanner();
+  updateConnectionState();
+  showView(getInitialView(), { updateHash: false });
 }
 
 function beginUnlockSequence() {
@@ -605,6 +689,55 @@ function resetUnlockState() {
   inputs.forEach((element) => {
     element.disabled = false;
   });
+}
+
+function showView(viewName, options = {}) {
+  const view = screenCopy[viewName] ? viewName : 'overview';
+  const href = `#${view}`;
+
+  appViews.forEach((section) => {
+    const active = section.dataset.view === view;
+    section.hidden = !active;
+    section.classList.toggle('active', active);
+  });
+
+  document.querySelectorAll('[data-nav-link]').forEach((item) => {
+    item.classList.toggle('active', item.getAttribute('href') === href);
+  });
+
+  screenEyebrow.textContent = screenCopy[view].eyebrow;
+  screenTitle.textContent = screenCopy[view].title;
+
+  if (options.updateHash !== false) {
+    window.history.replaceState(null, '', href);
+  }
+
+  mainScrollTop();
+}
+
+function getInitialView() {
+  return getViewFromHref(window.location.hash) || 'overview';
+}
+
+function getViewFromHref(href) {
+  return String(href || '')
+    .replace('#', '')
+    .trim();
+}
+
+function mainScrollTop() {
+  document.querySelector('main')?.scrollTo({ top: 0, behavior: 'auto' });
+  window.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+function updateConnectionState() {
+  if (!connectionPill) {
+    return;
+  }
+
+  const offline = !navigator.onLine;
+  connectionPill.textContent = offline ? 'Offline ready' : 'Protected';
+  connectionPill.classList.toggle('offline', offline);
 }
 
 function setupSearch() {
@@ -824,10 +957,32 @@ function makeButtonsClickable(scope = document) {
 }
 
 makeButtonsClickable();
+bindControlToasts();
 renderSupportBadge();
 renderConnectionBanner();
+updateConnectionState();
 setupInstallExperience();
 renderBalanceVisibility();
+
+function bindControlToasts(scope = document) {
+  scope.querySelectorAll('[data-control]').forEach((control) => {
+    if (control.dataset.bound === 'true') {
+      return;
+    }
+
+    control.dataset.bound = 'true';
+    control.addEventListener('change', () => {
+      const state = control.checked ? 'enabled' : 'disabled';
+      showToast(`${control.dataset.control} ${state}.`);
+    });
+  });
+}
+
+window.addEventListener('hashchange', () => {
+  if (!appShell.hidden) {
+    showView(getInitialView(), { updateHash: false });
+  }
+});
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -865,11 +1020,13 @@ if ('serviceWorker' in navigator) {
 
 window.addEventListener('online', () => {
   renderConnectionBanner();
+  updateConnectionState();
   showToast('Connection restored.');
 });
 
 window.addEventListener('offline', () => {
   renderConnectionBanner();
+  updateConnectionState();
   showToast('You are offline. Cached banking tools remain available.');
 });
 

@@ -1,16 +1,58 @@
 {
-  "name": "Aurelia Joint Banking",
-  "short_name": "Aurelia Joint",
+  "name": "Aurelia Mobile Banking",
+  "short_name": "Aurelia",
   "id": "./",
-  "description": "Joint banking dashboard for shared balances, vaults, transfers, and advisor support.",
-  "start_url": "./",
+  "description": "Private mobile banking for balances, vaults, transfers, cards, and advisor support.",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "display_override": ["standalone", "browser"],
-  "background_color": "#eef1f4",
+  "background_color": "#eef3f6",
   "theme_color": "#18283a",
   "orientation": "portrait-primary",
+  "categories": ["finance", "productivity"],
   "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Move Money",
+      "short_name": "Transfer",
+      "description": "Open scheduled transfers.",
+      "url": "./index.html#transfers",
+      "icons": [
+        {
+          "src": "./assets/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Savings Vault",
+      "short_name": "Vault",
+      "description": "Open savings goals.",
+      "url": "./index.html#vault",
+      "icons": [
+        {
+          "src": "./assets/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Concierge",
+      "short_name": "Support",
+      "description": "Open priority advisor support.",
+      "url": "./index.html#support",
+      "icons": [
+        {
+          "src": "./assets/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
   "icons": [
     {
       "src": "./assets/icon-192.png",
