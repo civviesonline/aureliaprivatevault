@@ -663,7 +663,7 @@ function showApp() {
   resetUnlockState();
   loginScreen.hidden = true;
   appShell.hidden = false;
-  setupRelationshipManagerCollapse();
+  relationshipManagerSpot?.classList.remove('is-compact');
   renderBalanceVisibility(appShell);
   renderConnectionBanner();
   updateConnectionState();
@@ -911,8 +911,8 @@ function getAdvisorReply(message, mode) {
     return {
       title: 'Call request logged',
       message:
-        'Your call request is logged. Aurelia Concierge has alerted Marin Hale, and she will respond personally after review.',
-      followUp: 'Marin Hale is reviewing your call request and will call personally soon.',
+        'Your call request is logged. Aurelia Concierge has alerted Marin Hale. Please wait while she reviews the request and confirms the next available time.',
+      followUp: 'Marin Hale is reviewing your call request. Please wait for her personal confirmation.',
     };
   }
 
@@ -925,8 +925,8 @@ function getAdvisorReply(message, mode) {
     return {
       title: 'Controls reviewed',
       message:
-        'I can walk you through card controls and approval settings, then pass a concise note to Marin Hale for personal follow-up.',
-      followUp: 'Marin Hale is reviewing the control request and will reply personally.',
+        'I can walk you through card controls and approval settings. I have also routed a concise note to Marin Hale. Please wait for her personal follow-up.',
+      followUp: 'Marin Hale is reviewing the control request. Please wait for her personal reply.',
     };
   }
 
@@ -938,8 +938,8 @@ function getAdvisorReply(message, mode) {
     return {
       title: 'Transfer note logged',
       message:
-        'I’ve logged the transfer note and routed it to Marin Hale so she can respond personally after review.',
-      followUp: 'Marin Hale is reviewing the transfer note and will reply personally.',
+        'I have logged the transfer note and routed it to Marin Hale. Please wait while she reviews the details and responds personally.',
+      followUp: 'Marin Hale is reviewing the transfer note. Please wait for her personal reply.',
     };
   }
 
@@ -947,16 +947,16 @@ function getAdvisorReply(message, mode) {
     return {
       title: 'Savings guidance queued',
       message:
-        'I can surface the savings view and prepare a private note for Marin Hale with the current goals and interest details.',
-      followUp: 'Marin Hale is reviewing your savings question and will reply personally.',
+        'I can surface the savings view and prepare a private note for Marin Hale with the current goals and interest details. Please wait for her personal response.',
+      followUp: 'Marin Hale is reviewing your savings question. Please wait for her personal reply.',
     };
   }
 
   return {
     title: 'Message acknowledged',
     message:
-      'Your note is logged. Aurelia Concierge will keep the thread moving, then Marin Hale will respond personally after review.',
-    followUp: 'Marin Hale is reviewing your message and will reply personally.',
+      'Your note is logged. Aurelia Concierge will keep the thread moving. Please wait while Marin Hale reviews it and responds personally.',
+    followUp: 'Marin Hale is reviewing your message. Please wait for her personal reply.',
   };
 }
 
@@ -1002,11 +1002,11 @@ function handleAdvisorChatAction(mode, prompt = '') {
   followUp.classList.add('is-pending');
   followUp.innerHTML = `
     <strong>Marin Hale</strong>
-    <span>A personal reply is being prepared.</span>
+    <span>${mode === 'call' ? 'Your call request has been received. Please wait while Marin Hale reviews the request and confirms the next available time.' : 'Your message has been received. Please wait while Marin Hale reviews it and prepares a personal response.'}</span>
   `;
   transcript.scrollTop = transcript.scrollHeight;
 
-  showToast(mode === 'call' ? 'Concierge acknowledged the call request.' : 'Concierge received your message.');
+  showToast(mode === 'call' ? 'Call request received. Please wait for Marin Hale.' : 'Message received. Please wait for Marin Hale.');
 
   advisorAutoResponseTimer = window.setTimeout(() => {
     const reply = getAdvisorReply(userMessage, mode);

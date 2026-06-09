@@ -2224,7 +2224,7 @@ html.balance-transitioning .balance-toggle {
 .advisor-transcript {
   display: grid;
   gap: 12px;
-  max-height: min(50vh, 440px);
+  max-height: min(42vh, 360px);
   overflow: auto;
   padding-right: 4px;
 }
@@ -2291,10 +2291,16 @@ html.balance-transitioning .balance-toggle {
 .advisor-follow-up {
   display: grid;
   gap: 4px;
+  min-width: 0;
   padding: 13px;
   border: 1px solid rgba(25, 35, 50, 0.08);
   border-radius: 14px;
   background: rgba(25, 35, 50, 0.04);
+  overflow-wrap: anywhere;
+}
+
+.advisor-follow-up span {
+  line-height: 1.5;
 }
 
 .advisor-bot-note {
@@ -2687,9 +2693,9 @@ html.balance-transitioning .balance-toggle {
   }
 
   .relationship-manager-spot {
-    position: sticky;
-    top: calc(6px + env(safe-area-inset-top));
-    z-index: 14;
+    position: relative;
+    top: auto;
+    z-index: 1;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 10px;
@@ -2707,12 +2713,11 @@ html.balance-transitioning .balance-toggle {
   }
 
   .relationship-manager-spot.is-compact {
-    top: calc(4px + env(safe-area-inset-top));
-    gap: 8px;
-    padding: 10px 12px;
-    border-radius: 16px;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: 18px;
     box-shadow:
-      0 10px 24px rgba(23, 33, 43, 0.08),
+      0 14px 34px rgba(23, 33, 43, 0.08),
       var(--shadow-soft);
   }
 
@@ -2734,8 +2739,8 @@ html.balance-transitioning .balance-toggle {
   }
 
   .relationship-manager-spot.is-compact .relationship-manager-icon {
-    width: 34px;
-    height: 34px;
+    width: 42px;
+    height: 42px;
   }
 
   .relationship-manager-icon img {
@@ -2780,16 +2785,16 @@ html.balance-transitioning .balance-toggle {
   }
 
   .relationship-manager-spot.is-compact .relationship-manager-copy .eyebrow {
-    margin-bottom: 1px;
-    font-size: 0.58rem;
+    margin-bottom: 4px;
+    font-size: 0.82rem;
   }
 
   .relationship-manager-spot.is-compact .relationship-manager-copy strong {
-    font-size: 0.92rem;
+    font-size: 1rem;
   }
 
   .relationship-manager-spot.is-compact .relationship-manager-copy span {
-    display: none;
+    display: block;
   }
 
   .relationship-manager-spot button {
@@ -2806,10 +2811,10 @@ html.balance-transitioning .balance-toggle {
   }
 
   .relationship-manager-spot.is-compact button {
-    min-width: 72px;
-    min-height: 34px;
-    padding-inline: 12px;
-    font-size: 0.76rem;
+    min-width: 82px;
+    min-height: 40px;
+    padding-inline: 14px;
+    font-size: inherit;
   }
 
   .advisor-panel {
@@ -3374,10 +3379,23 @@ html.balance-transitioning .balance-toggle {
 
   .action-modal {
     width: 100%;
-    max-height: min(86vh, 680px);
-    padding: 20px;
+    max-height: calc(100dvh - 20px);
+    padding: 20px 20px calc(22px + env(safe-area-inset-bottom));
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
+  }
+
+  .advisor-thread {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .advisor-transcript {
+    max-height: min(30vh, 240px);
+  }
+
+  .advisor-follow-up {
+    padding: 12px;
   }
 
   .toast {
