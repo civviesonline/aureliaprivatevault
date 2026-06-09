@@ -1762,7 +1762,7 @@ main {
 
   .relationship-manager-spot {
     position: sticky;
-    top: calc(12px + env(safe-area-inset-top));
+    top: calc(6px + env(safe-area-inset-top));
     z-index: 14;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
@@ -1781,6 +1781,7 @@ main {
   }
 
   .relationship-manager-spot.is-compact {
+    top: calc(4px + env(safe-area-inset-top));
     gap: 8px;
     padding: 10px 12px;
     border-radius: 16px;
