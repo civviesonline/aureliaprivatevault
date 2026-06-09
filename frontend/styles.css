@@ -3046,18 +3046,21 @@ html.balance-transitioning .balance-toggle {
   }
 
   .hero-panel {
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 18px;
     min-height: auto;
-    padding: 18px;
+    padding: 16px;
     background-position: center;
   }
 
   .hero-copy {
     align-self: start;
+    max-width: none;
   }
 
   .hero-copy h2 {
-    font-size: clamp(2.35rem, 11vw, 3.1rem);
+    font-size: clamp(2.15rem, 10.2vw, 2.95rem);
+    letter-spacing: -0.04em;
     overflow-wrap: anywhere;
   }
 
@@ -3065,8 +3068,18 @@ html.balance-transitioning .balance-toggle {
     font-size: 0.94rem;
   }
 
+  .app-views,
+  .app-view {
+    gap: 14px;
+  }
+
   .balance-row {
     align-items: flex-start;
+    gap: 8px 10px;
+  }
+
+  .balance-row h2 {
+    line-height: 0.92;
   }
 
   .balance-toggle {
@@ -3077,46 +3090,57 @@ html.balance-transitioning .balance-toggle {
   .bank-card {
     width: 100%;
     max-width: 360px;
-    min-height: 186px;
+    min-height: 194px;
     justify-self: center;
     transform: none;
   }
 
   .bank-card-number {
-    top: 104px;
-    left: 24px;
-    right: 24px;
-    font-size: 0.58rem;
-    letter-spacing: 0.14em;
+    top: 98px;
+    left: 22px;
+    right: 22px;
+    font-size: 0.56rem;
+    line-height: 1.18;
+    letter-spacing: 0.12em;
     text-align: center;
   }
 
   .bank-card-validity {
-    top: 130px;
-    left: 28px;
+    top: 124px;
+    left: 24px;
   }
 
   .bank-card-engraving {
-    bottom: 22px;
-    left: 24px;
-    right: 24px;
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
+    bottom: 24px;
+    left: 22px;
+    right: 22px;
+    font-size: 0.58rem;
+    line-height: 1.14;
+    letter-spacing: 0.06em;
     text-align: center;
   }
 
   .bank-card-tier {
-    top: 24px;
-    right: 24px;
+    top: 22px;
+    right: 22px;
     max-width: 108px;
     font-size: 0.56rem;
   }
 
   .bank-card-plate {
-    right: 28px;
-    top: 52px;
+    right: 24px;
+    top: 50px;
     width: 32px;
     height: 28px;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .metrics-grid article {
+    padding: 16px;
   }
 
   .metrics-grid article,
@@ -3135,34 +3159,52 @@ html.balance-transitioning .balance-toggle {
   }
 
   .card-preview-panel {
-    min-height: 226px;
+    min-height: 234px;
   }
 
   .quick-actions-panel {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 6px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
     padding: 8px;
     box-shadow: none;
   }
 
   .quick-actions-panel button {
-    min-height: 74px;
-    padding: 8px 4px;
+    min-height: 84px;
+    padding: 10px 6px;
   }
 
   .quick-actions-panel strong {
-    font-size: 0.7rem;
+    font-size: 0.76rem;
     overflow-wrap: anywhere;
     white-space: normal;
   }
 
   .quick-icon {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
+  }
+
+  .section-heading,
+  .control-row,
+  .activity-item,
+  .goal-item {
+    align-items: flex-start;
+  }
+
+  .section-heading {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .section-heading button {
+    width: 100%;
   }
 
   .security-strip {
     grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 16px;
     box-shadow: none;
   }
 
