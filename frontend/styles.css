@@ -3373,8 +3373,9 @@ html.balance-transitioning .balance-toggle {
 
   .login-screen {
     grid-template-columns: 1fr;
-    align-content: start;
-    gap: 18px;
+    justify-items: center;
+    align-content: center;
+    gap: 16px;
     min-height: 100svh;
     padding:
       calc(16px + env(safe-area-inset-top))
@@ -3386,38 +3387,72 @@ html.balance-transitioning .balance-toggle {
   .login-brand {
     justify-self: center;
     align-self: center;
+    max-width: 100%;
     text-align: center;
+  }
+
+  .login-brand strong {
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+  }
+
+  .login-brand span:not(.brand-mark) {
+    font-size: 0.84rem;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
   }
 
   .login-card {
     justify-self: center;
+    width: min(100%, 440px);
     max-width: 440px;
-    padding: 22px;
-    gap: 14px;
-    border-radius: 20px;
+    padding: 20px;
+    gap: 13px;
+    border-radius: 22px;
   }
 
   .login-card h1 {
-    font-size: clamp(1.75rem, 7vw, 2.25rem);
+    font-size: clamp(1.7rem, 6.8vw, 2.15rem);
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+  }
+
+  .login-copy {
+    line-height: 1.45;
   }
 
   .login-options {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
+    gap: 10px;
   }
 
   .login-options button {
     align-self: flex-start;
   }
 
+  .login-card label {
+    gap: 6px;
+    font-size: 0.76rem;
+    line-height: 1.2;
+  }
+
+  .login-card input {
+    min-height: 50px;
+    padding: 0 14px;
+    border-radius: 14px;
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
   .login-submit {
-    min-height: 46px;
+    min-height: 50px;
     width: 100%;
+    border-radius: 16px;
   }
 
   .vault-stage {
-    width: min(84vw, 420px);
+    width: min(80vw, 360px);
   }
 
   .mobile-tabbar {
@@ -3466,6 +3501,28 @@ html.balance-transitioning .balance-toggle {
 }
 
 @media (max-width: 420px) {
+  .login-screen {
+    gap: 14px;
+    padding:
+      calc(14px + env(safe-area-inset-top))
+      12px
+      calc(16px + env(safe-area-inset-bottom))
+      12px;
+  }
+
+  .login-card {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .login-card h1 {
+    font-size: 1.56rem;
+  }
+
+  .login-card input {
+    min-height: 48px;
+  }
+
   .topbar-actions {
     grid-template-columns: 44px minmax(0, 1fr);
   }
