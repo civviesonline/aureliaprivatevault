@@ -1313,12 +1313,15 @@ html.balance-transitioning .balance-toggle {
   top: 28px;
   right: 34px;
   max-width: 128px;
+  overflow: hidden;
   color: #cfab67;
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-align: right;
+  text-overflow: ellipsis;
   text-transform: uppercase;
+  white-space: nowrap;
   text-shadow:
     0 -1px 0 rgba(45, 35, 16, 0.74),
     0 1px 0 rgba(255, 240, 205, 0.14),
@@ -1368,14 +1371,18 @@ html.balance-transitioning .balance-toggle {
 }
 
 .bank-card-number {
-  top: 104px;
-  left: 66px;
-  right: 72px;
+  top: 112px;
+  left: 40px;
+  right: 40px;
+  overflow: hidden;
   color: #d7b476;
   font-family: "DS-Digital", "Digital-7", "Quartz MS", "Quartz", "LCD", "Liquid Crystal", "Courier New", monospace;
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   text-shadow:
     0 -1px 0 rgba(61, 47, 19, 0.8),
     0 1px 0 rgba(255, 230, 184, 0.14),
@@ -1383,10 +1390,11 @@ html.balance-transitioning .balance-toggle {
 }
 
 .bank-card-validity {
-  top: 132px;
-  left: 154px;
+  top: 138px;
+  left: 50%;
   display: grid;
   gap: 1px;
+  width: 92px;
   color: rgba(210, 176, 109, 0.82);
   font-family: "DS-Digital", "Digital-7", "Quartz MS", "Quartz", "LCD", "Liquid Crystal", "Courier New", monospace;
   font-size: 0.38rem;
@@ -1395,21 +1403,26 @@ html.balance-transitioning .balance-toggle {
   line-height: 1.15;
   text-align: center;
   text-transform: uppercase;
+  transform: translateX(-50%);
   text-shadow:
     0 -1px 0 rgba(58, 45, 18, 0.74),
     0 1px 0 rgba(255, 232, 192, 0.08);
 }
 
 .bank-card-engraving {
-  bottom: 33px;
+  bottom: 30px;
   left: 40px;
   right: 40px;
+  overflow: hidden;
   color: #d5b06e;
   font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  font-size: 0.84rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-overflow: ellipsis;
   text-transform: uppercase;
+  white-space: nowrap;
   text-shadow:
     0 -1px 0 rgba(55, 42, 18, 0.8),
     0 1px 0 rgba(255, 230, 188, 0.12),
@@ -3099,7 +3112,7 @@ html.balance-transitioning .balance-toggle {
     top: 98px;
     left: 22px;
     right: 22px;
-    font-size: 0.56rem;
+    font-size: 0.58rem;
     line-height: 1.18;
     letter-spacing: 0.12em;
     text-align: center;
@@ -3107,16 +3120,18 @@ html.balance-transitioning .balance-toggle {
 
   .bank-card-validity {
     top: 124px;
-    left: 24px;
+    left: 50%;
+    width: 84px;
+    transform: translateX(-50%);
   }
 
   .bank-card-engraving {
     bottom: 24px;
     left: 22px;
     right: 22px;
-    font-size: 0.58rem;
+    font-size: 0.66rem;
     line-height: 1.14;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
     text-align: center;
   }
 

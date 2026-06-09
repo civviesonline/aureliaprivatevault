@@ -143,26 +143,27 @@ let balanceTransitionTimer = null;
 let advisorAutoResponseTimer = null;
 let advisorFollowUpTimer = null;
 const unlockDurationMs = 820;
+const greetingText = 'Welcome Back, Sean & Michelle.';
 
 const screenCopy = {
   overview: {
-    eyebrow: 'Good evening, Sean and Michelle',
+    eyebrow: greetingText,
     title: 'Joint account',
   },
   vault: {
-    eyebrow: 'Savings and reserves',
+    eyebrow: greetingText,
     title: 'Vault',
   },
   cards: {
-    eyebrow: 'Card security',
+    eyebrow: greetingText,
     title: 'Cards',
   },
   transfers: {
-    eyebrow: 'Payments and approvals',
+    eyebrow: greetingText,
     title: 'Move money',
   },
   support: {
-    eyebrow: 'Private banking',
+    eyebrow: greetingText,
     title: 'Concierge',
   },
 };
