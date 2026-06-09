@@ -2328,6 +2328,19 @@ html.balance-transitioning .balance-toggle {
   white-space: pre-wrap;
 }
 
+.advisor-message-meta {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2px;
+}
+
+.advisor-message-meta span {
+  color: rgba(23, 33, 43, 0.55);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
 .advisor-follow-up.is-pending {
   border-color: rgba(16, 118, 110, 0.16);
   background: rgba(16, 118, 110, 0.06);

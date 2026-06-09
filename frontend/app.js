@@ -817,6 +817,27 @@ function escapeHtml(value) {
     .replaceAll("'", '&#39;');
 }
 
+function getAdvisorClockLabel(date = new Date()) {
+  return new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(date);
+}
+
+function getAdvisorMessageMeta(role, receiptLabel = '') {
+  const timeLabel = getAdvisorClockLabel();
+
+  if (role === 'bot') {
+    return `${timeLabel} · ${receiptLabel || 'Delivered'}`;
+  }
+
+  if (role === 'human') {
+    return `${timeLabel} · ${receiptLabel || 'Read by Marin'}`;
+  }
+
+  return `${timeLabel} · ${receiptLabel || 'Sent'}`;
+}
+
 function buildAdvisorConversationBody() {
   return `
     <div class="advisor-thread" data-advisor-thread>
@@ -859,6 +880,7 @@ function buildAdvisorConversationBody() {
 }
 
 function renderAdvisorMessageCard(role, title, message, extraClass = '') {
+  const metaLabel = getAdvisorMessageMeta(role, role === 'bot' ? 'Delivered' : role === 'human' ? 'Read by Marin' : 'Sent');
   const roleClass = role === 'bot' ? 'is-bot' : role === 'human' ? 'is-human' : 'is-user';
   const label = role === 'bot' ? 'Aurelia Concierge' : role === 'human' ? 'Marin Hale' : 'You';
 
@@ -867,6 +889,9 @@ function renderAdvisorMessageCard(role, title, message, extraClass = '') {
       <span class="advisor-message-label">${label}</span>
       <strong>${escapeHtml(title)}</strong>
       <p>${escapeHtml(message)}</p>
+      <div class="advisor-message-meta">
+        <span>${escapeHtml(metaLabel)}</span>
+      </div>
     </article>
   `;
 }
@@ -991,6 +1016,12 @@ function handleAdvisorChatAction(mode, prompt = '') {
         <strong>Marin Hale</strong>
         <span>Personal follow-up is queued after the concierge response.</span>
       `;
+      const botMessages = [...transcript.querySelectorAll('.advisor-message.is-bot')];
+      const latestBotMessage = botMessages[botMessages.length - 1];
+      const receipt = latestBotMessage?.querySelector('.advisor-message-meta span');
+      if (receipt) {
+        receipt.textContent = `${getAdvisorClockLabel()} · Read by Marin`;
+      }
     }, advisorFollowUpDelayMs);
   }, advisorTypingDelayMs);
 }
