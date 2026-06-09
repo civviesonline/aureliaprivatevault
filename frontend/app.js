@@ -108,10 +108,14 @@ const modalEyebrow = document.querySelector('#modalEyebrow');
 const modalTitle = document.querySelector('#modalTitle');
 const modalBody = document.querySelector('#modalBody');
 const toast = document.querySelector('#toast');
+const connectionBanner = document.querySelector('#connectionBanner');
 const installBanner = document.querySelector('#installBanner');
 const installBannerDescription = document.querySelector('#installBannerDescription');
 const installBannerHint = document.querySelector('#installBannerHint');
 const installButton = document.querySelector('#installButton');
+const supportBadgeStorageKey = 'aurelia-support-unread-count';
+const supportUnreadDefault = 3;
+const supportBadgeElements = document.querySelectorAll('.nav-badge');
 const installDismissStorageKey = 'aurelia-install-banner-dismissed-at';
 const installDismissDurationMs = 7 * 24 * 60 * 60 * 1000;
 const displayModeQuery = window.matchMedia('(display-mode: standalone)');
@@ -304,6 +308,10 @@ document.querySelectorAll('.nav-list a, .mobile-nav a, .brand').forEach((link) =
     document.querySelectorAll('.nav-list a, .mobile-nav a').forEach((item) => item.classList.remove('active'));
     const matchingNav = document.querySelector(`.nav-list a[href="${href}"], .mobile-nav a[href="${href}"]`);
     matchingNav?.classList.add('active');
+
+    if (href === '#support') {
+      markSupportReviewed();
+    }
   });
 });
 
@@ -337,6 +345,9 @@ document.addEventListener('click', (event) => {
   }
 
   if (modalContent[action]) {
+    if (action === 'message-advisor' || action === 'open-brief') {
+      markSupportReviewed();
+    }
     lastActionTrigger = actionElement;
     openModal(modalContent[action]);
     if (action === 'search') {
@@ -388,6 +399,9 @@ document.addEventListener('click', (event) => {
   };
 
   if (completionMessages[action]) {
+    if (action === 'mark-brief-read') {
+      markSupportReviewed();
+    }
     closeModal();
     showToast(completionMessages[action]);
     return;
@@ -537,6 +551,53 @@ function showToast(message) {
   }, 2600);
 }
 
+function getSupportUnreadCount() {
+  const storedValue = window.localStorage.getItem(supportBadgeStorageKey);
+  if (storedValue === null) {
+    return supportUnreadDefault;
+  }
+
+  const parsedValue = Number(storedValue);
+  if (!Number.isFinite(parsedValue)) {
+    return supportUnreadDefault;
+  }
+
+  return Math.max(0, Math.min(parsedValue, 99));
+}
+
+function setSupportUnreadCount(count) {
+  const nextCount = Math.max(0, Math.min(count, 99));
+  window.localStorage.setItem(supportBadgeStorageKey, String(nextCount));
+  renderSupportBadge();
+}
+
+function markSupportReviewed() {
+  setSupportUnreadCount(0);
+}
+
+function renderSupportBadge() {
+  const unreadCount = getSupportUnreadCount();
+
+  supportBadgeElements.forEach((badge) => {
+    if (unreadCount <= 0) {
+      badge.hidden = true;
+      return;
+    }
+
+    badge.hidden = false;
+    badge.textContent = unreadCount > 9 ? '9+' : String(unreadCount);
+  });
+}
+
+function renderConnectionBanner() {
+  if (!connectionBanner) {
+    return;
+  }
+
+  const isOffline = window.navigator.onLine === false;
+  connectionBanner.hidden = !isOffline;
+}
+
 function makeButtonsClickable(scope = document) {
   scope.querySelectorAll('button:not([data-action])').forEach((button) => {
     if (button.type === 'submit') {
@@ -550,6 +611,8 @@ function makeButtonsClickable(scope = document) {
 }
 
 makeButtonsClickable();
+renderSupportBadge();
+renderConnectionBanner();
 setupInstallExperience();
 
 if ('serviceWorker' in navigator) {
@@ -587,10 +650,12 @@ if ('serviceWorker' in navigator) {
 }
 
 window.addEventListener('online', () => {
+  renderConnectionBanner();
   showToast('Connection restored.');
 });
 
 window.addEventListener('offline', () => {
+  renderConnectionBanner();
   showToast('You are offline. Cached banking tools remain available.');
 });
 
