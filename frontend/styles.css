@@ -1761,6 +1761,9 @@ main {
   }
 
   .relationship-manager-spot {
+    position: sticky;
+    top: calc(12px + env(safe-area-inset-top));
+    z-index: 14;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 10px;
@@ -1771,7 +1774,10 @@ main {
     background:
       radial-gradient(circle at top right, rgba(15, 118, 110, 0.1), transparent 26%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(245, 249, 251, 0.95));
-    box-shadow: var(--shadow-soft);
+    box-shadow:
+      0 14px 34px rgba(23, 33, 43, 0.08),
+      var(--shadow-soft);
+    backdrop-filter: blur(14px) saturate(1.1);
   }
 
   .relationship-manager-icon {
