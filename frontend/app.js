@@ -127,7 +127,8 @@ const supportBadgeElements = document.querySelectorAll('.nav-badge');
 const balanceVisibilityStorageKey = 'aurelia-balance-hidden';
 const balanceMaskText = '••••••';
 const balanceTransitionMs = 260;
-const advisorAutoResponseDelayMs = 1800;
+const advisorTypingDelayMs = 680;
+const advisorFollowUpDelayMs = 1500;
 const installDismissStorageKey = 'aurelia-install-banner-dismissed-at';
 const installDismissDurationMs = 7 * 24 * 60 * 60 * 1000;
 const displayModeQuery = window.matchMedia('(display-mode: standalone)');
@@ -140,6 +141,7 @@ let relationshipManagerScrollHandler = null;
 let balanceHidden = window.localStorage.getItem(balanceVisibilityStorageKey) === 'true';
 let balanceTransitionTimer = null;
 let advisorAutoResponseTimer = null;
+let advisorFollowUpTimer = null;
 const unlockDurationMs = 820;
 
 const screenCopy = {
@@ -289,29 +291,8 @@ function renderRecentTransactions() {
 const modalContent = {
   'message-advisor': {
     eyebrow: 'Relationship Manager',
-    title: 'Message Marin Hale',
-    body: `
-      <div class="contact-card">
-        <strong>Marin Hale</strong>
-        <span>Relationship Manager</span>
-      </div>
-      <label>
-        Subject
-        <input type="text" value="Joint account review" />
-      </label>
-      <label>
-        Message
-        <textarea rows="5">Please prepare an updated note on the Sean & Michelle Combs joint account, approval settings, and near-term household cash flow.</textarea>
-      </label>
-      <div class="advisor-bot-note">
-        <strong>Aurelia Concierge</strong>
-        <span>Automatic acknowledgment is sent first. Marin Hale replies personally after review.</span>
-      </div>
-      <div class="modal-actions">
-        <button type="button" data-action="send-message">Send message</button>
-        <button type="button" data-action="schedule-advisor-call">Schedule call</button>
-      </div>
-    `,
+    title: 'Aurelia Concierge',
+    body: buildAdvisorConversationBody(),
   },
   search: {
     eyebrow: 'Search',
@@ -555,8 +536,22 @@ document.addEventListener('click', (event) => {
     return;
   }
 
-  if (action === 'send-message' || action === 'schedule-advisor-call') {
-    renderAdvisorAutoResponse(action);
+  if (action === 'advisor-chat-send') {
+    event.preventDefault();
+    handleAdvisorChatAction('message');
+    return;
+  }
+
+  if (action === 'advisor-chat-call') {
+    event.preventDefault();
+    handleAdvisorChatAction('call');
+    return;
+  }
+
+  if (action === 'advisor-chat-suggestion') {
+    const prompt = actionElement.dataset.prompt || '';
+    event.preventDefault();
+    handleAdvisorChatAction(/call|phone/i.test(prompt) ? 'call' : 'message', prompt);
     return;
   }
 
@@ -645,9 +640,14 @@ function openModal(content) {
   makeButtonsClickable(modalBody);
   renderBalanceVisibility(modalBody);
   bindControlToasts(modalBody);
+  bindAdvisorChatInteractions();
   modalBackdrop.hidden = false;
   document.body.classList.add('modal-open');
-  modalBackdrop.querySelector('input, select, textarea, button')?.focus();
+  const focusTarget =
+    modalBody.querySelector('input, select, textarea, button:not([data-action="close-modal"])') ||
+    modalBackdrop.querySelector('button[data-action="close-modal"]');
+
+  focusTarget?.focus();
 }
 
 function closeModal() {
@@ -817,89 +817,189 @@ function escapeHtml(value) {
     .replaceAll("'", '&#39;');
 }
 
-function clearAdvisorAutoResponseTimer() {
-  window.clearTimeout(advisorAutoResponseTimer);
-  advisorAutoResponseTimer = null;
+function buildAdvisorConversationBody() {
+  return `
+    <div class="advisor-thread" data-advisor-thread>
+      <div class="advisor-status-card" data-advisor-status>
+        <strong>Aurelia Concierge online</strong>
+        <span>Instant replies first. Marin Hale responds personally after review.</span>
+      </div>
+      <div class="advisor-transcript" data-advisor-transcript aria-live="polite" aria-relevant="additions text">
+        ${renderAdvisorMessageCard('bot', 'Aurelia Concierge', 'I can help with approvals, transfers, card controls, or scheduling Marin Hale.', 'is-open')}
+      </div>
+      <div class="advisor-typing" data-advisor-typing hidden>
+        <span></span><span></span><span></span>
+      </div>
+      <div class="advisor-suggestions" data-advisor-suggestions>
+        <button type="button" data-action="advisor-chat-suggestion" data-prompt="Review card approvals">Review card approvals</button>
+        <button type="button" data-action="advisor-chat-suggestion" data-prompt="Talk about the home reserve">Talk about the home reserve</button>
+        <button type="button" data-action="advisor-chat-suggestion" data-prompt="Schedule a call with Marin">Schedule a call</button>
+      </div>
+      <form class="advisor-composer" data-advisor-form>
+        <label>
+          Message Aurelia Concierge
+          <input
+            type="text"
+            data-advisor-input
+            autocomplete="off"
+            placeholder="Ask about approvals, transfers, or call scheduling"
+          />
+        </label>
+        <div class="modal-actions">
+          <button type="button" data-action="advisor-chat-call">Schedule call</button>
+          <button type="submit" data-action="advisor-chat-send">Send message</button>
+        </div>
+      </form>
+      <div class="advisor-follow-up" data-advisor-follow-up>
+        <strong>Marin Hale</strong>
+        <span>Personal follow-up is queued after the concierge response.</span>
+      </div>
+    </div>
+  `;
 }
 
-function renderAdvisorAutoResponse(action) {
-  if (!modalBody) {
+function renderAdvisorMessageCard(role, title, message, extraClass = '') {
+  const roleClass = role === 'bot' ? 'is-bot' : role === 'human' ? 'is-human' : 'is-user';
+  const label = role === 'bot' ? 'Aurelia Concierge' : role === 'human' ? 'Marin Hale' : 'You';
+
+  return `
+    <article class="advisor-message ${roleClass} ${extraClass}">
+      <span class="advisor-message-label">${label}</span>
+      <strong>${escapeHtml(title)}</strong>
+      <p>${escapeHtml(message)}</p>
+    </article>
+  `;
+}
+
+function getAdvisorReply(message, mode) {
+  const normalizedMessage = message.toLowerCase();
+
+  if (mode === 'call' || normalizedMessage.includes('call') || normalizedMessage.includes('phone')) {
+    return {
+      title: 'Call request logged',
+      message:
+        'Your call request is logged. Aurelia Concierge has alerted Marin Hale, and she will respond personally after review.',
+      followUp: 'Marin Hale is reviewing your call request and will call personally soon.',
+    };
+  }
+
+  if (
+    normalizedMessage.includes('approval') ||
+    normalizedMessage.includes('card') ||
+    normalizedMessage.includes('limit') ||
+    normalizedMessage.includes('freeze')
+  ) {
+    return {
+      title: 'Controls reviewed',
+      message:
+        'I can walk you through card controls and approval settings, then pass a concise note to Marin Hale for personal follow-up.',
+      followUp: 'Marin Hale is reviewing the control request and will reply personally.',
+    };
+  }
+
+  if (
+    normalizedMessage.includes('transfer') ||
+    normalizedMessage.includes('move money') ||
+    normalizedMessage.includes('home reserve')
+  ) {
+    return {
+      title: 'Transfer note logged',
+      message:
+        'I’ve logged the transfer note and routed it to Marin Hale so she can respond personally after review.',
+      followUp: 'Marin Hale is reviewing the transfer note and will reply personally.',
+    };
+  }
+
+  if (normalizedMessage.includes('savings') || normalizedMessage.includes('interest') || normalizedMessage.includes('yield')) {
+    return {
+      title: 'Savings guidance queued',
+      message:
+        'I can surface the savings view and prepare a private note for Marin Hale with the current goals and interest details.',
+      followUp: 'Marin Hale is reviewing your savings question and will reply personally.',
+    };
+  }
+
+  return {
+    title: 'Message acknowledged',
+    message:
+      'Your note is logged. Aurelia Concierge will keep the thread moving, then Marin Hale will respond personally after review.',
+    followUp: 'Marin Hale is reviewing your message and will reply personally.',
+  };
+}
+
+function bindAdvisorChatInteractions() {
+  if (modalBody.dataset.advisorChatBound === 'true') {
+    return;
+  }
+
+  modalBody.dataset.advisorChatBound = 'true';
+  modalBody.addEventListener('submit', (event) => {
+    if (!event.target.matches('[data-advisor-form]')) {
+      return;
+    }
+
+    event.preventDefault();
+    handleAdvisorChatAction('message');
+  });
+}
+
+function handleAdvisorChatAction(mode, prompt = '') {
+  const transcript = modalBody.querySelector('[data-advisor-transcript]');
+  const input = modalBody.querySelector('[data-advisor-input]');
+  const typing = modalBody.querySelector('[data-advisor-typing]');
+  const followUp = modalBody.querySelector('[data-advisor-follow-up]');
+
+  if (!transcript || !typing || !followUp) {
     return;
   }
 
   clearAdvisorAutoResponseTimer();
 
-  const subjectInput = modalBody.querySelector('input');
-  const messageInput = modalBody.querySelector('textarea');
-  const isCallRequest = action === 'schedule-advisor-call';
-  const userTitle = isCallRequest ? 'Private call request' : (subjectInput?.value.trim() || 'Joint account review');
-  const userMessage = isCallRequest
-    ? 'Please call Sean & Michelle Combs personally after your review.'
-    : (messageInput?.value.trim() || 'Please prepare an updated note on the joint account.');
-  const botMessage = isCallRequest
-    ? 'Your call request is logged. Aurelia Concierge has notified Marin Hale, and she will follow up personally after review.'
-    : 'Your message is logged. Aurelia Concierge has notified Marin Hale, and she will reply personally after review.';
+  const userMessage =
+    (prompt || input?.value || '').trim() || (mode === 'call' ? 'Please schedule a call with Marin Hale.' : 'Please review my note.');
+  const userTitle = mode === 'call' ? 'Call request' : 'You';
 
-  modalEyebrow.textContent = 'Aurelia Concierge';
-  modalTitle.textContent = isCallRequest ? 'Call request acknowledged' : 'Message acknowledged';
-  modalBody.innerHTML = `
-    <div class="advisor-thread">
-      <div class="advisor-status-card">
-        <strong>Automatic acknowledgment enabled</strong>
-        <span>Aurelia Concierge responds first, then Marin Hale follows up personally.</span>
-      </div>
-      <article class="advisor-message is-user">
-        <span class="advisor-message-label">You</span>
-        <strong>${escapeHtml(userTitle)}</strong>
-        <p>${escapeHtml(userMessage)}</p>
-      </article>
-      <article class="advisor-message is-bot">
-        <span class="advisor-message-label">Aurelia Concierge</span>
-        <strong>Instant reply sent</strong>
-        <p>${escapeHtml(botMessage)}</p>
-      </article>
-      <article class="advisor-message is-human is-pending" data-advisor-follow-up>
-        <span class="advisor-message-label">Marin Hale</span>
-        <strong>Personal follow-up queued</strong>
-        <p>Marin is reviewing this request and will respond personally shortly.</p>
-      </article>
-      <div class="modal-actions">
-        <button type="button" data-action="close-modal">Done</button>
-      </div>
-    </div>
+  if (input) {
+    input.value = '';
+  }
+
+  transcript.insertAdjacentHTML('beforeend', renderAdvisorMessageCard('user', userTitle, userMessage));
+  typing.hidden = false;
+  followUp.classList.add('is-pending');
+  followUp.innerHTML = `
+    <strong>Marin Hale</strong>
+    <span>A personal reply is being prepared.</span>
   `;
-  makeButtonsClickable(modalBody);
-  bindControlToasts(modalBody);
-  renderBalanceVisibility(modalBody);
-  modalBody.querySelector('[data-action="close-modal"]')?.focus();
+  transcript.scrollTop = transcript.scrollHeight;
 
-  showToast(
-    isCallRequest
-      ? 'Aurelia Concierge replied first. Marin Hale will call personally.'
-      : 'Aurelia Concierge replied first. Marin Hale will respond personally.',
-  );
+  showToast(mode === 'call' ? 'Concierge acknowledged the call request.' : 'Concierge received your message.');
 
   advisorAutoResponseTimer = window.setTimeout(() => {
-    const followUpCard = modalBody.querySelector('[data-advisor-follow-up]');
-    if (!followUpCard) {
-      return;
-    }
+    const reply = getAdvisorReply(userMessage, mode);
+    typing.hidden = true;
+    transcript.insertAdjacentHTML('beforeend', renderAdvisorMessageCard('bot', reply.title, reply.message, 'is-reply'));
+    followUp.classList.remove('is-pending');
+    followUp.innerHTML = `
+      <strong>Marin Hale</strong>
+      <span>${escapeHtml(reply.followUp)}</span>
+    `;
+    transcript.scrollTop = transcript.scrollHeight;
 
-    followUpCard.classList.remove('is-pending');
+    window.clearTimeout(advisorFollowUpTimer);
+    advisorFollowUpTimer = window.setTimeout(() => {
+      followUp.innerHTML = `
+        <strong>Marin Hale</strong>
+        <span>Personal follow-up is queued after the concierge response.</span>
+      `;
+    }, advisorFollowUpDelayMs);
+  }, advisorTypingDelayMs);
+}
 
-    const heading = followUpCard.querySelector('strong');
-    const paragraph = followUpCard.querySelector('p');
-
-    if (heading) {
-      heading.textContent = isCallRequest ? 'Marin Hale is calling personally' : 'Marin Hale is replying personally';
-    }
-
-    if (paragraph) {
-      paragraph.textContent = isCallRequest
-        ? 'Marin has been notified and will call back after her review.'
-        : 'Marin has been notified and will send a personal reply after her review.';
-    }
-  }, advisorAutoResponseDelayMs);
+function clearAdvisorAutoResponseTimer() {
+  window.clearTimeout(advisorAutoResponseTimer);
+  advisorAutoResponseTimer = null;
+  window.clearTimeout(advisorFollowUpTimer);
+  advisorFollowUpTimer = null;
 }
 
 function showToast(message) {
