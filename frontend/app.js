@@ -98,6 +98,8 @@ const validCredentials = {
 
 const loginScreen = document.querySelector('#loginScreen');
 const appShell = document.querySelector('#appShell');
+const heroPanel = document.querySelector('#overview');
+const relationshipManagerSpot = document.querySelector('#relationship-manager');
 const loginForm = document.querySelector('#loginForm');
 const vaultUnlock = document.querySelector('#vaultUnlock');
 const activityList = document.querySelector('#activityList');
@@ -123,6 +125,8 @@ const isIosDevice = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 let lastActionTrigger = null;
 let deferredInstallPrompt = null;
 let unlockTimer = null;
+let relationshipManagerObserver = null;
+let relationshipManagerScrollHandler = null;
 const unlockDurationMs = 580;
 
 activityList.innerHTML = activities
@@ -450,6 +454,7 @@ function showApp() {
   resetUnlockState();
   loginScreen.hidden = true;
   appShell.hidden = false;
+  setupRelationshipManagerCollapse();
 }
 
 function beginUnlockSequence() {
@@ -596,6 +601,43 @@ function renderConnectionBanner() {
 
   const isOffline = window.navigator.onLine === false;
   connectionBanner.hidden = !isOffline;
+}
+
+function setupRelationshipManagerCollapse() {
+  if (!heroPanel || !relationshipManagerSpot) {
+    return;
+  }
+
+  if (relationshipManagerObserver || relationshipManagerScrollHandler) {
+    updateRelationshipManagerCompaction();
+    return;
+  }
+
+  if ('IntersectionObserver' in window) {
+    relationshipManagerObserver = new IntersectionObserver(
+      ([entry]) => {
+        relationshipManagerSpot.classList.toggle('is-compact', !entry.isIntersecting);
+      },
+      { threshold: 0 },
+    );
+    relationshipManagerObserver.observe(heroPanel);
+    updateRelationshipManagerCompaction();
+    return;
+  }
+
+  relationshipManagerScrollHandler = () => updateRelationshipManagerCompaction();
+  window.addEventListener('scroll', relationshipManagerScrollHandler, { passive: true });
+  window.addEventListener('resize', relationshipManagerScrollHandler);
+  updateRelationshipManagerCompaction();
+}
+
+function updateRelationshipManagerCompaction() {
+  if (!heroPanel || !relationshipManagerSpot) {
+    return;
+  }
+
+  const heroRect = heroPanel.getBoundingClientRect();
+  relationshipManagerSpot.classList.toggle('is-compact', heroRect.bottom <= 0);
 }
 
 function makeButtonsClickable(scope = document) {

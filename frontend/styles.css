@@ -1780,6 +1780,15 @@ main {
     backdrop-filter: blur(14px) saturate(1.1);
   }
 
+  .relationship-manager-spot.is-compact {
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    box-shadow:
+      0 10px 24px rgba(23, 33, 43, 0.08),
+      var(--shadow-soft);
+  }
+
   .relationship-manager-icon {
     display: grid;
     place-items: center;
@@ -1796,6 +1805,11 @@ main {
       0 10px 22px rgba(184, 138, 59, 0.14);
   }
 
+  .relationship-manager-spot.is-compact .relationship-manager-icon {
+    width: 34px;
+    height: 34px;
+  }
+
   .relationship-manager-icon svg {
     width: 20px;
     height: 20px;
@@ -1804,6 +1818,11 @@ main {
     stroke-width: 1.75;
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+
+  .relationship-manager-spot.is-compact .relationship-manager-icon svg {
+    width: 17px;
+    height: 17px;
   }
 
   .relationship-manager-copy {
@@ -1829,6 +1848,19 @@ main {
     line-height: 1.4;
   }
 
+  .relationship-manager-spot.is-compact .relationship-manager-copy .eyebrow {
+    margin-bottom: 1px;
+    font-size: 0.58rem;
+  }
+
+  .relationship-manager-spot.is-compact .relationship-manager-copy strong {
+    font-size: 0.92rem;
+  }
+
+  .relationship-manager-spot.is-compact .relationship-manager-copy span {
+    display: none;
+  }
+
   .relationship-manager-spot button {
     min-width: 82px;
     min-height: 40px;
@@ -1840,6 +1872,13 @@ main {
       0 14px 28px rgba(24, 40, 58, 0.18),
       inset 0 1px 0 rgba(255, 255, 255, 0.08);
     white-space: nowrap;
+  }
+
+  .relationship-manager-spot.is-compact button {
+    min-width: 72px;
+    min-height: 34px;
+    padding-inline: 12px;
+    font-size: 0.76rem;
   }
 
   .advisor-panel {
