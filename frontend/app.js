@@ -82,7 +82,7 @@ const transferHistory = [
     notes: 'Combined household card activity settled overnight.',
   },
   {
-    date: 'May 2026',
+    date: 'August 2026',
     asset: 'Home reserve',
     transaction: 'Pending transfer',
     amount: '+$78,800.00',
