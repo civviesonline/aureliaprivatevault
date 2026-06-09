@@ -627,6 +627,8 @@ textarea:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .login-brand,
   .login-card,
+  .relationship-manager-icon,
+  .relationship-manager-icon img,
   .vault-light,
   .vault-flash,
   .vault-frame,
@@ -642,6 +644,28 @@ textarea:focus-visible {
     opacity: 0;
     transform: none;
     filter: none;
+  }
+}
+
+@keyframes relationship-manager-badge-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes relationship-manager-avatar-float {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.018);
   }
 }
 
@@ -2426,14 +2450,15 @@ html.balance-transitioning .balance-toggle {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    border: 1px solid rgba(184, 138, 59, 0.16);
-    color: var(--navy);
+    overflow: hidden;
+    border: 1px solid rgba(247, 223, 158, 0.2);
     background:
-      radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.9), transparent 36%),
-      linear-gradient(135deg, rgba(247, 223, 158, 0.96), rgba(226, 193, 121, 0.86));
+      radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.1), transparent 34%),
+      linear-gradient(135deg, rgba(20, 42, 73, 0.98), rgba(10, 19, 32, 0.98));
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.5),
-      0 10px 22px rgba(184, 138, 59, 0.14);
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 10px 22px rgba(184, 138, 59, 0.12);
+    animation: relationship-manager-badge-float 5.8s ease-in-out infinite;
   }
 
   .relationship-manager-spot.is-compact .relationship-manager-icon {
@@ -2441,19 +2466,22 @@ html.balance-transitioning .balance-toggle {
     height: 34px;
   }
 
-  .relationship-manager-icon svg {
-    width: 20px;
-    height: 20px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.75;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  .relationship-manager-icon img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transform-origin: 50% 56%;
+    animation: relationship-manager-avatar-float 5.8s ease-in-out infinite;
   }
 
-  .relationship-manager-spot.is-compact .relationship-manager-icon svg {
-    width: 17px;
-    height: 17px;
+  .relationship-manager-icon::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    pointer-events: none;
   }
 
   .relationship-manager-copy {

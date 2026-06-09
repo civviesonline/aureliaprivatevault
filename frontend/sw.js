@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aurelia-pwa-v11';
+const CACHE_NAME = 'aurelia-pwa-v12';
 const APP_SHELL = [
   './',
   './index.html',
@@ -9,6 +9,7 @@ const APP_SHELL = [
   './assets/icon-192.png',
   './assets/icon-512.png',
   './assets/icon.svg',
+  './assets/relationship-manager-headshot.svg',
 ];
 
 async function putInCache(request, response) {
