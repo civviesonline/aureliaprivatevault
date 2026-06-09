@@ -800,6 +800,10 @@ textarea:focus-visible {
   line-height: 1.5;
 }
 
+.relationship-manager-spot {
+  display: none;
+}
+
 .advisor-panel {
   display: grid;
   gap: 8px;
@@ -1703,7 +1707,7 @@ main {
 @media (max-width: 680px) {
   html {
     scroll-padding-top: 190px;
-    scroll-padding-bottom: calc(196px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(118px + env(safe-area-inset-bottom));
   }
 
   body {
@@ -1724,6 +1728,10 @@ main {
   }
 
   .sidebar .nav-list {
+    display: none;
+  }
+
+  .sidebar .advisor-panel {
     display: none;
   }
 
@@ -1750,6 +1758,82 @@ main {
     grid-template-columns: 1fr;
     gap: 6px;
     padding: 14px;
+  }
+
+  .relationship-manager-spot {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: center;
+    padding: 14px 16px;
+    border: 1px solid rgba(15, 118, 110, 0.14);
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at top right, rgba(15, 118, 110, 0.1), transparent 26%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(245, 249, 251, 0.95));
+    box-shadow: var(--shadow-soft);
+  }
+
+  .relationship-manager-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(184, 138, 59, 0.16);
+    color: var(--navy);
+    background:
+      radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.9), transparent 36%),
+      linear-gradient(135deg, rgba(247, 223, 158, 0.96), rgba(226, 193, 121, 0.86));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      0 10px 22px rgba(184, 138, 59, 0.14);
+  }
+
+  .relationship-manager-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .relationship-manager-copy {
+    min-width: 0;
+  }
+
+  .relationship-manager-copy .eyebrow {
+    margin-bottom: 4px;
+  }
+
+  .relationship-manager-copy strong {
+    display: block;
+    color: var(--ink);
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .relationship-manager-copy span {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  .relationship-manager-spot button {
+    min-width: 82px;
+    min-height: 40px;
+    padding-inline: 14px;
+    border-radius: 999px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #21344a, #18283a);
+    box-shadow:
+      0 14px 28px rgba(24, 40, 58, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    white-space: nowrap;
   }
 
   .advisor-panel {
@@ -1900,7 +1984,7 @@ main {
     padding:
       14px
       calc(12px + env(safe-area-inset-right))
-      calc(196px + env(safe-area-inset-bottom))
+      calc(118px + env(safe-area-inset-bottom))
       calc(12px + env(safe-area-inset-left));
   }
 
@@ -1973,9 +2057,9 @@ main {
   }
 
   .hero-panel {
-    gap: 18px;
+    gap: 16px;
     min-height: auto;
-    padding: 20px;
+    padding: 18px;
     background-position: center;
   }
 
@@ -1984,8 +2068,12 @@ main {
   }
 
   .hero-copy h2 {
-    font-size: 2.45rem;
+    font-size: 2.34rem;
     overflow-wrap: anywhere;
+  }
+
+  .hero-copy > p:not(.eyebrow) {
+    font-size: 0.94rem;
   }
 
   .bank-card {
@@ -2112,7 +2200,7 @@ main {
 
   .toast {
     right: 12px;
-    bottom: calc(170px + env(safe-area-inset-bottom));
+    bottom: calc(96px + env(safe-area-inset-bottom));
     max-width: calc(100vw - 24px);
   }
 
