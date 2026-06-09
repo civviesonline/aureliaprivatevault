@@ -298,10 +298,11 @@ loginForm.addEventListener('submit', (event) => {
   beginUnlockSequence();
 });
 
-document.querySelectorAll('.nav-list a, .brand').forEach((link) => {
+document.querySelectorAll('.nav-list a, .mobile-nav a, .brand').forEach((link) => {
   link.addEventListener('click', () => {
-    document.querySelectorAll('.nav-list a').forEach((item) => item.classList.remove('active'));
-    const matchingNav = document.querySelector(`.nav-list a[href="${link.getAttribute('href')}"]`);
+    const href = link.getAttribute('href');
+    document.querySelectorAll('.nav-list a, .mobile-nav a').forEach((item) => item.classList.remove('active'));
+    const matchingNav = document.querySelector(`.nav-list a[href="${href}"], .mobile-nav a[href="${href}"]`);
     matchingNav?.classList.add('active');
   });
 });

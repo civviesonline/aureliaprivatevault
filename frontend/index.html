@@ -35,7 +35,7 @@
 
         <label>
           User ID
-          <input id="userId" name="userId" autocomplete="username" required />
+          <input id="userId" name="userId" autocomplete="username" autocapitalize="none" spellcheck="false" required />
         </label>
 
         <label>
@@ -272,6 +272,30 @@
           </div>
         </section>
       </main>
+
+      <nav class="mobile-nav" aria-label="Quick navigation">
+        <a class="active" href="#overview" aria-label="Home">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5v7.5a1 1 0 0 1-1 1h-4.5v-5.2h-5V20H5a1 1 0 0 1-1-1z" /></svg>
+          <span>Home</span>
+        </a>
+        <a href="#vault" aria-label="Vault">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a6.5 6.5 0 0 0-6.5 6.5v2H4v9h16v-9h-1.5V10A6.5 6.5 0 0 0 12 3.5zm0 3a3.5 3.5 0 0 1 3.5 3.5v2h-7V10A3.5 3.5 0 0 1 12 6.5z" /></svg>
+          <span>Vault</span>
+        </a>
+        <a href="#cards" aria-label="Cards">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v7A2.5 2.5 0 0 1 17.5 17h-11A2.5 2.5 0 0 1 4 14.5zm2 .25h12v1.5H6z" /></svg>
+          <span>Cards</span>
+        </a>
+        <a href="#transfers" aria-label="Move">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 6.5 3.5 10 7 13.5v-2.25h7a3.5 3.5 0 0 1 0 7H10v2h4a5.5 5.5 0 0 0 0-11H7zM17 10.5V8l3.5 3.5L17 15v-2.5h-3v-2z" /></svg>
+          <span>Move</span>
+        </a>
+        <a href="#support" aria-label="Support">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 8.5 8.5A8.51 8.51 0 0 0 12 3.5zm0 13.75a1.1 1.1 0 1 1 1.1-1.1 1.1 1.1 0 0 1-1.1 1.1zm1.7-5.7c-.8.55-1 .86-1 1.65v.3h-1.9v-.46c0-1.33.43-2 1.45-2.7.77-.53 1.15-.88 1.15-1.52a1.38 1.38 0 0 0-1.45-1.33 1.46 1.46 0 0 0-1.5 1.34H8.6a3.3 3.3 0 0 1 3.55-3.05 3.23 3.23 0 0 1 3.45 3.08c0 1.24-.61 1.98-1.9 2.69z" /></svg>
+          <span>Support</span>
+          <span class="nav-badge" aria-hidden="true">1</span>
+        </a>
+      </nav>
     </div>
 
     <div class="modal-backdrop" id="modalBackdrop" hidden>
