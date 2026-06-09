@@ -105,6 +105,7 @@ const vaultUnlock = document.querySelector('#vaultUnlock');
 const activityList = document.querySelector('#activityList');
 const goalList = document.querySelector('#goalList');
 const recentTransactionList = document.querySelector('#recentTransactionList');
+const balanceVisibilityToggle = document.querySelector('#balanceVisibilityToggle');
 const modalBackdrop = document.querySelector('#modalBackdrop');
 const modalEyebrow = document.querySelector('#modalEyebrow');
 const modalTitle = document.querySelector('#modalTitle');
@@ -118,6 +119,8 @@ const installButton = document.querySelector('#installButton');
 const supportBadgeStorageKey = 'aurelia-support-unread-count';
 const supportUnreadDefault = 3;
 const supportBadgeElements = document.querySelectorAll('.nav-badge');
+const balanceVisibilityStorageKey = 'aurelia-balance-hidden';
+const balanceMaskText = '••••••';
 const installDismissStorageKey = 'aurelia-install-banner-dismissed-at';
 const installDismissDurationMs = 7 * 24 * 60 * 60 * 1000;
 const displayModeQuery = window.matchMedia('(display-mode: standalone)');
@@ -127,6 +130,7 @@ let deferredInstallPrompt = null;
 let unlockTimer = null;
 let relationshipManagerObserver = null;
 let relationshipManagerScrollHandler = null;
+let balanceHidden = window.localStorage.getItem(balanceVisibilityStorageKey) === 'true';
 const unlockDurationMs = 820;
 
 activityList.innerHTML = activities
@@ -138,13 +142,14 @@ activityList.innerHTML = activities
           <span>${item.detail}</span>
         </div>
         <div>
-          <strong>${item.amount}</strong>
+          <strong data-balance-value>${item.amount}</strong>
           <span>${item.status}</span>
         </div>
       </article>
     `,
   )
   .join('');
+renderBalanceVisibility(activityList);
 
 goalList.innerHTML = goals
   .map(
@@ -152,7 +157,7 @@ goalList.innerHTML = goals
       <article class="goal-item">
         <div>
           <strong>${goal.label}</strong>
-          <span>${goal.balance}</span>
+          <span data-balance-value>${goal.balance}</span>
         </div>
         <div class="progress-track" aria-label="${goal.label} progress">
           <span style="width: ${goal.value}%"></span>
@@ -161,6 +166,7 @@ goalList.innerHTML = goals
     `,
   )
   .join('');
+renderBalanceVisibility(goalList);
 
 renderRecentTransactions();
 
@@ -186,8 +192,8 @@ function buildHistoryTable(history) {
                   <td data-label="Date">${entry.date}</td>
                   <td data-label="Asset">${entry.asset}</td>
                   <td data-label="Transaction">${entry.transaction}</td>
-                  <td data-label="Amount">${entry.amount}</td>
-                  <td data-label="New Value">${entry.newValue}</td>
+                  <td data-label="Amount" data-balance-value>${entry.amount}</td>
+                  <td data-label="New Value" data-balance-value>${entry.newValue}</td>
                   <td data-label="Notes">${entry.notes}</td>
                 </tr>
               `,
@@ -209,23 +215,24 @@ function renderRecentTransactions() {
   recentTransactionList.innerHTML = recentHistory
     .map(
       (entry) => `
-        <article class="transaction-card">
+      <article class="transaction-card">
           <div class="transaction-card-top">
             <div>
               <strong>${entry.transaction}</strong>
               <span>${entry.asset}</span>
             </div>
-            <strong class="${entry.amount.startsWith('-') ? 'amount-negative' : 'amount-positive'}">${entry.amount}</strong>
+            <strong class="${entry.amount.startsWith('-') ? 'amount-negative' : 'amount-positive'}" data-balance-value>${entry.amount}</strong>
           </div>
           <div class="transaction-card-meta">
             <span>${entry.date}</span>
-            <span>${entry.newValue}</span>
+            <span data-balance-value>${entry.newValue}</span>
           </div>
           <p>${entry.notes}</p>
         </article>
       `,
     )
     .join('');
+  renderBalanceVisibility(recentTransactionList);
 }
 
 const modalContent = {
@@ -309,7 +316,7 @@ const modalContent = {
     title: 'Scheduled movement',
     body: `
       <div class="queue-item">
-        <strong>$78,800 to Home reserve</strong>
+        <strong data-balance-value>$78,800 to Home reserve</strong>
         <span>Scheduled for July 19. Status: awaiting Sean & Michelle Combs approval.</span>
       </div>
       <div class="modal-actions">
@@ -449,6 +456,11 @@ document.addEventListener('click', (event) => {
     return;
   }
 
+  if (action === 'toggle-balance-visibility') {
+    setBalanceHidden(!balanceHidden);
+    return;
+  }
+
   if (modalContent[action]) {
     if (action === 'message-advisor' || action === 'open-brief') {
       markSupportReviewed();
@@ -539,6 +551,7 @@ function openModal(content) {
   modalTitle.textContent = content.title;
   modalBody.innerHTML = content.body;
   makeButtonsClickable(modalBody);
+  renderBalanceVisibility(modalBody);
   modalBackdrop.hidden = false;
   document.body.classList.add('modal-open');
   modalBackdrop.querySelector('input, select, textarea, button')?.focus();
@@ -556,6 +569,7 @@ function showApp() {
   loginScreen.hidden = true;
   appShell.hidden = false;
   setupRelationshipManagerCollapse();
+  renderBalanceVisibility(appShell);
 }
 
 function beginUnlockSequence() {
@@ -704,6 +718,52 @@ function renderConnectionBanner() {
   connectionBanner.hidden = !isOffline;
 }
 
+function renderBalanceVisibility(scope = document) {
+  const balanceNodes = scope.querySelectorAll('[data-balance-value]');
+
+  balanceNodes.forEach((node) => {
+    if (!node.dataset.balanceOriginal) {
+      node.dataset.balanceOriginal = node.textContent.trim();
+    }
+
+    node.textContent = balanceHidden ? balanceMaskText : node.dataset.balanceOriginal;
+
+    if (balanceHidden) {
+      node.setAttribute('aria-label', 'Balance hidden');
+    } else {
+      node.removeAttribute('aria-label');
+    }
+  });
+
+  if (balanceVisibilityToggle) {
+    balanceVisibilityToggle.classList.toggle('is-hidden', balanceHidden);
+    balanceVisibilityToggle.setAttribute('aria-pressed', String(balanceHidden));
+    balanceVisibilityToggle.setAttribute('aria-label', balanceHidden ? 'Show balances' : 'Hide balances');
+
+    const toggleLabel = balanceVisibilityToggle.querySelector('[data-balance-toggle-label]');
+    const showIcon = balanceVisibilityToggle.querySelector('.balance-icon-show');
+    const hideIcon = balanceVisibilityToggle.querySelector('.balance-icon-hide');
+
+    if (toggleLabel) {
+      toggleLabel.textContent = balanceHidden ? 'Show' : 'Hide';
+    }
+
+    if (showIcon) {
+      showIcon.hidden = balanceHidden;
+    }
+
+    if (hideIcon) {
+      hideIcon.hidden = !balanceHidden;
+    }
+  }
+}
+
+function setBalanceHidden(nextHidden) {
+  balanceHidden = nextHidden;
+  window.localStorage.setItem(balanceVisibilityStorageKey, String(balanceHidden));
+  renderBalanceVisibility();
+}
+
 function setupRelationshipManagerCollapse() {
   if (!heroPanel || !relationshipManagerSpot) {
     return;
@@ -757,6 +817,7 @@ makeButtonsClickable();
 renderSupportBadge();
 renderConnectionBanner();
 setupInstallExperience();
+renderBalanceVisibility();
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

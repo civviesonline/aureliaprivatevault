@@ -162,7 +162,30 @@
         <section class="hero-panel" id="overview">
           <div class="hero-copy">
             <p class="eyebrow">Sean &amp; Michelle Combs Joint Checking</p>
-            <h2>$642,450.00</h2>
+            <div class="balance-row">
+              <h2 data-balance-value>$642,450.00</h2>
+              <button
+                class="balance-toggle"
+                id="balanceVisibilityToggle"
+                type="button"
+                data-action="toggle-balance-visibility"
+                aria-pressed="false"
+                aria-label="Hide balances"
+              >
+                <svg class="balance-icon balance-icon-show" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+                  <circle cx="12" cy="12" r="3.2" />
+                </svg>
+                <svg class="balance-icon balance-icon-hide" viewBox="0 0 24 24" aria-hidden="true" hidden>
+                  <path d="M4.5 4.5 19.5 19.5" />
+                  <path d="M9.2 9.5A3.2 3.2 0 0 0 8.4 12a3.6 3.6 0 0 0 5.8 2.8" />
+                  <path d="M6.4 6.9C4.4 8.5 2.5 12 2.5 12S6 18.5 12 18.5c1.4 0 2.6-.2 3.8-.7" />
+                  <path d="M10.6 5.9c.5-.1.9-.1 1.4-.1 5.9 0 9.5 6.2 9.5 6.2s-1.2 2.2-3.7 4.2" />
+                  <path d="M14.9 14.9A3.2 3.2 0 0 1 9.1 9.1" />
+                </svg>
+                <span data-balance-toggle-label>Hide</span>
+              </button>
+            </div>
             <p>Shared balance across checking, savings vaults, and scheduled household reserves.</p>
           </div>
           <div class="card-stack" aria-label="Premium card summary">
@@ -188,17 +211,17 @@
         <section class="metrics-grid" aria-label="Account metrics">
           <article>
             <span>Available checking</span>
-            <strong>$642,450.00</strong>
+            <strong data-balance-value>$642,450.00</strong>
             <small>Both owners can spend</small>
           </article>
           <article>
             <span>Shared savings</span>
-            <strong>$172,800.00</strong>
+            <strong data-balance-value>$172,800.00</strong>
             <small>4 household vaults</small>
           </article>
           <article>
             <span>Pending inflows</span>
-            <strong>$43,680.55</strong>
+            <strong data-balance-value>$43,680.55</strong>
             <small>2 scheduled deposits</small>
           </article>
           <article>
@@ -330,7 +353,7 @@
             <p class="eyebrow">Transfers</p>
             <h2>Scheduled movement</h2>
             <div class="transfer-preview">
-              <strong>$78,800</strong>
+              <strong data-balance-value>$78,800</strong>
               <span>To Home reserve &middot; July 19</span>
             </div>
             <button class="wide-button" type="button" data-action="review-queue">Review queue</button>
