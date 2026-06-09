@@ -1957,6 +1957,19 @@ html.balance-transitioning .balance-toggle {
   width: 100%;
 }
 
+.account-access-panel {
+  border-color: rgba(166, 75, 99, 0.14);
+}
+
+.account-access-panel .eyebrow {
+  color: var(--rose);
+}
+
+.signout-action {
+  background: linear-gradient(135deg, #a64b63, #7f263c);
+  box-shadow: 0 12px 24px rgba(166, 75, 99, 0.2);
+}
+
 .security-strip {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
@@ -3041,7 +3054,7 @@ html.balance-transitioning .balance-toggle {
 
   .topbar-actions {
     display: grid;
-    grid-template-columns: 44px minmax(0, 1fr) minmax(72px, auto);
+    grid-template-columns: 44px minmax(0, 1fr);
     align-items: stretch;
     margin-right: 0;
   }

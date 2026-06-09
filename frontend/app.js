@@ -578,7 +578,7 @@ document.addEventListener('click', (event) => {
     resetUnlockState();
     appShell.hidden = true;
     loginScreen.hidden = false;
-    closeModal();
+    closeModal({ restoreFocus: false });
     showToast('Signed out.');
     return;
   }
@@ -651,11 +651,14 @@ function openModal(content) {
   focusTarget?.focus();
 }
 
-function closeModal() {
+function closeModal(options = {}) {
+  const { restoreFocus = true } = options;
   clearAdvisorAutoResponseTimer();
   modalBackdrop.hidden = true;
   document.body.classList.remove('modal-open');
-  lastActionTrigger?.focus();
+  if (restoreFocus) {
+    lastActionTrigger?.focus();
+  }
   lastActionTrigger = null;
 }
 
@@ -704,6 +707,10 @@ function resetUnlockState() {
 }
 
 function showView(viewName, options = {}) {
+  if (!modalBackdrop.hidden) {
+    closeModal({ restoreFocus: false });
+  }
+
   const view = screenCopy[viewName] ? viewName : 'overview';
   const href = `#${view}`;
 
