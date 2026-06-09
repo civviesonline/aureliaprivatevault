@@ -2331,24 +2331,25 @@ html.balance-transitioning .balance-toggle {
 .advisor-message-meta {
   display: flex;
   justify-content: flex-end;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .advisor-message-receipt {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 16px;
+  width: 18px;
+  height: 14px;
   color: #1d4ed8;
+  transform: translateY(1px);
 }
 
 .advisor-message-receipt svg {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 2.3;
+  stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
