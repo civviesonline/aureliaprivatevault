@@ -3153,13 +3153,37 @@ html.balance-transitioning .balance-toggle {
     box-shadow: none;
   }
 
+  .card-page-grid,
+  .support-page-grid {
+    gap: 14px;
+  }
+
   .bank-panel,
   .card-preview-panel {
     padding: 16px;
   }
 
   .card-preview-panel {
-    min-height: 234px;
+    min-height: 226px;
+    padding: 14px;
+  }
+
+  .card-preview-panel .bank-card {
+    max-width: 340px;
+  }
+
+  .card-page-grid .bank-panel,
+  .support-page-grid .bank-panel {
+    gap: 14px;
+  }
+
+  .advisor-card {
+    gap: 12px;
+  }
+
+  .support-copy {
+    font-size: 0.93rem;
+    line-height: 1.5;
   }
 
   .quick-actions-panel {
@@ -3210,6 +3234,8 @@ html.balance-transitioning .balance-toggle {
 
   .security-strip button {
     width: 100%;
+    min-height: 44px;
+    border-radius: 12px;
   }
 
   .activity-item {
