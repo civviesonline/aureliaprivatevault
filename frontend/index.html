@@ -31,16 +31,16 @@
       <form class="login-card" id="loginForm">
         <p class="eyebrow">Secure access</p>
         <h1 id="loginTitle">Sign in to the Sean &amp; Michelle Combs joint account</h1>
-        <p class="login-copy">A shared household account for Sean Combs and Michelle Combs.</p>
+        <p class="login-copy">A shared household account for Sean &amp; Michelle Combs.</p>
 
         <label>
           User ID
-          <input id="userId" name="userId" autocomplete="username" value="sean.combs" required />
+          <input id="userId" name="userId" autocomplete="username" required />
         </label>
 
         <label>
           Password
-          <input id="password" name="password" type="password" autocomplete="current-password" value="joint-demo-2026" required />
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
         </label>
 
         <div class="login-options">
@@ -51,9 +51,29 @@
           <button type="button" data-action="forgot-password">Forgot?</button>
         </div>
 
-        <button class="login-submit" type="submit">Sign in</button>
-        <span class="demo-note">Demo credentials are prefilled for this prototype.</span>
+        <button class="login-submit" type="submit">Unlock Vault</button>
       </form>
+
+      <div class="vault-unlock" id="vaultUnlock" aria-hidden="true" hidden>
+        <div class="vault-stage">
+          <div class="vault-flash"></div>
+          <div class="vault-light"></div>
+          <div class="vault-frame">
+            <span class="vault-bolt vault-bolt-top"></span>
+            <span class="vault-bolt vault-bolt-right"></span>
+            <span class="vault-bolt vault-bolt-bottom"></span>
+            <span class="vault-bolt vault-bolt-left"></span>
+            <div class="vault-wheel" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span class="vault-wheel-core"></span>
+            </div>
+            <div class="vault-door vault-door-left"></div>
+            <div class="vault-door vault-door-right"></div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <div class="app-shell" id="appShell" hidden>
@@ -123,7 +143,7 @@
             <div
               class="bank-card"
               role="img"
-              aria-label="A matte dark metal Aurelia Joint card with embossed gold details, a masked card number ending in 6428, and the engraved names Sean Combs and Michelle Combs"
+              aria-label="A matte dark metal Aurelia Joint card with embossed gold details, a masked card number ending in 6428, and the engraved names Sean &amp; Michelle Combs"
             >
               <span class="bank-card-tier">Aurelia Joint</span>
               <div class="bank-card-chip" aria-hidden="true"></div>
@@ -133,7 +153,7 @@
                 <span>THRU</span>
                 <span>27-03-2029</span>
               </div>
-              <strong class="bank-card-engraving">Sean Combs + Michelle Combs</strong>
+              <strong class="bank-card-engraving">Sean &amp; Michelle Combs</strong>
               <div class="bank-card-plate" aria-hidden="true"></div>
             </div>
           </div>

@@ -1,12 +1,12 @@
 const activities = [
   {
-    name: 'Sean Combs stock earnings',
+    name: 'Sean & Michelle Combs stock earnings',
     detail: 'Direct deposit',
     amount: '+$7,418.27',
     status: 'Posted',
   },
   {
-    name: 'Michelle Combs card',
+    name: 'Sean & Michelle Combs card',
     detail: 'Home design studio',
     amount: '-$6,840.33',
     status: 'Pending',
@@ -39,7 +39,7 @@ const transferHistory = [
     transaction: 'Opening balance',
     amount: '+$118,500.00',
     newValue: '$118,500.00',
-    notes: 'Sean Combs and Michelle Combs added as equal account owners.',
+    notes: 'Sean & Michelle Combs added as equal account owners.',
   },
   {
     date: 'Jan 2026',
@@ -87,18 +87,19 @@ const transferHistory = [
     transaction: 'Pending transfer',
     amount: '+$78,800.00',
     newValue: '$78,800.00',
-    notes: 'Queued for Michelle Combs approval under shared controls.',
+    notes: 'Queued for Sean & Michelle Combs approval under shared controls.',
   },
 ];
 
 const validCredentials = {
-  userId: 'sean.combs',
-  password: 'joint-demo-2026',
+  userId: 'smcombs.vault',
+  password: 'fh8c@Pfv0gB2',
 };
 
 const loginScreen = document.querySelector('#loginScreen');
 const appShell = document.querySelector('#appShell');
 const loginForm = document.querySelector('#loginForm');
+const vaultUnlock = document.querySelector('#vaultUnlock');
 const activityList = document.querySelector('#activityList');
 const goalList = document.querySelector('#goalList');
 const transferHistoryTable = document.querySelector('#transferHistory');
@@ -117,6 +118,8 @@ const displayModeQuery = window.matchMedia('(display-mode: standalone)');
 const isIosDevice = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 let lastActionTrigger = null;
 let deferredInstallPrompt = null;
+let unlockTimer = null;
+const unlockDurationMs = 580;
 
 activityList.innerHTML = activities
   .map(
@@ -248,7 +251,7 @@ const modalContent = {
     body: `
       <div class="queue-item">
         <strong>$78,800 to Home reserve</strong>
-        <span>Scheduled for July 19. Status: awaiting Michelle Combs approval.</span>
+        <span>Scheduled for July 19. Status: awaiting Sean & Michelle Combs approval.</span>
       </div>
       <div class="modal-actions">
         <button type="button" data-action="approve-queue">Approve</button>
@@ -260,7 +263,7 @@ const modalContent = {
     eyebrow: 'Concierge',
     title: 'Monthly account brief',
     body: `
-      <p>Advisor note prepared for Sean Combs and Michelle Combs: household liquidity is stable, with the next large movement awaiting dual approval.</p>
+      <p>Advisor note prepared for Sean & Michelle Combs: household liquidity is stable, with the next large movement awaiting dual approval.</p>
       <p>Recommended next step: review May 2026 savings goals and confirm card limits for both account owners.</p>
       <button type="button" data-action="mark-brief-read">Mark reviewed</button>
     `,
@@ -275,6 +278,10 @@ if (sessionActive) {
 
 loginForm.addEventListener('submit', (event) => {
   event.preventDefault();
+  if (unlockTimer !== null) {
+    return;
+  }
+
   const formData = new FormData(loginForm);
   const userId = String(formData.get('userId') ?? '').trim();
   const password = String(formData.get('password') ?? '');
@@ -288,8 +295,7 @@ loginForm.addEventListener('submit', (event) => {
     window.localStorage.setItem('aureliaJointSession', 'active');
   }
 
-  showApp();
-  showToast('Signed in to Sean & Michelle Combs joint account.');
+  beginUnlockSequence();
 });
 
 document.querySelectorAll('.nav-list a, .brand').forEach((link) => {
@@ -345,6 +351,7 @@ document.addEventListener('click', (event) => {
 
   if (action === 'logout') {
     window.localStorage.removeItem('aureliaJointSession');
+    resetUnlockState();
     appShell.hidden = true;
     loginScreen.hidden = false;
     closeModal();
@@ -353,7 +360,7 @@ document.addEventListener('click', (event) => {
   }
 
   if (action === 'forgot-password') {
-    showToast('Password reset is ready for the prototype.');
+    showToast('Password reset is available.');
     return;
   }
 
@@ -425,8 +432,42 @@ function closeModal() {
 }
 
 function showApp() {
+  resetUnlockState();
   loginScreen.hidden = true;
   appShell.hidden = false;
+}
+
+function beginUnlockSequence() {
+  const submitButton = loginForm.querySelector('.login-submit');
+  const inputs = loginForm.querySelectorAll('input, button');
+
+  loginScreen.classList.add('unlocking');
+  vaultUnlock.hidden = false;
+  submitButton.textContent = 'Unlocking...';
+  inputs.forEach((element) => {
+    element.disabled = true;
+  });
+
+  window.clearTimeout(unlockTimer);
+  unlockTimer = window.setTimeout(() => {
+    showApp();
+    showToast('Vault unlocked. Signed in to Sean & Michelle Combs joint account.');
+    unlockTimer = null;
+  }, unlockDurationMs);
+}
+
+function resetUnlockState() {
+  window.clearTimeout(unlockTimer);
+  unlockTimer = null;
+  loginScreen.classList.remove('unlocking');
+  vaultUnlock.hidden = true;
+
+  const submitButton = loginForm.querySelector('.login-submit');
+  const inputs = loginForm.querySelectorAll('input, button');
+  submitButton.textContent = 'Unlock Vault';
+  inputs.forEach((element) => {
+    element.disabled = false;
+  });
 }
 
 function setupSearch() {
