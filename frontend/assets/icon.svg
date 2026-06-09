@@ -1,5 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Aurelia">
-  <rect width="512" height="512" rx="96" fill="#18283a"/>
-  <path fill="#f7df9e" d="M256 84 412 428h-82l-27-66h-96l-27 66H100L256 84Zm-21 210h41l-20-50-21 50Z"/>
-  <path fill="#0f766e" d="M183 428h146l-26-66h-94l-26 66Z" opacity=".9"/>
+  <rect width="512" height="512" rx="96" fill="#12253d"/>
+  <circle cx="256" cy="256" r="188" fill="#0b1727"/>
+  <circle cx="256" cy="256" r="178" fill="none" stroke="#f0d889" stroke-width="8"/>
+  <circle cx="256" cy="256" r="164" fill="none" stroke="#8d6b31" stroke-width="2" opacity=".6"/>
+  <circle cx="256" cy="256" r="152" fill="#10223b"/>
+
+  <path
+    fill="#f7df9e"
+    stroke="#9d7634"
+    stroke-width="6"
+    stroke-linejoin="round"
+    fill-rule="evenodd"
+    d="M256 84 405 430h-82l-24-56h-88l-24 56h-82L256 84Zm0 76 29 76h-58zM221 294h70l-14-34h-42z"
+  />
+
+  <path d="M256 97 359 338" fill="none" stroke="#ffffff" stroke-opacity=".18" stroke-width="8" stroke-linecap="round"/>
+  <path d="M256 97 153 338" fill="none" stroke="#ffffff" stroke-opacity=".1" stroke-width="8" stroke-linecap="round"/>
+  <path d="M221 294h70l-14-34h-42z" fill="#0f766e"/>
 </svg>
