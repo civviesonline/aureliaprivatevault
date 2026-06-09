@@ -3257,6 +3257,28 @@ html.balance-transitioning .balance-toggle {
     width: 100%;
   }
 
+  .transfer-preview strong {
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+  }
+
+  .transfer-preview span {
+    overflow-wrap: anywhere;
+  }
+
+  .modal-actions {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+
+  .transfer-history-panel {
+    padding: 16px;
+  }
+
   .history-table-wrap {
     overflow: visible;
   }
@@ -3293,12 +3315,12 @@ html.balance-transitioning .balance-toggle {
 
   .history-table td {
     display: grid;
-    grid-template-columns: minmax(86px, 0.34fr) minmax(0, 1fr);
-    gap: 10px;
+    grid-template-columns: minmax(74px, 0.32fr) minmax(0, 1fr);
+    gap: 8px;
     align-items: start;
     min-width: 0 !important;
     width: 100% !important;
-    padding: 8px 0;
+    padding: 7px 0;
     border: 0 !important;
     background: transparent;
     text-align: left !important;
@@ -3319,9 +3341,9 @@ html.balance-transitioning .balance-toggle {
 
   .history-table td::before {
     color: var(--muted);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 800;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     content: attr(data-label);
   }
