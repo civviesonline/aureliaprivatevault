@@ -121,6 +121,7 @@ const supportUnreadDefault = 3;
 const supportBadgeElements = document.querySelectorAll('.nav-badge');
 const balanceVisibilityStorageKey = 'aurelia-balance-hidden';
 const balanceMaskText = '••••••';
+const balanceTransitionMs = 260;
 const installDismissStorageKey = 'aurelia-install-banner-dismissed-at';
 const installDismissDurationMs = 7 * 24 * 60 * 60 * 1000;
 const displayModeQuery = window.matchMedia('(display-mode: standalone)');
@@ -131,6 +132,7 @@ let unlockTimer = null;
 let relationshipManagerObserver = null;
 let relationshipManagerScrollHandler = null;
 let balanceHidden = window.localStorage.getItem(balanceVisibilityStorageKey) === 'true';
+let balanceTransitionTimer = null;
 const unlockDurationMs = 820;
 
 activityList.innerHTML = activities
@@ -759,9 +761,27 @@ function renderBalanceVisibility(scope = document) {
 }
 
 function setBalanceHidden(nextHidden) {
+  if (balanceHidden === nextHidden) {
+    return;
+  }
+
   balanceHidden = nextHidden;
   window.localStorage.setItem(balanceVisibilityStorageKey, String(balanceHidden));
-  renderBalanceVisibility();
+  const root = document.documentElement;
+
+  window.clearTimeout(balanceTransitionTimer);
+  root.classList.remove('balance-hiding', 'balance-revealing', 'balance-transitioning');
+  root.classList.add('balance-transitioning', nextHidden ? 'balance-hiding' : 'balance-revealing');
+
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      renderBalanceVisibility();
+      balanceTransitionTimer = window.setTimeout(() => {
+        root.classList.remove('balance-hiding', 'balance-revealing', 'balance-transitioning');
+        balanceTransitionTimer = null;
+      }, balanceTransitionMs);
+    });
+  });
 }
 
 function setupRelationshipManagerCollapse() {

@@ -936,6 +936,46 @@ main {
   background: rgba(255, 255, 255, 0.15);
 }
 
+html.balance-transitioning [data-balance-value] {
+  transition:
+    opacity 220ms ease,
+    filter 220ms ease,
+    letter-spacing 220ms ease,
+    color 220ms ease;
+  will-change: opacity, filter, letter-spacing;
+}
+
+html.balance-hiding [data-balance-value] {
+  opacity: 0.18;
+  filter: blur(7px) saturate(0.85);
+  letter-spacing: 0.08em;
+}
+
+html.balance-revealing [data-balance-value] {
+  opacity: 1;
+  filter: blur(0) saturate(1);
+  letter-spacing: 0;
+}
+
+html.balance-transitioning .balance-toggle {
+  transform: translateY(-1px);
+}
+
+html.balance-hiding .balance-toggle svg,
+html.balance-revealing .balance-toggle svg {
+  transition: transform 220ms ease, opacity 220ms ease;
+}
+
+html.balance-hiding .balance-toggle svg {
+  opacity: 0.86;
+  transform: scale(0.96);
+}
+
+html.balance-revealing .balance-toggle svg {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
 .topbar h1 {
   font-size: clamp(2.8rem, 6vw, 5.2rem);
   line-height: 0.9;
