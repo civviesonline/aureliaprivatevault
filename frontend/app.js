@@ -743,19 +743,9 @@ function renderBalanceVisibility(scope = document) {
     balanceVisibilityToggle.setAttribute('aria-label', balanceHidden ? 'Show balances' : 'Hide balances');
 
     const toggleLabel = balanceVisibilityToggle.querySelector('[data-balance-toggle-label]');
-    const showIcon = balanceVisibilityToggle.querySelector('.balance-icon-show');
-    const hideIcon = balanceVisibilityToggle.querySelector('.balance-icon-hide');
 
     if (toggleLabel) {
       toggleLabel.textContent = balanceHidden ? 'Show' : 'Hide';
-    }
-
-    if (showIcon) {
-      showIcon.hidden = balanceHidden;
-    }
-
-    if (hideIcon) {
-      hideIcon.hidden = !balanceHidden;
     }
   }
 }
