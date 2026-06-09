@@ -208,6 +208,78 @@
           </article>
         </section>
 
+        <section class="home-launchpad" aria-labelledby="home-launchpad-title">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Home</p>
+              <h2 id="home-launchpad-title">Do more with Aurelia</h2>
+            </div>
+            <button type="button" data-action="aurelia-services">Explore</button>
+          </div>
+
+          <div class="launchpad-grid">
+            <article class="launchpad-card">
+              <div class="launchpad-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M7 9.2h10" />
+                  <path d="M7 12h10" />
+                  <path d="M7 14.8h6" />
+                  <path d="M5.8 6.8h12.4v10.4H5.8Z" />
+                </svg>
+              </div>
+              <div>
+                <p class="eyebrow">Aurelia services</p>
+                <h3>Move, save, and manage in one place</h3>
+                <p>Send money, review approvals, message your relationship manager, and keep every household decision in a single mobile view.</p>
+              </div>
+              <ul class="launchpad-list">
+                <li>Instant card controls</li>
+                <li>Secure advisor messaging</li>
+                <li>Offline-ready home screen</li>
+              </ul>
+            </article>
+
+            <article class="launchpad-card launchpad-card-savings">
+              <div class="launchpad-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 4.5c4.1 0 7.5 1.5 7.5 3.3S16.1 11 12 11s-7.5-1.4-7.5-3.2S7.9 4.5 12 4.5Z" />
+                  <path d="M4.5 7.8v5.1c0 1.8 3.4 3.4 7.5 3.4s7.5-1.6 7.5-3.4V7.8" />
+                  <path d="M4.5 12.6v5c0 1.8 3.4 3.4 7.5 3.4s7.5-1.6 7.5-3.4v-5" />
+                </svg>
+              </div>
+              <div>
+                <p class="eyebrow">Savings</p>
+                <h3>Featured savings</h3>
+                <strong class="launchpad-rate">4.85% APY</strong>
+                <p>Curate premium vaults for home goals, emergency cushions, and future plans with a featured annual yield experience.</p>
+              </div>
+              <button type="button" data-action="new-vault">Open savings vault</button>
+            </article>
+
+            <article class="launchpad-card launchpad-card-toolkit">
+              <div class="launchpad-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M5.5 6.5h5v5h-5z" />
+                  <path d="M13.5 6.5h5v5h-5z" />
+                  <path d="M5.5 14.5h5v3h-5z" />
+                  <path d="M13.5 14.5h5v3h-5z" />
+                </svg>
+              </div>
+              <div>
+                <p class="eyebrow">Marketers toolkit</p>
+                <h3>Build offers that feel premium</h3>
+                <p>Use branded payment links, campaign-ready workflows, and shareable lead tools straight from the home dashboard.</p>
+              </div>
+              <div class="launchpad-chip-row" aria-label="Toolkit features">
+                <span class="launchpad-chip">Brand kit</span>
+                <span class="launchpad-chip">Offer links</span>
+                <span class="launchpad-chip">Lead forms</span>
+              </div>
+              <button type="button" data-action="marketing-toolkit">Open toolkit</button>
+            </article>
+          </div>
+        </section>
+
         <div class="content-grid">
           <section class="activity-panel" aria-labelledby="activity-title">
             <div class="section-heading">
@@ -276,26 +348,16 @@
           <div class="section-heading">
             <div>
               <p class="eyebrow">Transaction history</p>
-              <h2 id="transfer-history-title">Joint account ledger</h2>
+              <h2 id="transfer-history-title">Recent transactions</h2>
+              <p class="panel-note">Showing the latest three entries from your joint ledger.</p>
             </div>
-            <button type="button" data-action="download-history">Download CSV</button>
+            <div class="section-actions">
+              <button type="button" data-action="view-all-history">View all</button>
+              <button type="button" data-action="download-history">Download CSV</button>
+            </div>
           </div>
 
-          <div class="history-table-wrap">
-            <table class="history-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Asset</th>
-                  <th>Transaction</th>
-                  <th>Amount</th>
-                  <th>Value</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody id="transferHistory"></tbody>
-            </table>
-          </div>
+          <div class="recent-transaction-list" id="recentTransactionList"></div>
         </section>
       </main>
 

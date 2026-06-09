@@ -1385,6 +1385,214 @@ main {
   line-height: 1.6;
 }
 
+.panel-note {
+  margin: 4px 0 0;
+  color: var(--muted);
+  line-height: 1.45;
+  font-size: 0.92rem;
+}
+
+.section-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, max-content));
+  gap: 10px;
+  justify-content: end;
+}
+
+.home-launchpad {
+  display: grid;
+  gap: 16px;
+}
+
+.modal-feature-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.launchpad-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.launchpad-card {
+  position: relative;
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(220, 227, 234, 0.88);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(184, 138, 59, 0.08), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(248, 250, 252, 0.92));
+  box-shadow: var(--shadow-soft);
+}
+
+.launchpad-card::after {
+  position: absolute;
+  inset: auto -28px -28px auto;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(15, 118, 110, 0.08), transparent 66%);
+  content: "";
+  pointer-events: none;
+}
+
+.launchpad-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(184, 138, 59, 0.16);
+  border-radius: 16px;
+  color: var(--navy);
+  background:
+    linear-gradient(135deg, rgba(247, 223, 158, 0.78), rgba(226, 193, 121, 0.72)),
+    rgba(255, 255, 255, 0.86);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.46),
+    0 10px 24px rgba(184, 138, 59, 0.1);
+}
+
+.launchpad-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.launchpad-card h3 {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-size: 1.08rem;
+  line-height: 1.25;
+}
+
+.launchpad-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.launchpad-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.launchpad-list li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  color: var(--ink);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.launchpad-list li::before {
+  width: 8px;
+  height: 8px;
+  margin-top: 0.42rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f7df9e, #b88a3b);
+  box-shadow: 0 0 0 4px rgba(184, 138, 59, 0.08);
+  content: "";
+}
+
+.launchpad-rate {
+  display: block;
+  margin: 0 0 6px;
+  color: var(--navy);
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.launchpad-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.launchpad-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  border-radius: 999px;
+  color: var(--navy);
+  background: rgba(15, 118, 110, 0.06);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.launchpad-card button {
+  justify-self: start;
+}
+
+.recent-transaction-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.transaction-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid rgba(223, 229, 236, 0.92);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(245, 248, 251, 0.96)),
+    var(--surface-strong);
+}
+
+.transaction-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.transaction-card-top strong {
+  display: block;
+}
+
+.transaction-card-top span {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.amount-positive {
+  color: var(--teal);
+}
+
+.amount-negative {
+  color: var(--rose);
+}
+
+.transaction-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.transaction-card p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.45;
+}
+
 .wide-button {
   width: 100%;
 }
@@ -1758,6 +1966,31 @@ main {
     grid-template-columns: 1fr;
     gap: 6px;
     padding: 14px;
+  }
+
+  .home-launchpad {
+    gap: 14px;
+  }
+
+  .launchpad-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .launchpad-card {
+    padding: 16px;
+  }
+
+  .launchpad-rate {
+    font-size: 1.8rem;
+  }
+
+  .launchpad-card button {
+    width: 100%;
+  }
+
+  .section-actions {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .relationship-manager-spot {

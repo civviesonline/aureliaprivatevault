@@ -104,7 +104,7 @@ const loginForm = document.querySelector('#loginForm');
 const vaultUnlock = document.querySelector('#vaultUnlock');
 const activityList = document.querySelector('#activityList');
 const goalList = document.querySelector('#goalList');
-const transferHistoryTable = document.querySelector('#transferHistory');
+const recentTransactionList = document.querySelector('#recentTransactionList');
 const modalBackdrop = document.querySelector('#modalBackdrop');
 const modalEyebrow = document.querySelector('#modalEyebrow');
 const modalTitle = document.querySelector('#modalTitle');
@@ -162,20 +162,71 @@ goalList.innerHTML = goals
   )
   .join('');
 
-transferHistoryTable.innerHTML = transferHistory
-  .map(
-    (entry) => `
-      <tr>
-        <td data-label="Date">${entry.date}</td>
-        <td data-label="Asset">${entry.asset}</td>
-        <td data-label="Transaction">${entry.transaction}</td>
-        <td data-label="Amount">${entry.amount}</td>
-        <td data-label="New Value">${entry.newValue}</td>
-        <td data-label="Notes">${entry.notes}</td>
-      </tr>
-    `,
-  )
-  .join('');
+renderRecentTransactions();
+
+function buildHistoryTable(history) {
+  return `
+    <div class="history-table-wrap">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Asset</th>
+            <th>Transaction</th>
+            <th>Amount</th>
+            <th>Value</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${history
+            .map(
+              (entry) => `
+                <tr>
+                  <td data-label="Date">${entry.date}</td>
+                  <td data-label="Asset">${entry.asset}</td>
+                  <td data-label="Transaction">${entry.transaction}</td>
+                  <td data-label="Amount">${entry.amount}</td>
+                  <td data-label="New Value">${entry.newValue}</td>
+                  <td data-label="Notes">${entry.notes}</td>
+                </tr>
+              `,
+            )
+            .join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderRecentTransactions() {
+  if (!recentTransactionList) {
+    return;
+  }
+
+  const recentHistory = transferHistory.slice(-3).reverse();
+
+  recentTransactionList.innerHTML = recentHistory
+    .map(
+      (entry) => `
+        <article class="transaction-card">
+          <div class="transaction-card-top">
+            <div>
+              <strong>${entry.transaction}</strong>
+              <span>${entry.asset}</span>
+            </div>
+            <strong class="${entry.amount.startsWith('-') ? 'amount-negative' : 'amount-positive'}">${entry.amount}</strong>
+          </div>
+          <div class="transaction-card-meta">
+            <span>${entry.date}</span>
+            <span>${entry.newValue}</span>
+          </div>
+          <p>${entry.notes}</p>
+        </article>
+      `,
+    )
+    .join('');
+}
 
 const modalContent = {
   'message-advisor': {
@@ -274,6 +325,56 @@ const modalContent = {
       <p>Advisor note prepared for Sean & Michelle Combs: household liquidity is stable, with the next large movement awaiting dual approval.</p>
       <p>Recommended next step: review May 2026 savings goals and confirm card limits for both account owners.</p>
       <button type="button" data-action="mark-brief-read">Mark reviewed</button>
+    `,
+  },
+  'aurelia-services': {
+    eyebrow: 'Home',
+    title: 'Do more with Aurelia',
+    body: `
+      <div class="feature-grid modal-feature-grid">
+        <article class="launchpad-card">
+          <p class="eyebrow">Aurelia services</p>
+          <h3>All your banking tools in one premium app</h3>
+          <p>Send money, manage approvals, message your advisor, and keep your household finances organized from a single mobile home screen.</p>
+        </article>
+        <article class="launchpad-card">
+          <p class="eyebrow">Fast actions</p>
+          <ul class="launchpad-list">
+            <li>Tap into vaults and savings</li>
+            <li>Review recent activity at a glance</li>
+            <li>Install once, use instantly offline</li>
+          </ul>
+        </article>
+      </div>
+    `,
+  },
+  'view-all-history': {
+    eyebrow: 'Transaction history',
+    title: 'All ledger entries',
+    body: `
+      <p class="panel-note">Full account history for the Sean &amp; Michelle Combs joint account.</p>
+      ${buildHistoryTable(transferHistory)}
+    `,
+  },
+  'marketing-toolkit': {
+    eyebrow: 'Marketers toolkit',
+    title: 'Premium campaign tools',
+    body: `
+      <div class="feature-grid modal-feature-grid">
+        <article class="launchpad-card">
+          <p class="eyebrow">Toolkit features</p>
+          <h3>Build polished offers and track engagement</h3>
+          <ul class="launchpad-list">
+            <li>Branded payment links for fast sharing</li>
+            <li>Lead capture forms with a premium look</li>
+            <li>Campaign-ready messaging and follow-up workflows</li>
+          </ul>
+        </article>
+        <article class="launchpad-card">
+          <p class="eyebrow">Campaign workflow</p>
+          <p>Create one-off promotions, save reusable templates, and keep client-facing materials aligned to the Aurelia brand.</p>
+        </article>
+      </div>
     `,
   },
 };
