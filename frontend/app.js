@@ -1350,9 +1350,9 @@ function renderInstallBanner() {
 
   if (deferredInstallPrompt) {
     installBannerDescription.textContent =
-      'Install the dashboard for faster launch, a cleaner full-screen layout, and offline access to the shared banking shell.';
+      'Add Aurelia to your home screen for one-tap access, offline-ready banking, and a cleaner full-screen feel.';
     installBannerHint.textContent = 'Android and desktop browsers can install directly from this banner.';
-    installButton.textContent = 'Install app';
+    installButton.textContent = 'Install now';
     installButton.disabled = false;
     return;
   }
@@ -1367,8 +1367,8 @@ function renderInstallBanner() {
   }
 
   installBannerDescription.textContent =
-    'This dashboard is installable as a Progressive Web App for smoother repeat visits and offline-ready navigation.';
-  installBannerHint.textContent = 'If your browser does not show a prompt, use the browser menu and choose Install app.';
+    'This dashboard installs as a Progressive Web App for faster repeat access and offline-ready navigation.';
+  installBannerHint.textContent = 'If your browser does not show a prompt, use the browser menu and choose Install Aurelia.';
   installButton.textContent = 'How to install';
   installButton.disabled = false;
 }

@@ -1170,10 +1170,10 @@ html.balance-transitioning .balance-toggle {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 18px;
-  align-items: center;
-  padding: 20px 22px;
+  align-items: start;
+  padding: 18px 20px;
   border: 1px solid rgba(15, 118, 110, 0.14);
-  border-radius: 22px;
+  border-radius: 20px;
   background:
     radial-gradient(circle at top right, rgba(15, 118, 110, 0.12), transparent 24%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(243, 248, 251, 0.96));
@@ -1181,13 +1181,16 @@ html.balance-transitioning .balance-toggle {
 }
 
 .install-copy {
+  display: grid;
+  gap: 6px;
   min-width: 0;
 }
 
 .install-copy h2 {
-  margin: 0 0 8px;
+  margin: 0;
   font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
   font-size: clamp(1.55rem, 3vw, 2.1rem);
+  line-height: 1.05;
   color: var(--ink);
 }
 
@@ -1197,20 +1200,21 @@ html.balance-transitioning .balance-toggle {
 }
 
 .install-copy > p:not(.eyebrow) {
-  margin: 0 0 8px;
+  margin: 0;
   color: var(--muted);
   line-height: 1.6;
 }
 
 .install-hint {
-  font-size: 0.88rem;
+  font-size: 0.86rem;
+  line-height: 1.45;
 }
 
 .install-actions {
   display: grid;
   gap: 10px;
   justify-items: stretch;
-  min-width: min(220px, 100%);
+  min-width: min(210px, 100%);
 }
 
 .install-action {
@@ -3044,8 +3048,9 @@ html.balance-transitioning .balance-toggle {
   }
 
   .install-banner {
-    gap: 16px;
-    padding: 18px;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 18px;
   }
 
   .install-actions {
@@ -3574,11 +3579,15 @@ html.balance-transitioning .balance-toggle {
   }
 
   .install-copy h2 {
-    font-size: 1.35rem;
+    font-size: 1.3rem;
   }
 
   .install-copy > p:not(.eyebrow) {
-    font-size: 0.93rem;
+    font-size: 0.92rem;
+  }
+
+  .install-hint {
+    font-size: 0.82rem;
   }
 
   .section-heading button,
