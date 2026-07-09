@@ -7,6 +7,7 @@ function SuccessPage({ currentUser, onLogout }) {
   const [loggingOut, setLoggingOut] = useState(false);
   const fullName = currentUser?.fullName;
   const email = currentUser?.email;
+  const vaultAppUrl = import.meta.env.VITE_VAULT_APP_URL || 'http://localhost:5173';
 
   if (!fullName || !email) {
     return <Navigate to="/login" replace />;
@@ -59,14 +60,22 @@ function SuccessPage({ currentUser, onLogout }) {
             <p className="text-sm text-slate-500">
               This device will keep the session until the user signs out or the remembered session expires.
             </p>
-            <button
-              type="button"
-              onClick={handleLogout}
-              disabled={loggingOut}
-              className="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:text-slate-400"
-            >
-              {loggingOut ? 'Signing out...' : 'Sign out'}
-            </button>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <a
+                href={vaultAppUrl}
+                className="rounded-2xl bg-slate-950 px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-slate-800"
+              >
+                Open Private Vault
+              </a>
+              <button
+                type="button"
+                onClick={handleLogout}
+                disabled={loggingOut}
+                className="rounded-2xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:text-slate-400"
+              >
+                {loggingOut ? 'Signing out...' : 'Sign out'}
+              </button>
+            </div>
           </div>
         </div>
       </section>

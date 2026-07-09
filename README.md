@@ -59,4 +59,12 @@ The auth app now supports persistent login for installed users:
 
 - successful registration creates an HTTP-only session cookie
 - returning users are restored automatically through `GET /api/v1/auth/session`
+- the success screen can open the private vault at `http://localhost:5173`
+- the vault checks the auth session endpoint before falling back to its demo login
 - if the cookie expires, users can sign back in with email and password instead of signing up again
+
+Useful local overrides:
+
+- `FRONTEND_URLS=http://localhost:5174,http://localhost:5173` controls auth backend CORS origins.
+- `VITE_VAULT_APP_URL=http://localhost:5173` controls the auth frontend "Open Private Vault" link.
+- `window.AURELIA_AUTH_SESSION_ENDPOINT` can override the vault session restore endpoint before `frontend/app.js` loads.

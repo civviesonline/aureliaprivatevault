@@ -78,7 +78,7 @@ const transferHistory = [
     asset: 'Joint checking',
     transaction: 'Card settlement',
     amount: '-$3,518.18',
-    newValue: '$642,450.00',
+    newValue: '$721,380.000',
     notes: 'Combined household card activity settled overnight.',
   },
   {
@@ -96,6 +96,7 @@ const validCredentials = {
   password: 'fh8c@Pfv0gB2',
 };
 
+const authSessionEndpoint = window.AURELIA_AUTH_SESSION_ENDPOINT || 'http://localhost:8080/api/v1/auth/session';
 const loginScreen = document.querySelector('#loginScreen');
 const appShell = document.querySelector('#appShell');
 const heroPanel = document.querySelector('#overview');
@@ -292,7 +293,7 @@ function renderRecentTransactions() {
 const modalContent = {
   'message-advisor': {
     eyebrow: 'Relationship Manager',
-    title: 'Aurelia Concierge',
+    title: 'Message Marin Hale',
     body: buildAdvisorConversationBody(),
   },
   search: {
@@ -313,7 +314,7 @@ const modalContent = {
       <label>
         From
         <select>
-          <option>Joint checking - $642,450.00</option>
+          <option>Joint checking - $721,380.000</option>
           <option>Home reserve - $78,800.00</option>
           <option>Emergency fund - $26,000.00</option>
         </select>
@@ -452,6 +453,8 @@ const sessionActive = window.localStorage.getItem('aureliaJointSession') === 'ac
 
 if (sessionActive) {
   showApp();
+} else {
+  restoreAuthSession();
 }
 
 updateConnectionState();
@@ -673,6 +676,27 @@ function showApp() {
   showView(getInitialView(), { updateHash: false });
 }
 
+async function restoreAuthSession() {
+  try {
+    const response = await fetch(authSessionEndpoint, {
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      return;
+    }
+
+    window.localStorage.setItem('aureliaJointSession', 'active');
+    showApp();
+    showToast('Secure session restored. Vault unlocked.');
+  } catch {
+    // The vault can still use its local demo login if the auth service is offline.
+  }
+}
+
 function beginUnlockSequence() {
   const submitButton = loginForm.querySelector('.login-submit');
   const inputs = loginForm.querySelectorAll('input, button');
@@ -854,11 +878,11 @@ function buildAdvisorConversationBody() {
   return `
     <div class="advisor-thread" data-advisor-thread>
       <div class="advisor-status-card" data-advisor-status>
-        <strong>Aurelia Concierge online</strong>
-        <span>Instant replies first. Marin Hale responds personally after review.</span>
+        <strong>Marin Hale online</strong>
+        <span>Text your relationship manager directly or request a scheduled call.</span>
       </div>
       <div class="advisor-transcript" data-advisor-transcript aria-live="polite" aria-relevant="additions text">
-        ${renderAdvisorMessageCard('bot', 'Aurelia Concierge', 'I can help with approvals, transfers, card controls, or scheduling Marin Hale.', 'is-open')}
+        ${renderAdvisorMessageCard('human', 'Marin Hale', 'Hi Sean and Michelle. Send me a note here, or use Schedule call and I will confirm a time.', 'is-open')}
       </div>
       <div class="advisor-typing" data-advisor-typing hidden>
         <span></span><span></span><span></span>
@@ -866,16 +890,16 @@ function buildAdvisorConversationBody() {
       <div class="advisor-suggestions" data-advisor-suggestions>
         <button type="button" data-action="advisor-chat-suggestion" data-prompt="Review card approvals">Review card approvals</button>
         <button type="button" data-action="advisor-chat-suggestion" data-prompt="Talk about the home reserve">Talk about the home reserve</button>
-        <button type="button" data-action="advisor-chat-suggestion" data-prompt="Schedule a call with Marin">Schedule a call</button>
+        <button type="button" data-action="advisor-chat-suggestion" data-prompt="Schedule a call with Marin Hale">Schedule a call</button>
       </div>
       <form class="advisor-composer" data-advisor-form>
         <label>
-          Message Aurelia Concierge
+          Message Marin Hale
           <input
             type="text"
             data-advisor-input
             autocomplete="off"
-            placeholder="Ask about approvals, transfers, or call scheduling"
+            placeholder="Text Marin about approvals, transfers, or a call"
           />
         </label>
         <div class="modal-actions">
@@ -885,7 +909,7 @@ function buildAdvisorConversationBody() {
       </form>
       <div class="advisor-follow-up" data-advisor-follow-up>
         <strong>Marin Hale</strong>
-        <span>Personal follow-up is queued after the concierge response.</span>
+        <span>Direct relationship-manager thread is ready.</span>
       </div>
     </div>
   `;
@@ -916,10 +940,10 @@ function getAdvisorReply(message, mode) {
 
   if (mode === 'call' || normalizedMessage.includes('call') || normalizedMessage.includes('phone')) {
     return {
-      title: 'Call request logged',
+      title: 'Call request received',
       message:
-        'Your call request is logged. Aurelia Concierge has alerted Marin Hale. Please wait while she reviews the request and confirms the next available time.',
-      followUp: 'Marin Hale is reviewing your call request. Please wait for her personal confirmation.',
+        'I received your call request. I will check my availability and confirm the next private banking call window in this thread.',
+      followUp: 'Marin Hale is confirming a call time for you.',
     };
   }
 
@@ -932,8 +956,8 @@ function getAdvisorReply(message, mode) {
     return {
       title: 'Controls reviewed',
       message:
-        'I can walk you through card controls and approval settings. I have also routed a concise note to Marin Hale. Please wait for her personal follow-up.',
-      followUp: 'Marin Hale is reviewing the control request. Please wait for her personal reply.',
+        'I can help with card controls and approval settings. Tell me what limit or permission you want reviewed and I will prepare the next step.',
+      followUp: 'Marin Hale is reviewing your control request.',
     };
   }
 
@@ -945,8 +969,8 @@ function getAdvisorReply(message, mode) {
     return {
       title: 'Transfer note logged',
       message:
-        'I have logged the transfer note and routed it to Marin Hale. Please wait while she reviews the details and responds personally.',
-      followUp: 'Marin Hale is reviewing the transfer note. Please wait for her personal reply.',
+        'I see the transfer context. Send me the amount, destination, and timing you want, and I will help review the approval path.',
+      followUp: 'Marin Hale is reviewing your transfer note.',
     };
   }
 
@@ -954,16 +978,16 @@ function getAdvisorReply(message, mode) {
     return {
       title: 'Savings guidance queued',
       message:
-        'I can surface the savings view and prepare a private note for Marin Hale with the current goals and interest details. Please wait for her personal response.',
-      followUp: 'Marin Hale is reviewing your savings question. Please wait for her personal reply.',
+        'I can review your savings goals and current reserve structure. Tell me which vault you want to discuss first.',
+      followUp: 'Marin Hale is reviewing your savings question.',
     };
   }
 
   return {
-    title: 'Message acknowledged',
+    title: 'Message received',
     message:
-      'Your note is logged. Aurelia Concierge will keep the thread moving. Please wait while Marin Hale reviews it and responds personally.',
-    followUp: 'Marin Hale is reviewing your message. Please wait for her personal reply.',
+      'I received your message. Add any timing or account details you want me to consider and I will keep the thread moving.',
+    followUp: 'Marin Hale is reviewing your message.',
   };
 }
 
@@ -1009,16 +1033,16 @@ function handleAdvisorChatAction(mode, prompt = '') {
   followUp.classList.add('is-pending');
   followUp.innerHTML = `
     <strong>Marin Hale</strong>
-    <span>${mode === 'call' ? 'Your call request has been received. Please wait while Marin Hale reviews the request and confirms the next available time.' : 'Your message has been received. Please wait while Marin Hale reviews it and prepares a personal response.'}</span>
+    <span>${mode === 'call' ? 'Your call request has been received. Marin Hale will confirm the next available time.' : 'Your message has been sent directly to Marin Hale.'}</span>
   `;
   transcript.scrollTop = transcript.scrollHeight;
 
-  showToast(mode === 'call' ? 'Call request received. Please wait for Marin Hale.' : 'Message received. Please wait for Marin Hale.');
+  showToast(mode === 'call' ? 'Call request sent to Marin Hale.' : 'Message sent to Marin Hale.');
 
   advisorAutoResponseTimer = window.setTimeout(() => {
     const reply = getAdvisorReply(userMessage, mode);
     typing.hidden = true;
-    transcript.insertAdjacentHTML('beforeend', renderAdvisorMessageCard('bot', reply.title, reply.message, 'is-reply'));
+    transcript.insertAdjacentHTML('beforeend', renderAdvisorMessageCard('human', reply.title, reply.message, 'is-reply'));
     setAdvisorReceiptState(sentMessageCard, 'read');
     followUp.classList.remove('is-pending');
     followUp.innerHTML = `
@@ -1031,11 +1055,11 @@ function handleAdvisorChatAction(mode, prompt = '') {
     advisorFollowUpTimer = window.setTimeout(() => {
       followUp.innerHTML = `
         <strong>Marin Hale</strong>
-        <span>Personal follow-up is queued after the concierge response.</span>
+        <span>Direct relationship-manager thread is ready.</span>
       `;
-      const botMessages = [...transcript.querySelectorAll('.advisor-message.is-bot')];
-      const latestBotMessage = botMessages[botMessages.length - 1];
-      setAdvisorReceiptState(latestBotMessage, 'read');
+      const humanMessages = [...transcript.querySelectorAll('.advisor-message.is-human')];
+      const latestHumanMessage = humanMessages[humanMessages.length - 1];
+      setAdvisorReceiptState(latestHumanMessage, 'read');
     }, advisorFollowUpDelayMs);
   }, advisorTypingDelayMs);
 }
