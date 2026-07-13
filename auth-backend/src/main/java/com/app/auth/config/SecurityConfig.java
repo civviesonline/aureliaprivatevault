@@ -21,7 +21,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable)
+            // CSRF protection is enabled by default for cookie-based/session auth.
+            // Since the auth UI uses same-site requests with HttpOnly cookies,
+            // CSRF tokens are required for state-changing requests from browsers.
+            .csrf(Customizer.withDefaults())
+
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()

@@ -91,10 +91,7 @@ const transferHistory = [
   },
 ];
 
-const validCredentials = {
-  userId: 'smcombs.vault',
-  password: 'fh8c@Pfv0gB2',
-};
+
 
 const authSessionEndpoint = window.AURELIA_AUTH_SESSION_ENDPOINT || 'http://localhost:8080/api/v1/auth/session';
 const loginScreen = document.querySelector('#loginScreen');
@@ -169,45 +166,94 @@ const screenCopy = {
   },
 };
 
-activityList.innerHTML = activities
-  .map(
-    (item) => {
+renderActivityList();
+renderBalanceVisibility(activityList);
+
+renderGoalList();
+renderBalanceVisibility(goalList);
+
+function renderActivityList() {
+  if (!activityList) return;
+  activityList.replaceChildren(
+    ...activities.map((item) => {
       const amountTone = item.amount.startsWith('+') ? 'positive' : 'negative';
       const statusName = item.status.toLowerCase();
 
-      return `
-      <article class="activity-item">
-        <div class="activity-copy">
-          <strong>${item.name}</strong>
-          <span>${item.detail}</span>
-        </div>
-        <div class="activity-meta">
-          <strong class="activity-amount ${amountTone}" data-balance-value>${item.amount}</strong>
-          <span class="status-pill status-${statusName}">${item.status}</span>
-        </div>
-      </article>
-    `;
-    },
-  )
-  .join('');
-renderBalanceVisibility(activityList);
+      const article = document.createElement('article');
+      article.className = 'activity-item';
 
-goalList.innerHTML = goals
-  .map(
-    (goal) => `
-      <article class="goal-item">
-        <div>
-          <strong>${goal.label}</strong>
-          <span data-balance-value>${goal.balance}</span>
-        </div>
-        <div class="progress-track" aria-label="${goal.label} progress">
-          <span style="width: ${goal.value}%"></span>
-        </div>
-      </article>
-    `,
-  )
-  .join('');
-renderBalanceVisibility(goalList);
+      const copy = document.createElement('div');
+      copy.className = 'activity-copy';
+
+      const nameStrong = document.createElement('strong');
+      nameStrong.textContent = item.name;
+
+      const detailSpan = document.createElement('span');
+      detailSpan.textContent = item.detail;
+
+      copy.appendChild(nameStrong);
+      copy.appendChild(detailSpan);
+
+      const meta = document.createElement('div');
+      meta.className = 'activity-meta';
+
+      const amountStrong = document.createElement('strong');
+      amountStrong.className = `activity-amount ${amountTone}`;
+      amountStrong.setAttribute('data-balance-value', '');
+      amountStrong.textContent = item.amount;
+
+      const statusSpan = document.createElement('span');
+      statusSpan.className = `status-pill status-${statusName}`;
+      statusSpan.textContent = item.status;
+
+      meta.appendChild(amountStrong);
+      meta.appendChild(statusSpan);
+
+      article.appendChild(copy);
+      article.appendChild(meta);
+
+      return article;
+    }),
+  );
+}
+
+function renderGoalList() {
+  if (!goalList) return;
+
+  goalList.replaceChildren(
+    ...goals.map((goal) => {
+      const article = document.createElement('article');
+      article.className = 'goal-item';
+
+      const left = document.createElement('div');
+
+      const labelStrong = document.createElement('strong');
+      labelStrong.textContent = goal.label;
+
+      const balanceSpan = document.createElement('span');
+      balanceSpan.setAttribute('data-balance-value', '');
+      balanceSpan.textContent = goal.balance;
+
+      left.appendChild(labelStrong);
+      left.appendChild(balanceSpan);
+
+      const progress = document.createElement('div');
+      progress.className = 'progress-track';
+      progress.setAttribute('aria-label', `${goal.label} progress`);
+
+      const barSpan = document.createElement('span');
+      barSpan.style.width = `${goal.value}%`;
+
+      progress.appendChild(barSpan);
+
+      article.appendChild(left);
+      article.appendChild(progress);
+
+      return article;
+    }),
+  );
+}
+
 
 renderTransactionHistory();
 renderRecentTransactions();
@@ -217,48 +263,88 @@ function renderTransactionHistory() {
     return;
   }
 
-  transferHistoryTable.innerHTML = transferHistory
-    .map((entry) => historyTableRow(entry))
-    .join('');
+  transferHistoryTable.replaceChildren(buildHistoryTable(transferHistory));
   renderBalanceVisibility(transferHistoryTable);
 }
 
 function buildHistoryTable(history) {
-  return `
-    <div class="history-table-wrap">
-      <table class="history-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Asset</th>
-            <th>Transaction</th>
-            <th>Amount</th>
-            <th>Value</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${history.map((entry) => historyTableRow(entry)).join('')}
-        </tbody>
-      </table>
-    </div>
-  `;
+  const wrap = document.createElement('div');
+  wrap.className = 'history-table-wrap';
+
+  const table = document.createElement('table');
+  table.className = 'history-table';
+
+  const thead = document.createElement('thead');
+  const headTr = document.createElement('tr');
+
+  const columns = ['Date', 'Asset', 'Transaction', 'Amount', 'Value', 'Notes'];
+  for (const col of columns) {
+    const th = document.createElement('th');
+    th.textContent = col;
+    headTr.appendChild(th);
+  }
+
+  thead.appendChild(headTr);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  history.forEach((entry) => {
+    tbody.appendChild(historyTableRow(entry));
+  });
+  table.appendChild(tbody);
+
+  wrap.appendChild(table);
+  return wrap;
 }
+
 
 function historyTableRow(entry) {
   const amountTone = entry.amount.startsWith('+') ? 'positive' : 'negative';
 
-  return `
-    <tr>
-      <td data-label="Date">${entry.date}</td>
-      <td data-label="Asset">${entry.asset}</td>
-      <td data-label="Transaction">${entry.transaction}</td>
-      <td data-label="Amount"><span class="history-money ${amountTone}" data-balance-value>${entry.amount}</span></td>
-      <td data-label="New Value"><span class="history-money" data-balance-value>${entry.newValue}</span></td>
-      <td data-label="Notes">${entry.notes}</td>
-    </tr>
-  `;
+  const tr = document.createElement('tr');
+
+  const tdDate = document.createElement('td');
+  tdDate.setAttribute('data-label', 'Date');
+  tdDate.textContent = entry.date;
+
+  const tdAsset = document.createElement('td');
+  tdAsset.setAttribute('data-label', 'Asset');
+  tdAsset.textContent = entry.asset;
+
+  const tdTransaction = document.createElement('td');
+  tdTransaction.setAttribute('data-label', 'Transaction');
+  tdTransaction.textContent = entry.transaction;
+
+  const tdAmount = document.createElement('td');
+  tdAmount.setAttribute('data-label', 'Amount');
+  const amountSpan = document.createElement('span');
+  amountSpan.className = `history-money ${amountTone}`;
+  amountSpan.setAttribute('data-balance-value', '');
+  amountSpan.textContent = entry.amount;
+  tdAmount.appendChild(amountSpan);
+
+  const tdNewValue = document.createElement('td');
+  tdNewValue.setAttribute('data-label', 'New Value');
+  const newValueSpan = document.createElement('span');
+  newValueSpan.className = 'history-money';
+  newValueSpan.setAttribute('data-balance-value', '');
+  newValueSpan.textContent = entry.newValue;
+  tdNewValue.appendChild(newValueSpan);
+
+  const tdNotes = document.createElement('td');
+  tdNotes.setAttribute('data-label', 'Notes');
+  tdNotes.textContent = entry.notes;
+
+  tr.appendChild(tdDate);
+  tr.appendChild(tdAsset);
+  tr.appendChild(tdTransaction);
+  tr.appendChild(tdAmount);
+  tr.appendChild(tdNewValue);
+  tr.appendChild(tdNotes);
+
+  return tr;
 }
+
 
 function renderRecentTransactions() {
   if (!recentTransactionList) {
@@ -465,21 +551,52 @@ loginForm.addEventListener('submit', (event) => {
     return;
   }
 
-  const formData = new FormData(loginForm);
-  const userId = String(formData.get('userId') ?? '').trim();
-  const password = String(formData.get('password') ?? '');
+  const submitButton = loginForm.querySelector('.login-submit');
+  const inputs = loginForm.querySelectorAll('input, button');
+  const emailInput = loginForm.querySelector('#userId');
+  const passwordInput = loginForm.querySelector('#password');
 
-  if (userId !== validCredentials.userId || password !== validCredentials.password) {
-    showToast('User ID or password is incorrect.');
-    return;
-  }
+  loginScreen.classList.add('unlocking');
+  vaultUnlock.hidden = false;
+  submitButton.textContent = 'Unlocking...';
+  inputs.forEach((element) => {
+    element.disabled = true;
+  });
 
-  if (document.querySelector('#rememberDevice').checked) {
-    window.localStorage.setItem('aureliaJointSession', 'active');
-  }
+  window.clearTimeout(unlockTimer);
+  unlockTimer = window.setTimeout(async () => {
+    try {
+      const loginEndpoint = window.AURELIA_AUTH_LOGIN_ENDPOINT || 'http://localhost:8080/api/v1/auth/login';
+      const email = (emailInput?.value || '').trim();
+      const password = passwordInput?.value || '';
 
-  beginUnlockSequence();
+      const response = await fetch(loginEndpoint, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      window.localStorage.setItem('aureliaJointSession', 'active');
+      showApp();
+      showToast('Signed in. Vault unlocked.');
+    } catch {
+      // Login failed; keep the login screen visible.
+      showToast('Sign in failed. Check email/password and try again.');
+      resetUnlockState();
+    } finally {
+      unlockTimer = null;
+    }
+  }, 450);
 });
+
 
 document.querySelectorAll('[data-nav-link], .brand').forEach((link) => {
   link.addEventListener('click', (event) => {

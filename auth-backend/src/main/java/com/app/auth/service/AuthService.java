@@ -4,18 +4,22 @@ import com.app.auth.dto.RegisterRequest;
 import com.app.auth.dto.SendOtpRequest;
 import com.app.auth.dto.VerifyOtpRequest;
 import com.app.auth.dto.LoginRequest;
+import com.app.auth.dto.SharedLoginRequest;
+
 import com.app.auth.entity.User;
 import com.app.auth.exception.AuthException;
 import com.app.auth.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +30,12 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final SessionService sessionService;
+
+    @Value("${app.shared.vault-access-key:}")
+    private String sharedVaultAccessKey;
+
+    private static final String SHARED_VAULT_EMAIL = "vault-access@local";
+
 
     public Map<String, Object> sendOtp(SendOtpRequest request) {
         return otpService.sendOtp(request.email());
@@ -72,6 +82,38 @@ public class AuthService {
         sessionService.createSession(user, response);
         return buildUserPayload(user);
     }
+
+    @Transactional
+    public Map<String, Object> sharedLogin(SharedLoginRequest request, HttpServletResponse response) {
+        if (sharedVaultAccessKey == null || sharedVaultAccessKey.isBlank()) {
+            throw AuthException.unauthenticated();
+        }
+
+        String provided = request.accessKey();
+        if (!sharedVaultAccessKey.equals(provided)) {
+            throw AuthException.invalidCredentials();
+        }
+
+        User sharedUser = userRepository.findByEmailIgnoreCase(SHARED_VAULT_EMAIL)
+            .orElseGet(() -> {
+                // Password is never used for shared login; still must satisfy schema constraints.
+                String passwordHash = passwordEncoder.encode("shared-vault-unused-password");
+                return User.builder()
+                    .email(SHARED_VAULT_EMAIL)
+                    .passwordHash(passwordHash)
+                    .fullName("Vault Access")
+                    .verified(true)
+                    .build();
+            });
+
+        if (sharedUser.getId() == null) {
+            userRepository.save(sharedUser);
+        }
+
+        sessionService.createSession(sharedUser, response);
+        return buildUserPayload(sharedUser);
+    }
+
 
     @Transactional
     public Map<String, Object> session(HttpServletRequest request, HttpServletResponse response) {

@@ -5,6 +5,8 @@ import com.app.auth.dto.LoginRequest;
 import com.app.auth.dto.RegisterRequest;
 import com.app.auth.dto.SendOtpRequest;
 import com.app.auth.dto.VerifyOtpRequest;
+import com.app.auth.dto.SharedLoginRequest;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.app.auth.service.AuthService;
@@ -56,6 +58,16 @@ public class AuthController {
         Map<String, Object> data = authService.login(request, response);
         return ResponseEntity.ok(ApiResponse.ok("Signed in successfully.", data));
     }
+
+    @PostMapping("/shared-login")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> sharedLogin(
+        @Valid @RequestBody SharedLoginRequest request,
+        HttpServletResponse response
+    ) {
+        Map<String, Object> data = authService.sharedLogin(request, response);
+        return ResponseEntity.ok(ApiResponse.ok("Vault unlocked successfully.", data));
+    }
+
 
     @GetMapping("/session")
     public ResponseEntity<ApiResponse<Map<String, Object>>> session(

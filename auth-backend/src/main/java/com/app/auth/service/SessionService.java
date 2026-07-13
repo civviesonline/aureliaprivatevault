@@ -36,8 +36,11 @@ public class SessionService {
     @Value("${app.session.max-age-days:30}")
     private int maxAgeDays;
 
-    @Value("${app.session.secure:false}")
+    // Enforce Secure cookies by default. For local HTTP development you can override via
+    // app.session.secure=false, but production should keep Secure=true.
+    @Value("${app.session.secure:true}")
     private boolean secureCookie;
+
 
     @Transactional
     public void createSession(User user, HttpServletResponse response) {

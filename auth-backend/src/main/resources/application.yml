@@ -54,3 +54,8 @@ app:
     cookie-name: ${SESSION_COOKIE_NAME:AURELIA_SESSION}
     max-age-days: ${SESSION_MAX_AGE_DAYS:30}
     secure: ${SESSION_COOKIE_SECURE:false}
+
+  shared:
+    # Single shared vault unlock key. Anyone with this key can unlock the vault.
+    vault-access-key: ${VAULT_ACCESS_KEY:}
+
