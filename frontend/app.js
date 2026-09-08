@@ -91,18 +91,70 @@ const transferHistory = [
   },
 ];
 
+const circadianMoments = {
+  dawn: {
+    label: 'Morning alignment',
+    title: 'Good morning, Sean & Michelle.',
+    summary: 'Morning mode brings payroll, overnight posts, and today\'s scheduled approvals to the surface.',
+    heroNote: 'Shared balance across checking, savings vaults, and scheduled household reserves. Morning mode is prioritizing overnight activity.',
+    steps: [
+      { time: '8:30 AM', label: 'Review overnight posts', state: 'Ready' },
+      { time: '10:00 AM', label: 'Confirm payroll sweep', state: 'Queued' },
+      { time: '12:30 PM', label: 'Advisor cash-flow check', state: 'Planned' },
+    ],
+  },
+  day: {
+    label: 'Daytime control',
+    title: 'Good afternoon, Sean & Michelle.',
+    summary: 'Day mode keeps spending controls, incoming transfers, and advisor messages easy to scan.',
+    heroNote: 'Shared balance across checking, savings vaults, and scheduled household reserves. Day mode is focused on approvals and active movement.',
+    steps: [
+      { time: '1:15 PM', label: 'Card controls review', state: 'Active' },
+      { time: '3:00 PM', label: 'Home reserve approval', state: 'Waiting' },
+      { time: '4:45 PM', label: 'Ledger export window', state: 'Open' },
+    ],
+  },
+  dusk: {
+    label: 'Evening review',
+    title: 'Good evening, Sean & Michelle.',
+    summary: 'Evening mode softens the dashboard and highlights approvals that should be settled before tomorrow.',
+    heroNote: 'Shared balance across checking, savings vaults, and scheduled household reserves. Evening mode is set for review and closeout.',
+    steps: [
+      { time: '6:30 PM', label: 'Approve home reserve', state: 'Needs review' },
+      { time: '8:00 PM', label: 'Household spend summary', state: 'Ready' },
+      { time: '9:15 PM', label: 'Quiet alerts begin', state: 'Planned' },
+    ],
+  },
+  night: {
+    label: 'Quiet protection',
+    title: 'Good night, Sean & Michelle.',
+    summary: 'Night mode reduces visual noise and keeps only security, cash position, and urgent approvals prominent.',
+    heroNote: 'Shared balance across checking, savings vaults, and scheduled household reserves. Quiet protection is watching urgent account changes.',
+    steps: [
+      { time: 'Now', label: 'Security monitoring', state: 'Active' },
+      { time: '2:00 AM', label: 'Statement cache refresh', state: 'Scheduled' },
+      { time: '7:00 AM', label: 'Morning account brief', state: 'Planned' },
+    ],
+  },
+};
+
 
 
 const authSessionEndpoint = window.AURELIA_AUTH_SESSION_ENDPOINT || 'http://localhost:8080/api/v1/auth/session';
 const loginScreen = document.querySelector('#loginScreen');
 const appShell = document.querySelector('#appShell');
 const heroPanel = document.querySelector('#overview');
+const heroCopyNote = document.querySelector('.hero-copy > p:not(.eyebrow)');
 const relationshipManagerSpot = document.querySelector('#relationship-manager');
 const loginForm = document.querySelector('#loginForm');
 const vaultUnlock = document.querySelector('#vaultUnlock');
 const activityList = document.querySelector('#activityList');
 const goalList = document.querySelector('#goalList');
 const recentTransactionList = document.querySelector('#recentTransactionList');
+const circadianEyebrow = document.querySelector('#circadianEyebrow');
+const circadianTitle = document.querySelector('#circadianTitle');
+const circadianSummary = document.querySelector('#circadianSummary');
+const circadianSteps = document.querySelector('#circadianSteps');
 const balanceVisibilityToggle = document.querySelector('#balanceVisibilityToggle');
 const modalBackdrop = document.querySelector('#modalBackdrop');
 const modalEyebrow = document.querySelector('#modalEyebrow');
@@ -131,6 +183,7 @@ const installDismissStorageKey = 'aurelia-install-banner-dismissed-at';
 const installDismissDurationMs = 7 * 24 * 60 * 60 * 1000;
 const displayModeQuery = window.matchMedia('(display-mode: standalone)');
 const isIosDevice = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+let circadianMoment = getCircadianMoment();
 let lastActionTrigger = null;
 let deferredInstallPrompt = null;
 let unlockTimer = null;
@@ -166,6 +219,7 @@ const screenCopy = {
   },
 };
 
+renderCircadianExperience();
 renderActivityList();
 renderBalanceVisibility(activityList);
 
@@ -258,12 +312,105 @@ function renderGoalList() {
 renderTransactionHistory();
 renderRecentTransactions();
 
+function getCircadianMoment(date = new Date()) {
+  const hour = date.getHours();
+
+  if (hour >= 5 && hour < 11) {
+    return 'dawn';
+  }
+
+  if (hour >= 11 && hour < 17) {
+    return 'day';
+  }
+
+  if (hour >= 17 && hour < 22) {
+    return 'dusk';
+  }
+
+  return 'night';
+}
+
+function renderCircadianExperience() {
+  const moment = circadianMoments[circadianMoment] || circadianMoments.day;
+  document.body.dataset.circadian = circadianMoment;
+
+  if (screenCopy.overview) {
+    screenCopy.overview.eyebrow = moment.title;
+  }
+
+  if (heroCopyNote) {
+    heroCopyNote.textContent = moment.heroNote;
+  }
+
+  if (circadianEyebrow) {
+    circadianEyebrow.textContent = moment.label;
+  }
+
+  if (circadianTitle) {
+    circadianTitle.textContent = 'Daily rhythm';
+  }
+
+  if (circadianSummary) {
+    circadianSummary.textContent = moment.summary;
+  }
+
+  if (!circadianSteps) {
+    return;
+  }
+
+  circadianSteps.replaceChildren(
+    ...moment.steps.map((step) => {
+      const article = document.createElement('article');
+
+      const time = document.createElement('span');
+      time.textContent = step.time;
+
+      const label = document.createElement('strong');
+      label.textContent = step.label;
+
+      const state = document.createElement('small');
+      state.textContent = step.state;
+
+      article.appendChild(time);
+      article.appendChild(label);
+      article.appendChild(state);
+
+      return article;
+    }),
+  );
+}
+
+function buildCircadianBriefBody() {
+  const moment = circadianMoments[circadianMoment] || circadianMoments.day;
+  const steps = moment.steps
+    .map(
+      (step) => `
+        <article class="queue-item">
+          <strong>${escapeHtml(step.time)} - ${escapeHtml(step.label)}</strong>
+          <span>${escapeHtml(step.state)}</span>
+        </article>
+      `,
+    )
+    .join('');
+
+  return `
+    <p>${escapeHtml(moment.summary)}</p>
+    <div class="circadian-brief-list">
+      ${steps}
+    </div>
+    <div class="modal-actions">
+      <button type="button" data-action="message-advisor">Message advisor</button>
+      <button type="button" data-action="mark-circadian-reviewed">Mark reviewed</button>
+    </div>
+  `;
+}
+
 function renderTransactionHistory() {
   if (!transferHistoryTable) {
     return;
   }
 
-  transferHistoryTable.replaceChildren(buildHistoryTable(transferHistory));
+  transferHistoryTable.replaceChildren(...transferHistory.map((entry) => historyTableRow(entry)));
   renderBalanceVisibility(transferHistoryTable);
 }
 
@@ -295,6 +442,10 @@ function buildHistoryTable(history) {
 
   wrap.appendChild(table);
   return wrap;
+}
+
+function buildHistoryTableHtml(history) {
+  return buildHistoryTable(history).outerHTML;
 }
 
 
@@ -458,6 +609,11 @@ const modalContent = {
       <button type="button" data-action="mark-brief-read">Mark reviewed</button>
     `,
   },
+  'circadian-brief': {
+    eyebrow: 'Circadian banking',
+    title: 'Daily rhythm plan',
+    body: buildCircadianBriefBody,
+  },
   'aurelia-services': {
     eyebrow: 'Home',
     title: 'Do more with Aurelia',
@@ -484,7 +640,7 @@ const modalContent = {
     title: 'All ledger entries',
     body: `
       <p class="panel-note">Full account history for the Sean &amp; Michelle Combs joint account.</p>
-      ${buildHistoryTable(transferHistory)}
+      ${buildHistoryTableHtml(transferHistory)}
     `,
   },
   'marketing-toolkit': {
@@ -726,6 +882,7 @@ document.addEventListener('click', (event) => {
     'approve-queue': 'Queued transfer approved by this owner.',
     'hold-queue': 'Queued transfer placed on hold.',
     'mark-brief-read': 'Brief marked reviewed.',
+    'mark-circadian-reviewed': 'Daily rhythm plan marked reviewed.',
     'confirm-security': 'Security settings saved.',
   };
 
@@ -757,7 +914,7 @@ function openModal(content) {
   clearAdvisorAutoResponseTimer();
   modalEyebrow.textContent = content.eyebrow;
   modalTitle.textContent = content.title;
-  modalBody.innerHTML = content.body;
+  modalBody.innerHTML = typeof content.body === 'function' ? content.body() : content.body;
   makeButtonsClickable(modalBody);
   renderBalanceVisibility(modalBody);
   bindControlToasts(modalBody);
